@@ -1,5 +1,4 @@
 # ProjetoFDS-SJCC
-Aqui está um **readme.txt** estruturado com base no que você descreveu:
 
 ---
 
