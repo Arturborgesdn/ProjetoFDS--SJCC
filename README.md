@@ -2,6 +2,18 @@
 
 ---
 
+## Definição da Equipe 
+Arthur Leite - Time de Negócios
+Artur Nogueira - Product Owner 
+Eduardo Henrique Hazin  - Time de Negócios 
+Lucas Queiroz -  Scrum Master 
+Luiz Gustavo Silva - Time de Negócios
+Matheus Arantes - Desenvolvedor
+Roberto Xavier - Time de Design
+Heitor Castilhos - Desenvolvedor 
+Eduardo Rodrigues - Time de Design 
+
+
 ## Contexto
 
 O Sistema Jornal do Commercio de Comunicação (SJCC), um dos principais ecossistemas de mídia regional do Brasil, enfrenta desafios significativos no ambiente digital. Mudanças nos algoritmos do Google e novas formas de consumo de conteúdo — rápidas, fragmentadas e distribuídas em múltiplas plataformas — impactaram negativamente a visibilidade e o tráfego orgânico do portal. O problema central identificado é a dificuldade em reter a audiência digital, agravada pela queda de relevância nos mecanismos de busca.
