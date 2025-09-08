@@ -3,15 +3,15 @@
 ---
 
 ## Definição da Equipe 
-Arthur Leite - Time de Negócios
-Artur Nogueira - Product Owner 
-Eduardo Henrique Hazin  - Time de Negócios 
-Lucas Queiroz -  Scrum Master 
-Luiz Gustavo Silva - Time de Negócios
-Matheus Arantes - Desenvolvedor
-Roberto Xavier - Time de Design
-Heitor Castilhos - Desenvolvedor 
-Eduardo Rodrigues - Time de Design 
+Arthur Leite - Time de Negócios;
+Artur Nogueira - Product Owner; 
+Eduardo Henrique Hazin  - Time de Negócios;
+Lucas Queiroz -  Scrum Master; 
+Luiz Gustavo Silva - Time de Negócios;
+Matheus Arantes - Desenvolvedor;
+Roberto Xavier - Time de Design;
+Heitor Castilhos - Desenvolvedor; 
+Eduardo Rodrigues - Time de Design; 
 
 
 ## Contexto
