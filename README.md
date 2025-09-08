@@ -13,6 +13,8 @@ Roberto Xavier - Time de Design;
 Heitor Castilhos - Desenvolvedor; 
 Eduardo Rodrigues - Time de Design; 
 
+Link do trello :https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds
+
 
 ## Contexto
 
