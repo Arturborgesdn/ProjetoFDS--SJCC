@@ -4,7 +4,7 @@
 
 [![Trello](https://img.shields.io/badge/Trello-Acessar-0079BF?style=for-the-badge&logo=trello&logoColor=white)](https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds)
 [![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/board/B3wO9eCAwwirIUX0HBQcqy/Entregas-Semanais?node-id=894-1918&t=O6Ta6C0y53pCBiOe-4)
-[![Youtube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=screen&logoColor=white)]()
+[![Youtube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=screen&logoColor=white)](https://youtu.be/tvTI00no0HY)
 
   
 ## Contexto
@@ -33,7 +33,7 @@ Uma plataforma digital integrada, centrada na experiência do usuário, que vai 
 
 ## Protótipo
 
-![Wireframes](https://drive.google.com/file/d/19VTQ4RMkO9sBlZauxIhMAxL5GMdquACR/view?usp=drive_link)
+![Wireframes](wireframes.png)
 
 
 ## Impacto Esperado
