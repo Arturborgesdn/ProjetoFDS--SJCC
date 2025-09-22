@@ -1,4 +1,4 @@
-# Sistema Jornal do Commercio de Comunicação(SJCC) - Projetos 2 e Fundamentos de Desenvolvimento de Software
+# Sistema Jornal do Commercio de Comunicação(SJCC) - CESAR School
 
 ---
 
@@ -6,30 +6,28 @@
 [![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/board/B3wO9eCAwwirIUX0HBQcqy/Entregas-Semanais?node-id=894-1918&t=O6Ta6C0y53pCBiOe-4)
 [![Youtube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=screen&logoColor=white)](https://youtu.be/tvTI00no0HY)
 
-  
+
 ## Contexto
 
-O Sistema Jornal do Commercio de Comunicação (SJCC), um dos principais ecossistemas de mídia regional do Brasil, enfrenta desafios significativos no ambiente digital com ênfase na taxa de segundo clique e permanência de usuário na plataforma. O que ocasionou isso? Em nossa visão e afirmações do cliente para nós, ficou claro que mudanças nos algoritmos do Google e novas formas de consumo de conteúdo — rápidas, fragmentadas e distribuídas em múltiplas plataformas — impactaram negativamente a visibilidade e o tráfego orgânico do portal. Portanto, tendo em vista todos esses entraves do sistema de jornal do commercio de comunicação a empresa entrou em contato com a CESAR School para a resolução dessa problemática.
+O Sistema Jornal do Commercio de Comunicação (SJCC), um dos principais ecossistemas de mídia regional do Brasil, enfrenta desafios digitais relacionados à baixa taxa de segundo clique e permanência dos usuários na plataforma. Mudanças recentes nos algoritmos do Google, junto a novas formas rápidas e fragmentadas de consumo de conteúdo em múltiplas plataformas, impactaram negativamente a visibilidade e o tráfego orgânico do portal. Diante desses desafios, o SJCC buscou apoio da CESAR School para encontrar soluções eficazes.
 
 ## Problemas Identificados
 
-* Notícias pouco estruturadas e com baixa interatividade reduzem o alcance.
-* Diminuição de tráfego orgânico e visibilidade em motores de busca.
-* Dificuldade em gerar fidelização e estimular o “segundo clique”.
-* Concorrência de veículos que já adotam estratégias digitais mais dinâmicas.
+- 📉 Baixa estrutura e interatividade das notícias.
+- 🔍 Queda de tráfego orgânico e visibilidade em mecanismos de busca.
+- 🚪 Dificuldade em gerar fidelização e estimular o “segundo clique”.
+- ⚔️ Concorrência com veículos digitais mais ágeis.
 
-## Objetivo
+## Objetivos
 
-Reposicionar a atuação digital do SJCC para:
-
-1. Reestruturar conteúdos de forma otimizada para buscas.
-2. Estimular o segundo clique, mantendo o leitor no portal.
-3. Integrar jornal, TV, rádio e digital em um mesmo ecossistema de experiência.
-4. Fidelizar a audiência e criar hábitos de consumo recorrentes.
+- 🔎 **Otimizar** conteúdos para mecanismos de busca (SEO).
+- 🧭 **Incentivar** o segundo clique e aumentar a permanência do usuário.
+- 🔗 **Unificar** os canais (jornal, rádio, TV e digital) em um só ecossistema.
+- ❤️ **Fidelizar** a audiência com experiências contínuas e relevantes.
 
 ## Solução Proposta
 
-Uma plataforma digital integrada, centrada na experiência do usuário, que vai além de ser apenas um repositório de matérias. O novo portal passa a funcionar como uma plataforma de experiência de notícias, oferecendo jornadas contínuas e personalizadas de consumo.
+Desenvolver uma plataforma digital integrada, centrada na experiência do usuário, que vai além de um simples repositório de notícias. O novo portal proporcionará jornadas contínuas e personalizadas, facilitando o consumo dinâmico e interativo das informações.
 
 ## Protótipo
 
@@ -45,7 +43,7 @@ Uma plataforma digital integrada, centrada na experiência do usuário, que vai 
 
 ## Conclusão
 
-O sucesso do reposicionamento digital do SJCC depende da capacidade de transformar cada acesso em uma jornada prolongada, estimulando a descoberta de novos conteúdos e consolidando o hábito de consumo no portal. Ao alinhar produção jornalística, tecnologia e experiência do usuário, o SJCC se reposiciona de forma competitiva no cenário digital, recuperando relevância e fidelizando sua audiência.
+O sucesso do reposicionamento digital do SJCC está na habilidade de transformar cada visita em uma experiência contínua, que incentiva a descoberta constante de novos conteúdos e fortalece o hábito de consumo no portal. Ao integrar jornalismo de qualidade, tecnologia avançada e uma experiência do usuário envolvente, o SJCC se reposiciona de forma estratégica e competitiva no ambiente digital, recuperando sua relevância e conquistando a fidelidade da audiência.
 
 ## Definição da Equipe 
 
