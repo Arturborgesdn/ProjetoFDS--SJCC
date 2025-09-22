@@ -1,18 +1,17 @@
-# ProjetoFDS - Sistema Jornal do Commercio de Comunicação
+# Sistema Jornal do Commercio de Comunicação(SJCC) - Projetos 2 e Fundamenttos de Desenvolvimento de Software
 
 ---
 
 [![Trello](https://img.shields.io/badge/Trello-Acessar-0079BF?style=for-the-badge&logo=trello&logoColor=white)](https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds)
-
-
-Diagrama de atividades: https://www.figma.com/board/B3wO9eCAwwirIUX0HBQcqy/Entregas-Semanais?node-id=894-1918&t=O6Ta6C0y53pCBiOe-4
+[![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/board/B3wO9eCAwwirIUX0HBQcqy/Entregas-Semanais?node-id=894-1918&t=O6Ta6C0y53pCBiOe-4)
+[![Youtube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=screen&logoColor=white)]()
 
   
 ## Contexto
 
-O Sistema Jornal do Commercio de Comunicação (SJCC), um dos principais ecossistemas de mídia regional do Brasil, enfrenta desafios significativos no ambiente digital com ênfase na taxa de segundo clique e permanência de usuário na plataforma. O que ocasionou isso? Em nossa visão e afirmações do cliente para nós, ficou claro que mudanças nos algoritmos do Google e novas formas de consumo de conteúdo — rápidas, fragmentadas e distribuídas em múltiplas plataformas — impactaram negativamente a visibilidade e o tráfego orgânico do portal. Portanto, tendo em vista todos esses entraves do sistema de jornal do commercio de comunicação a empresa entrou em contato com a empresa CESAR para a resolução dessa problemática 
+O Sistema Jornal do Commercio de Comunicação (SJCC), um dos principais ecossistemas de mídia regional do Brasil, enfrenta desafios significativos no ambiente digital com ênfase na taxa de segundo clique e permanência de usuário na plataforma. O que ocasionou isso? Em nossa visão e afirmações do cliente para nós, ficou claro que mudanças nos algoritmos do Google e novas formas de consumo de conteúdo — rápidas, fragmentadas e distribuídas em múltiplas plataformas — impactaram negativamente a visibilidade e o tráfego orgânico do portal. Portanto, tendo em vista todos esses entraves do sistema de jornal do commercio de comunicação a empresa entrou em contato com a CESAR School para a resolução dessa problemática.
 
-## Problema
+## Problemas Identificados
 
 * Notícias pouco estruturadas e com baixa interatividade reduzem o alcance.
 * Diminuição de tráfego orgânico e visibilidade em motores de busca.
@@ -32,6 +31,10 @@ Reposicionar a atuação digital do SJCC para:
 
 Uma plataforma digital integrada, centrada na experiência do usuário, que vai além de ser apenas um repositório de matérias. O novo portal passa a funcionar como uma plataforma de experiência de notícias, oferecendo jornadas contínuas e personalizadas de consumo.
 
+## Protótipo
+
+![Wireframes](https://drive.google.com/file/d/19VTQ4RMkO9sBlZauxIhMAxL5GMdquACR/view?usp=drive_link)
+
 
 ## Impacto Esperado
 
@@ -43,5 +46,26 @@ Uma plataforma digital integrada, centrada na experiência do usuário, que vai 
 ## Conclusão
 
 O sucesso do reposicionamento digital do SJCC depende da capacidade de transformar cada acesso em uma jornada prolongada, estimulando a descoberta de novos conteúdos e consolidando o hábito de consumo no portal. Ao alinhar produção jornalística, tecnologia e experiência do usuário, o SJCC se reposiciona de forma competitiva no cenário digital, recuperando relevância e fidelizando sua audiência.
+
+## Definição da Equipe 
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Função</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Arthur Leite</td><td>Time de Negócios</td></tr>
+    <tr><td>Artur Nogueira</td><td>Product Owner</td></tr>
+    <tr><td>Eduardo Henrique Hazin</td><td>Time de Negócios</td></tr>
+    <tr><td>Eduardo Rodrigues</td><td>Time de Design</td></tr>
+    <tr><td>Lucas Queiroz</td><td>Scrum Master</td></tr>
+    <tr><td>Luiz Gustavo</td><td>Time de Negócios</td></tr>
+    <tr><td>Matheus Arantes</td><td>Desenvolvedor</td></tr>
+    <tr><td>Roberto Xavier</td><td>Time de Design</td></tr>
+    <tr><td>Heitor Castilhos</td><td>Desenvolvedor</td></tr>
+  </tbody>
+</table>
 
 
