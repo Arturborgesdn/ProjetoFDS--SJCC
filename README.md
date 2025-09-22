@@ -3,19 +3,29 @@
 ---
 
 ## Definição da Equipe 
-Arthur Leite - Time de Negócios;
-Artur Nogueira - Product Owner; 
-Eduardo Henrique Hazin  - Time de Negócios;
-Lucas Queiroz -  Scrum Master; 
-Luiz Gustavo Silva - Time de Negócios;
-Matheus Arantes - Desenvolvedor;
-Roberto Xavier - Time de Design;
-Heitor Castilhos - Desenvolvedor; 
-Eduardo Rodrigues - Time de Design; 
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Função</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Arthur Leite</td><td>Time de Negócios</td></tr>
+    <tr><td>Artur Nogueira</td><td>Product Owner</td></tr>
+    <tr><td>Eduardo Henrique Hazin</td><td>Time de Negócios</td></tr>
+    <tr><td>Eduardo Rodrigues</td><td>Time de Design</td></tr>
+    <tr><td>Lucas Queiroz</td><td>Scrum Master</td></tr>
+    <tr><td>Luiz Gustavo</td><td>Time de Negócios</td></tr>
+    <tr><td>Matheus Arantes</td><td>Desenvolvedor</td></tr>
+    <tr><td>Roberto Xavier</td><td>Time de Design</td></tr>
+    <tr><td>Heitor Castilhos</td><td>Desenvolvedor</td></tr>
+  </tbody>
+</table>
 
-Link do trello :https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds
+[![Trello](https://img.shields.io/badge/Trello-Acessar-0079BF?style=for-the-badge&logo=trello&logoColor=white)](https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds)
 
-
+  
 ## Contexto
 
 O Sistema Jornal do Commercio de Comunicação (SJCC), um dos principais ecossistemas de mídia regional do Brasil, enfrenta desafios significativos no ambiente digital. Mudanças nos algoritmos do Google e novas formas de consumo de conteúdo — rápidas, fragmentadas e distribuídas em múltiplas plataformas — impactaram negativamente a visibilidade e o tráfego orgânico do portal. O problema central identificado é a dificuldade em reter a audiência digital, agravada pela queda de relevância nos mecanismos de busca.
