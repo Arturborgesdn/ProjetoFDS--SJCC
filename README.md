@@ -1,4 +1,4 @@
-# Sistema Jornal do Commercio de Comunicação(SJCC) - Projetos 2 e Fundamenttos de Desenvolvimento de Software
+# Sistema Jornal do Commercio de Comunicação(SJCC) - Projetos 2 e Fundamentos de Desenvolvimento de Software
 
 ---
 
@@ -48,24 +48,6 @@ Uma plataforma digital integrada, centrada na experiência do usuário, que vai 
 O sucesso do reposicionamento digital do SJCC depende da capacidade de transformar cada acesso em uma jornada prolongada, estimulando a descoberta de novos conteúdos e consolidando o hábito de consumo no portal. Ao alinhar produção jornalística, tecnologia e experiência do usuário, o SJCC se reposiciona de forma competitiva no cenário digital, recuperando relevância e fidelizando sua audiência.
 
 ## Definição da Equipe 
-<table>
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Função</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Arthur Leite</td><td>Time de Negócios</td></tr>
-    <tr><td>Artur Nogueira</td><td>Product Owner</td></tr>
-    <tr><td>Eduardo Henrique Hazin</td><td>Time de Negócios</td></tr>
-    <tr><td>Eduardo Rodrigues</td><td>Time de Design</td></tr>
-    <tr><td>Lucas Queiroz</td><td>Scrum Master</td></tr>
-    <tr><td>Luiz Gustavo</td><td>Time de Negócios</td></tr>
-    <tr><td>Matheus Arantes</td><td>Desenvolvedor</td></tr>
-    <tr><td>Roberto Xavier</td><td>Time de Design</td></tr>
-    <tr><td>Heitor Castilhos</td><td>Desenvolvedor</td></tr>
-  </tbody>
-</table>
 
+![Equipe](equipe.png)
 
