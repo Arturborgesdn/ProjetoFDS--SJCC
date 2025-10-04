@@ -42,6 +42,11 @@ body {
   color: #333;
 }
 
+.menu-btn:hover, .lupa-btn:hover{
+  color: #d4040c;
+
+}
+
 .logo-jc {
   height: 30px;
 }
@@ -55,6 +60,10 @@ body {
   text-align: center;
   font-weight: 700;
   margin: 20px 0;
+  text-decoration: underline;
+  text-decoration-color: #d4040c;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 8px;
 }
 
 .cardjc {
@@ -98,7 +107,7 @@ body {
   position: relative;
 }
 .fill {
-  background: #ff0000;
+  background: #00b783;
   height: 100%;
   border-radius: 5px;
 }
@@ -109,30 +118,36 @@ body {
 }
 .badge.green {
   background: #dbf8d4;
-  color: #249741;
+  color: #00b783;
 }
 
 .jcpoints{
-  background-color: #ff0000;
   padding: 10px;
-  border-radius: 10px;
-  border: 0px;
+  border-radius: 50px;
+  border: solid 1px #7e7474;
   color: white;
   font-family: "Manrope", sans-serif;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   font-weight: 700;
   margin-right: 5px;
+  margin-top: 10px;
   font-size: 17px;
+  color: #7e7474 ;
+  background-color: transparent;
 }
 
 .jcpoints:hover{
-  background-color: #bc0000;
+  background-color: #d4040c;
   cursor: pointer;
+  color: white;
 }
 
 .jcpoints:active{
-  transform: translateY(2px);
+  color: white;
+  background-color: #b80208;
+  border: solid 4px rgba(241, 28, 28, 0.507);
+  box-shadow: #b80208;
 }
 
 /* ---- LISTAS (Medalhas & Missões) alinhadas ---- */
