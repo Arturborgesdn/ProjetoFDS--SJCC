@@ -1,0 +1,29 @@
+# Arquivo para ignorar arquivos e pastas no Git
+
+# Ambientes Virtuais
+# Ignora a pasta do ambiente virtual para não enviar pacotes instalados
+venv/
+.venv/
+env/
+.env/
+
+# Cache e arquivos compilados do Python
+# Ignora pastas de cache que o Python cria automaticamente
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos de configuração de editores de código e IDEs
+# Ignora configurações pessoais do seu VS Code ou de outros editores
+.vscode/
+.idea/
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de variáveis de ambiente
+# MUITO IMPORTANTE para segurança, nunca envie senhas para o GitHub
+.env
+.env.*
