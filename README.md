@@ -1,10 +1,10 @@
-# Sistema Jornal do Commercio de Comunicação(SJCC) - CESAR School
+# Sistema Jornal do Commercio de Comunicação (SJCC) - CESAR School
 
 ---
 
 [![Trello](https://img.shields.io/badge/Trello-Acessar-0079BF?style=for-the-badge&logo=trello&logoColor=white)](https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds)
 [![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/board/B3wO9eCAwwirIUX0HBQcqy/Entregas-Semanais?node-id=894-1918&t=O6Ta6C0y53pCBiOe-4)
-[![Youtube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=screen&logoColor=white)](https://youtu.be/oiesoixmxKM)
+[![Youtube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/oiesoixmxKM)
 
 
 ## Contexto
@@ -29,10 +29,43 @@ O Sistema Jornal do Commercio de Comunicação (SJCC), um dos principais ecossis
 
 Desenvolver uma plataforma digital integrada, centrada na experiência do usuário, que vai além de um simples repositório de notícias. O novo portal proporcionará jornadas contínuas e personalizadas, facilitando o consumo dinâmico e interativo das informações.
 
-## Protótipo
+## Protótipo de Alta Fidelidade
 
 ![Wireframes](docs/wireframes.png)
 
+## Tecnologias Utilizadas
+
+* **Frontend:** HTML, CSS, JavaScript
+* **Backend:** Python
+* **Framework API:** Flask
+
+## Como Rodar o Projeto (Setup)
+
+Para configurar e executar o projeto localmente, siga os passos abaixo:
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+    cd seu-repositorio
+    ```
+
+2.  **Configurar e Rodar o Backend (Servidor Flask):**
+    * Navegue até a pasta do backend:
+        ```bash
+        cd python
+        ```
+    * Instale as dependências listadas no arquivo `requirements.txt`:
+        ```bash
+        pip install -r ../requirements.txt
+        ```
+    * Inicie o servidor Flask (lembre-se de ajustar `seu_app.py` para o nome real do seu arquivo):
+        ```bash
+        python seu_app.py
+        ```
+    * O servidor estará rodando em `http://localhost:5000`.
+
+3.  **Visualizar o Frontend:**
+    * Com o servidor backend rodando, abra o arquivo `src/programa_Fidelidade.html` diretamente no seu navegador de preferência (Firefox, Chrome, etc.).
 
 ## Impacto Esperado
 
@@ -45,7 +78,6 @@ Desenvolver uma plataforma digital integrada, centrada na experiência do usuár
 
 O sucesso do reposicionamento digital do SJCC está na habilidade de transformar cada visita em uma experiência contínua, que incentiva a descoberta constante de novos conteúdos e fortalece o hábito de consumo no portal. Ao integrar jornalismo de qualidade, tecnologia avançada e uma experiência do usuário envolvente, o SJCC se reposiciona de forma estratégica e competitiva no ambiente digital, recuperando sua relevância e conquistando a fidelidade da audiência.
 
-## Definição da Equipe 
+## Definição da Equipe
 
 ![Equipe](docs/equipe.png)
-
