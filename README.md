@@ -31,7 +31,7 @@ Desenvolver uma plataforma digital integrada, centrada na experiência do usuár
 
 ## Protótipo
 
-![Wireframes](wireframes.png)
+![Wireframes](docs/wireframes.png)
 
 
 ## Impacto Esperado
@@ -47,5 +47,5 @@ O sucesso do reposicionamento digital do SJCC está na habilidade de transformar
 
 ## Definição da Equipe 
 
-![Equipe](equipe.png)
+![Equipe](docs/equipe.png)
 
