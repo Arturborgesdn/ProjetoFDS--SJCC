@@ -1,0 +1,564 @@
+/* --- Seu Reset (Prioridade) --- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Usando sua fonte Manrope */
+    font-family: "Manrope", sans-serif; 
+}
+
+/* --- Seu Body (Prioridade) --- */
+body {
+    /* Seu fundo e cor de texto */
+    background: #f5f7fa; 
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Variáveis (Mantidas para facilitar a manutenção da tela de cadastro) */
+:root {
+    --color-primary: #3b82f6; /* Azul do botão */
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-border: #ddd;
+    --color-success-light: #e6f7e9;
+    --color-success-dark: #4ade80;
+    --color-purple-light: #f3e8ff;
+    --color-purple-dark: #a855f7;
+    --color-blue-light: #e0f2ff; 
+    --color-blue-dark: #3b82f6;
+}
+
+/* Utilitário para esconder labels */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* --- Seus Estilos de Header --- */
+.header-main {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.header-main .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+.header-left, .header-right {
+    display: flex;
+    gap: 10px;
+}
+.menu-btn, .lupa-btn, .header-right a {
+    font-size: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #333;
+}
+.menu-btn:hover, .lupa-btn:hover{
+    color: #d4040c;
+}
+.logo-jc {
+    height: 30px;
+}
+
+/* --- Estilos da Tela de Cadastro (Adaptados ao novo body/fonte) --- */
+
+/* 1. Container Principal */
+/* O .content do seu código é mais restritivo, vou utilizá-lo para centralizar o conteúdo da tela de cadastro. */
+.content {
+    padding: 20px;
+    max-width: 500px;
+    margin: 20px auto; /* Adicionei 20px de margem superior para espaçamento */
+    text-align: center;
+}
+
+.profile-icon-large {
+    background-color: var(--color-primary);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+}
+
+h1 {
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #333; /* Garantindo a cor */
+}
+
+.subtitle {
+    color: var(--color-text-light);
+    margin-bottom: 25px;
+}
+
+/* 2. Cards de Benefícios */
+.benefits {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.benefit-card {
+    flex: 1;
+    background-color: white;
+    border-radius: 12px;
+    padding: 15px 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    font-size: 0.85em;
+    line-height: 1.3;
+}
+
+.benefit-card i {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+.benefit-card.bonus {
+    background-color: var(--color-blue-light);
+}
+.benefit-card.bonus i {
+    color: var(--color-blue-dark);
+}
+
+.benefit-card.exclusive {
+    background-color: var(--color-success-light);
+}
+.benefit-card.exclusive i {
+    color: var(--color-success-dark);
+}
+
+.benefit-card.access {
+    background-color: var(--color-purple-light);
+}
+.benefit-card.access i {
+    color: var(--color-purple-dark);
+}
+
+/* 3. Formulário */
+.signup-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: var(--color-text-light);
+    font-size: 0.9em;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 1em;
+    color: var(--color-text-dark);
+}
+.input-group input::placeholder {
+    color: var(--color-text-light);
+    opacity: 1; 
+}
+
+.password-group .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: var(--color-text-light);
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.password-tip {
+    font-size: 0.8em;
+    color: var(--color-text-light);
+    margin-top: -10px;
+    margin-bottom: 15px;
+    padding-left: 5px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    font-size: 0.9em;
+    color: var(--color-text-light);
+    margin-bottom: 20px;
+}
+
+.checkbox-group input {
+    margin-right: 10px;
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+}
+
+.checkbox-group label strong {
+    color: var(--color-text-dark);
+    font-weight: 500;
+}
+
+.btn-primary {
+    width: 100%;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 20px;
+}
+
+.btn-primary:hover {
+    background-color: #316ddc;
+}
+
+/* 4. Separador e Login Social */
+.divider {
+    text-align: center;
+    font-size: 0.75em;
+    color: var(--color-text-light);
+    margin: 20px 0;
+    position: relative;
+}
+
+.divider::before, .divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 80px);
+    height: 1px;
+    background-color: var(--color-border);
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-social {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    background-color: white;
+    color: var(--color-text-dark);
+}
+
+.btn-social i {
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+.btn-social.google i {
+    color: #db4437;
+}
+
+.btn-social.facebook i {
+    color: #4267B2;
+}
+
+/* 5. Rodapé de Cadastro (Banner Azul) */
+.login-prompt {
+    font-size: 0.9em;
+    color: var(--color-text-dark);
+    margin-bottom: 20px;
+}
+
+.login-prompt a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.signup-footer {
+    background-color: var(--color-blue-light);
+    border: 1px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 40px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.footer-header {
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: 10px;
+}
+
+.footer-header i {
+    color: var(--color-primary);
+    margin-right: 5px;
+    font-size: 1.1em;
+}
+
+.signup-footer ul {
+    list-style: none;
+}
+
+.signup-footer ul li {
+    font-size: 0.9em;
+    color: var(--color-text-dark);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.signup-footer ul li i {
+    color: var(--color-primary);
+    margin-right: 10px;
+    font-size: 1em;
+    margin-top: 2px;
+}
+
+/* --- Seus Estilos de Conteúdo Adicional --- */
+
+.page-title {
+    text-align: center;
+    font-weight: 700;
+    margin: 20px 0;
+    text-decoration: underline;
+    text-decoration-color: #d4040c;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 8px;
+}
+
+/* Priorizando sua classe .titulo */
+.titulo{
+    font-size: 15px;
+    color: #bc0000;
+}
+
+.cardjc {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+}
+.profile {
+    text-align: center;
+}
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+.xp-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+.bar {
+    flex: 1;
+    background: #e0e0e0;
+    border-radius: 5px;
+    height: 8px;
+    position: relative;
+}
+.fill {
+    background: #00b783;
+    height: 100%;
+    border-radius: 5px;
+}
+.badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+.badge.green {
+    background: #dbf8d4;
+    color: #00b783;
+}
+
+/* Seus estilos .jcpoints (Prioridade) */
+.jcpoints{
+    padding: 10px;
+    border-radius: 50px;
+    border: solid 1px #7e7474;
+    color: white;
+    font-family: "Manrope", sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    font-weight: 700;
+    margin-right: 5px;
+    margin-top: 10px;
+    font-size: 17px;
+    color: #7e7474 ;
+    background-color: transparent;
+}
+
+.jcpoints:hover{
+    background-color: #d4040c;
+    cursor: pointer;
+    color: white;
+}
+
+.jcpoints:active{
+    color: white;
+    background-color: #b80208;
+    border: solid 4px rgba(241, 28, 28, 0.507);
+    box-shadow: #b80208;
+}
+
+/* ---- LISTAS (Medalhas & Missões) alinhadas ---- */
+.list {
+    list-style: none;
+}
+.list li {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 14px;
+    gap: 10px;
+}
+.list li i {
+    margin-right: 5px;
+    color: #555;
+    flex-shrink: 0;
+}
+.list li p {
+    flex: 1;
+    text-align: left;
+}
+.list li span.badge,
+.list li span.xp {
+    margin-left: auto;
+}
+
+.xp {
+    color: #249741;
+    font-weight: 600;
+}
+
+.ranking {
+    list-style: none;
+}
+.ranking li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+.ranking li span:first-child {
+    font-weight: 700;
+    margin-right: 10px;
+}
+.ranking .highlight {
+    background: #eef6ff;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.publicidade {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.publicidade p {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.publicidade-img {
+    max-width: 70%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.emblema_Barra {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+.emblema_Barra img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+}
+
+/* --- Media Queries (Responsividade) --- */
+@media (max-width: 768px) {
+    .header-main .container {
+        padding: 10px;
+    }
+    .page-title {
+        font-size: 18px;
+    }
+    .profile-img {
+        width: 60px;
+        height: 60px;
+    }
+    /* O .container original (da tela de cadastro) foi substituído por .content, 
+    mas os estilos ainda funcionam dentro do .content que tem max-width: 500px. */
+}

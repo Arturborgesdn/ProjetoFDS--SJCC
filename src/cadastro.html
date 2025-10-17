@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>SJCC - Criar Conta</title>
+    <link rel="stylesheet" href="styles/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+<body>
+
+    <header class="header-main">
+        <div class="container" style="background-color:#262626; justify-content: center; height: 30px;" > 
+            <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL">
+        </div>
+        <div class="container">
+          <div class="header-left">
+            <button class="menu-btn"><i class="fas fa-bars"></i></button>
+            <button class="lupa-btn"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="logo-container">
+            <img style="margin-right: 20px;" src="assets/jc-novo.webp" alt="Logo JC" class="logo-jc">
+          </div>
+          <div class="header-right">
+            <a href="#"><i class="fas fa-user-circle"></i></a>
+          </div>
+        </div>
+      </header>
+
+    <main class="content"> 
+
+        <div class="profile-icon-large">
+            <i class="fas fa-user"></i>
+        </div>
+        
+        <h1>Criar conta</h1>
+        <p class="subtitle">Cadastre-se gratuitamente e comece a ganhar pontos</p>
+
+        <section class="benefits">
+            <div class="benefit-card bonus">
+                <i class="fas fa-gift"></i>
+                <p>Bônus de<br><strong>50 pontos</strong></p>
+            </div>
+            <div class="benefit-card exclusive">
+                <i class="fas fa-star"></i>
+                <p>Medalhas<br><strong>exclusivas</strong></p>
+            </div>
+            <div class="benefit-card access">
+                <i class="fas fa-unlock-alt"></i>
+                <p>Acesso<br><strong>ilimitado</strong></p>
+            </div>
+        </section>
+
+        <form class="signup-form">
+            <div class="input-group">
+                <label for="nome" class="sr-only">Nome completo</label>
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="nome" placeholder="Seu nome completo" required>
+            </div>
+
+            <div class="input-group">
+                <label for="data" class="sr-only">Data de Nascimento</label>
+                <i class="fas fa-calendar input-icon"></i> 
+                <input type="text" id="data" placeholder="DD/MM/AAAA" required>
+            </div>
+
+            <div class="input-group">
+                <label for="email" class="sr-only">E-mail</label>
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="email" id="email" placeholder="seu@email.com" required>
+            </div>
+            
+            <div class="input-group password-group">
+                <label for="senha" class="sr-only">Senha</label>
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" id="senha" placeholder="Mínimo 8 caracteres" required>
+                <i class="fas fa-eye-slash toggle-password"></i>
+            </div>
+            <p class="password-tip">Use pelo menos 8 caracteres com letras e números</p>
+
+            <div class="input-group password-group">
+                <label for="confirmar-senha" class="sr-only">Confirmar senha</label>
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" id="confirmar-senha" placeholder="Digite a senha novamente" required>
+                <i class="fas fa-smile toggle-password"></i> 
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="termos" required>
+                <label for="termos">Eu concordo com os <strong>Termos de Uso e Política de Privacidade</strong></label>
+            </div>
+
+            <button type="submit" class="btn-primary">Criar conta</button>
+        </form>
+        
+        <div class="divider">OU CADASTRE-SE COM E-MAIL</div>
+
+        <div class="social-login">
+            <button class="btn-social google">
+                <i class="fab fa-google"></i> Cadastrar com Google
+            </button>
+            <button class="btn-social facebook">
+                <i class="fab fa-facebook"></i> Cadastrar com Facebook
+            </button>
+        </div>
+
+        <p class="login-prompt">Já tem uma conta? <a href="login.html"><strong>Faça login</strong></a></p>
+
+        <section class="signup-footer">
+            <div class="footer-header">
+                <i class="fas fa-star-of-life"></i> Ao se cadastrar, você ganha:
+            </div>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> 50 JC Points de bônus de boas-vindas</li>
+                <li><i class="fas fa-check-circle"></i> Trocar JC points por recompensas</li>
+                <li><i class="fas fa-check-circle"></i> Colecionar Medalhas</li>
+                <li><i class="fas fa-check-circle"></i> Disputar com seus amigos</li>
+                <li><i class="fas fa-check-circle"></i> Subir de categoria</li>
+            </ul>
+        </section>
+
+    </main>
+
+</body>
+</html>
