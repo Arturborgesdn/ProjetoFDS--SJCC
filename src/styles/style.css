@@ -230,3 +230,15 @@ body {
     height: 60px;
   }
 }
+.emblema_Barra {
+  font-display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+
+.emblema_Barra img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
