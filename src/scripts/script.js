@@ -1,69 +1,119 @@
-
-// CÓDIGO JAVASCRIPT ATUALIZADO: Integração com Back-End e MySQL 
-// Conceito Geral: Este JS envia dados para o Python (incluindo usuario_id),
-// recebe a resposta do banco de dados e exibe os resultados.
-// Mudanças: Adicionamos usuario_id no fetch e usamos a resposta para alertas dinâmicos.
-// Passos: Espera cliques, envia fetch, processa resposta, e atualiza o usuário.
-
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Elementos dos botões (igual ao seu código original).
+    const formCadastro = document.querySelector('#formCadastro');
+    const formLogin = document.querySelector('#formLogin');
     const btnComoGastar = document.querySelector('.jcpoints');
     const lupaBtn = document.querySelector('.lupa-btn');
     
-    // URL para conectar com o Python (Flask em localhost:5000).
-    const API_URL = 'http://localhost:5000/api/conectar';
+    const API_REGISTRAR = 'http://localhost:5000/api/registrar';
+    const API_LOGIN = 'http://localhost:5000/api/login';
+    const API_CONECTAR = 'http://localhost:5000/api/conectar';
     
-    // Exemplo de usuario_id: Para teste, use um valor fixo. No futuro, pegue de um login ou API.
-    const USUARIO_ID = 'seu_usuario_id_aqui';  // Substitua por um ID real (ex: de um campo de login).
+    let USUARIO_ID = 'seu_usuario_id_aqui';
     
-    // Função para testar a conexão com Python.
-    function testarConexao(acao) {
-        console.log('Tentando conectar com Python para ação:', acao);  // Log para depuração.
+    function cadastrarUsuario() {
+        const dados = {
+            nome: document.querySelector('#nome').value,
+            data_nascimento: document.querySelector('#data').value,
+            email: document.querySelector('#email').value,
+            senha: document.querySelector('#senha').value
+        };
         
-        fetch(API_URL, {
+        fetch(API_REGISTRAR, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'  // Define o tipo de dados como JSON.
-            },
-            body: JSON.stringify({
-                acao: acao,  // Envia a ação (ex: 'gastar').
-                usuario_id: USUARIO_ID  // Nova: Envia o ID do usuário para o Python atualizar o DB.
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
         })
-        .then(response => response.json())  // Converte a resposta em objeto JSON.
+        .then(response => response.json())
         .then(data => {
             if (data.sucesso) {
-                console.log('Conexão com Python OK:', data.mensagem);  // Log de sucesso.
-                // Nova: Usa a mensagem e os dados retornados do Python para o alerta.
-                alert(data.mensagem + ' Seus JC Points agora são: ' + data.jc_points);
-                // Conceito: Isso torna o alerta dinâmico, baseado no que o back-end retornou.
+                alert(data.mensagem);
+                USUARIO_ID = data.id;
+                window.location.href = 'login.html';
             } else {
-                console.log('Erro na resposta do Python:', data.mensagem);  // Log de erro.
-                alert('Erro: ' + data.mensagem);  // Fallback com a mensagem do erro.
+                alert('Erro: ' + data.mensagem);
+            }
+        })
+        .catch(error => alert('Erro no cadastro: ' + error));
+    }
+    
+    function fazerLogin() {
+        const dados = {
+            email: document.querySelector('#login-email').value,
+            senha: document.querySelector('#login-senha').value
+        };
+        
+        fetch(API_LOGIN, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                alert(data.mensagem);
+                USUARIO_ID = data.usuario_id;
+                window.location.href = 'index.html';
+            } else {
+                alert('Erro: ' + data.mensagem);
+            }
+        })
+        .catch(error => alert('Erro no login: ' + error));
+    }
+    
+    function testarConexao(acao) {
+        console.log('Tentando conectar com Python para ação:', acao);
+        
+        fetch(API_CONECTAR, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                acao: acao,
+                usuario_id: USUARIO_ID
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                console.log('Conexão OK:', data.mensagem);
+                alert(data.mensagem + ' Seus JC Points: ' + data.jc_points);
+            } else {
+                console.log('Erro:', data.mensagem);
+                alert('Erro: ' + data.mensagem);
             }
         })
         .catch(error => {
-            console.error('Falha na conexão com Python:', error);  // Log de erro de rede.
-            alert('Sem conexão com o servidor. Tente novamente.');  // Fallback simples.
+            console.error('Falha na conexão:', error);
+            alert('Sem conexão. Tente novamente.');
         });
     }
-
-    // Event Listeners (mantidos, mas com a nova função).
+    
+    if (formCadastro) {
+        formCadastro.addEventListener('submit', function(event) {
+            event.preventDefault();
+            cadastrarUsuario();
+        });
+    }
+    
+    if (formLogin) {
+        formLogin.addEventListener('submit', function(event) {
+            event.preventDefault();
+            fazerLogin();
+        });
+    }
+    
     if (btnComoGastar) {
         btnComoGastar.addEventListener('click', function(event) {
-            event.preventDefault();  // Impede o comportamento padrão.
-            testarConexao('gastar');  // Chama com a ação 'gastar' e usuario_id.
+            event.preventDefault();
+            testarConexao('gastar');
         });
     }
-
+    
     if (lupaBtn) {
         lupaBtn.addEventListener('click', function(event) {
             event.preventDefault();
-            testarConexao('busca');  // Chama com a ação 'busca' e usuario_id.
+            testarConexao('busca');
         });
     }
-
-    console.log('JS atualizado: Pronto para conectar com Python e banco de dados!');
+    
+    console.log('JS atualizado: Pronto para navegação e integração!');
 });
-
