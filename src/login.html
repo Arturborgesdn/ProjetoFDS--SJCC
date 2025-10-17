@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Login - JCPE Mobile</title>
+    <link rel="stylesheet" href="styles/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="header-main">
+        <div class="container" style="background-color:#262626; justify-content: center; height: 30px;" > 
+            <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL">
+        </div>
+        <div class="container">
+          <div class="header-left">
+            <button class="menu-btn"><i class="fas fa-bars"></i></button>
+            <button class="lupa-btn"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="logo-container">
+            <img style="margin-right: 20px;" src="assets/jc-novo.webp" alt="Logo JC" class="logo-jc">
+          </div>
+          <div class="header-right">
+            <a href="#"><i class="fas fa-user-circle"></i></a>
+          </div>
+        </div>
+      </header>
+
+    <main class="content"> 
+
+        <div class="profile-icon-large">
+            <i class="fas fa-lock"></i> 
+        </div>
+        
+        <h1>LOGIN</h1>
+        <p class="subtitle">Faça login para continuar lendo e ganhar pontos</p>
+
+        <form class="signup-form">
+
+            <div class="input-group">
+                <label for="login-email" class="sr-only">E-mail</label>
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="email" id="login-email" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="input-group password-group">
+                <label for="login-senha" class="sr-only">Senha</label> 
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" id="login-senha" placeholder="********" required> 
+                <i class="fas fa-eye-slash toggle-password"></i>
+            </div>
+            
+            <button type="submit" class="btn-primary" style="margin-top: 20px; margin-bottom: 20px;">
+                Entrar
+            </button>
+            <a href="#" class="forgot-password-link">Esqueceu a senha?</a>
+        </form>
+        
+        <div class="divider">OU CONTINUE COM E-MAIL</div>
+
+        <div class="social-login">
+            <button class="btn-social google">
+                <i class="fab fa-google"></i> Continuar com Google
+            </button>
+            <button class="btn-social facebook">
+                <i class="fab fa-facebook"></i> Continuar com Facebook
+            </button>
+        </div>
+
+        <p class="login-prompt" style="margin-top: 30px; margin-bottom: 25px;">
+            Ainda não tem uma conta? <a href="cadastro.html"><strong>Cadastre-se gratuitamente</strong></a>
+        </p>
+
+        <section class="data-protection-box">
+            <div class="protection-content">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <strong>Seus dados estão protegidos</strong>
+                    <p>Utilizamos criptografia de ponta para garantir a segurança das suas informações.</p>
+                </div>
+            </div>
+        </section>
+
+        <p class="terms-footer">
+            Ao continuar, você concorda com nossos <a href="#"><strong>Termos de Uso</strong></a> e <a href="#"><strong>Política de Privacidade</strong></a>
+        </p>
+
+    </main>
+    
+</body>
+</html>
