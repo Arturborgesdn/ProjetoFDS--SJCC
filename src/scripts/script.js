@@ -1,75 +1,119 @@
-
-// Espera o DOM carregar .
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Elementos dos botões .
+    const formCadastro = document.querySelector('#formCadastro');
+    const formLogin = document.querySelector('#formLogin');
     const btnComoGastar = document.querySelector('.jcpoints');
     const lupaBtn = document.querySelector('.lupa-btn');
     
-    // URL para conectar com o Python (Flask em localhost:5000).
-    const API_URL = 'http://localhost:5000/api/conectar';
+    const API_REGISTRAR = 'http://localhost:5000/api/registrar';
+    const API_LOGIN = 'http://localhost:5000/api/login';
+    const API_CONECTAR = 'http://localhost:5000/api/conectar';
     
-    // Testa a conexão com Python (fetch).
-    // Envia POST para o Python, espera resposta, depois mostra alerta.
+    let USUARIO_ID = 'seu_usuario_id_aqui';
+    
+    function cadastrarUsuario() {
+        const dados = {
+            nome: document.querySelector('#nome').value,
+            data_nascimento: document.querySelector('#data').value,
+            email: document.querySelector('#email').value,
+            senha: document.querySelector('#senha').value
+        };
+        
+        fetch(API_REGISTRAR, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                alert(data.mensagem);
+                USUARIO_ID = data.id;
+                window.location.href = 'login.html';
+            } else {
+                alert('Erro: ' + data.mensagem);
+            }
+        })
+        .catch(error => alert('Erro no cadastro: ' + error));
+    }
+    
+    function fazerLogin() {
+        const dados = {
+            email: document.querySelector('#login-email').value,
+            senha: document.querySelector('#login-senha').value
+        };
+        
+        fetch(API_LOGIN, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                alert(data.mensagem);
+                USUARIO_ID = data.usuario_id;
+                window.location.href = 'index.html';
+            } else {
+                alert('Erro: ' + data.mensagem);
+            }
+        })
+        .catch(error => alert('Erro no login: ' + error));
+    }
+    
     function testarConexao(acao) {
-        // Log para debug: Confirma que a função rodou.
         console.log('Tentando conectar com Python para ação:', acao);
         
-        fetch(API_URL, {
+        fetch(API_CONECTAR, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                acao: acao  // Envia o tipo de ação (ex: 'gastar').
+                acao: acao,
+                usuario_id: USUARIO_ID
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.sucesso) {
-                // Sucesso: Log no console e mostra alerta normal.
-                console.log('Conexão com Python OK:', data.mensagem);
-                alertOriginal(acao);  // Chama o alerta antigo.
+                console.log('Conexão OK:', data.mensagem);
+                alert(data.mensagem + ' Seus JC Points: ' + data.jc_points);
             } else {
-                // Erro raro no Python.
-                console.log('Erro na resposta do Python:', data.mensagem);
-                alertOriginal(acao);  // Fallback para alerta.
+                console.log('Erro:', data.mensagem);
+                alert('Erro: ' + data.mensagem);
             }
         })
         .catch(error => {
-            // Erro de conexão (ex: Python off): Log e fallback.
-            console.error('Falha na conexão com Python:', error);
-            alertOriginal(acao);  // Mostra alerta mesmo assim.
+            console.error('Falha na conexão:', error);
+            alert('Sem conexão. Tente novamente.');
         });
     }
     
-    // Função para Alertas Originais.
-    function alertOriginal(acao) {
-        if (acao === 'gastar') {
-            alert('Calma! jaja incluiremos essa pagina no MVP');
-        } else if (acao === 'busca') {
-            alert('Ainda estamos implementando isso espera mais um pouco');
-        }
+    if (formCadastro) {
+        formCadastro.addEventListener('submit', function(event) {
+            event.preventDefault();
+            cadastrarUsuario();
+        });
     }
-
-    // Event Listeners.
+    
+    if (formLogin) {
+        formLogin.addEventListener('submit', function(event) {
+            event.preventDefault();
+            fazerLogin();
+        });
+    }
+    
     if (btnComoGastar) {
         btnComoGastar.addEventListener('click', function(event) {
             event.preventDefault();
-            // Chama a conexão em vez de alert direto.
             testarConexao('gastar');
         });
     }
-
+    
     if (lupaBtn) {
         lupaBtn.addEventListener('click', function(event) {
             event.preventDefault();
-            // Chama a conexão.
             testarConexao('busca');
         });
     }
-
-    // Console Log para confirmar que o código atualizado carregou.
-    console.log('JS atualizado: Pronto para conectar com Python!');
+    
+    console.log('JS atualizado: Pronto para navegação e integração!');
 });
-
