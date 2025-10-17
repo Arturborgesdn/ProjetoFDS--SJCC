@@ -1,75 +1,69 @@
+// ============================================
+// CÓDIGO JAVASCRIPT ATUALIZADO: Integração com Back-End e MySQL
+// ============================================
+// Conceito Geral: Este JS envia dados para o Python (incluindo usuario_id),
+// recebe a resposta do banco de dados e exibe os resultados.
+// Mudanças: Adicionamos usuario_id no fetch e usamos a resposta para alertas dinâmicos.
+// Passos: Espera cliques, envia fetch, processa resposta, e atualiza o usuário.
 
-// Espera o DOM carregar .
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Elementos dos botões .
+    // Elementos dos botões (igual ao seu código original).
     const btnComoGastar = document.querySelector('.jcpoints');
     const lupaBtn = document.querySelector('.lupa-btn');
     
     // URL para conectar com o Python (Flask em localhost:5000).
     const API_URL = 'http://localhost:5000/api/conectar';
     
-    // Testa a conexão com Python (fetch).
-    // Envia POST para o Python, espera resposta, depois mostra alerta.
+    // Exemplo de usuario_id: Para teste, use um valor fixo. No futuro, pegue de um login ou API.
+    const USUARIO_ID = 'seu_usuario_id_aqui';  // Substitua por um ID real (ex: de um campo de login).
+    
+    // Função para testar a conexão com Python.
     function testarConexao(acao) {
-        // Log para debug: Confirma que a função rodou.
-        console.log('Tentando conectar com Python para ação:', acao);
+        console.log('Tentando conectar com Python para ação:', acao);  // Log para depuração.
         
         fetch(API_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json'  // Define o tipo de dados como JSON.
             },
             body: JSON.stringify({
-                acao: acao  // Envia o tipo de ação (ex: 'gastar').
+                acao: acao,  // Envia a ação (ex: 'gastar').
+                usuario_id: USUARIO_ID  // Nova: Envia o ID do usuário para o Python atualizar o DB.
             })
         })
-        .then(response => response.json())
+        .then(response => response.json())  // Converte a resposta em objeto JSON.
         .then(data => {
             if (data.sucesso) {
-                // Sucesso: Log no console e mostra alerta normal.
-                console.log('Conexão com Python OK:', data.mensagem);
-                alertOriginal(acao);  // Chama o alerta antigo.
+                console.log('Conexão com Python OK:', data.mensagem);  // Log de sucesso.
+                // Nova: Usa a mensagem e os dados retornados do Python para o alerta.
+                alert(data.mensagem + ' Seus JC Points agora são: ' + data.jc_points);
+                // Conceito: Isso torna o alerta dinâmico, baseado no que o back-end retornou.
             } else {
-                // Erro raro no Python.
-                console.log('Erro na resposta do Python:', data.mensagem);
-                alertOriginal(acao);  // Fallback para alerta.
+                console.log('Erro na resposta do Python:', data.mensagem);  // Log de erro.
+                alert('Erro: ' + data.mensagem);  // Fallback com a mensagem do erro.
             }
         })
         .catch(error => {
-            // Erro de conexão (ex: Python off): Log e fallback.
-            console.error('Falha na conexão com Python:', error);
-            alertOriginal(acao);  // Mostra alerta mesmo assim.
+            console.error('Falha na conexão com Python:', error);  // Log de erro de rede.
+            alert('Sem conexão com o servidor. Tente novamente.');  // Fallback simples.
         });
     }
-    
-    // Função para Alertas Originais.
-    function alertOriginal(acao) {
-        if (acao === 'gastar') {
-            alert('Calma! jaja incluiremos essa pagina no MVP');
-        } else if (acao === 'busca') {
-            alert('Ainda estamos implementando isso espera mais um pouco');
-        }
-    }
 
-    // Event Listeners.
+    // Event Listeners (mantidos, mas com a nova função).
     if (btnComoGastar) {
         btnComoGastar.addEventListener('click', function(event) {
-            event.preventDefault();
-            // Chama a conexão em vez de alert direto.
-            testarConexao('gastar');
+            event.preventDefault();  // Impede o comportamento padrão.
+            testarConexao('gastar');  // Chama com a ação 'gastar' e usuario_id.
         });
     }
 
     if (lupaBtn) {
         lupaBtn.addEventListener('click', function(event) {
             event.preventDefault();
-            // Chama a conexão.
-            testarConexao('busca');
+            testarConexao('busca');  // Chama com a ação 'busca' e usuario_id.
         });
     }
 
-    // Console Log para confirmar que o código atualizado carregou.
-    console.log('JS atualizado: Pronto para conectar com Python!');
+    console.log('JS atualizado: Pronto para conectar com Python e banco de dados!');
 });
-
