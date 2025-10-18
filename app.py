@@ -1,5 +1,3 @@
-# ProjetoFDS--SJCC/app.py (Versão Final e Organizada)
-
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import mysql.connector
@@ -8,15 +6,14 @@ import bcrypt
 from datetime import datetime
 import os
 
-# --- CONFIGURAÇÃO DO FLASK ---
-# Dizemos ao Flask para procurar os ficheiros estáticos (js, css, img) na pasta 'src'
+
 app = Flask(__name__, static_folder='src')
 CORS(app)
 
-# --- CONFIGURAÇÃO DA BASE DE DADOS ---
+
 db_config = {
-    'user': 'root', # Recomendo vivamente usar 'gamificacao_user'
-    'password': 'root', # Recomendo vivamente usar 'senha123'
+    'user': 'root', 
+    'password': 'root', 
     'host': 'localhost',
     'database': 'dbjc',
 }
@@ -28,23 +25,17 @@ def get_db_connection():
         print(f"Erro ao conectar: {err}")
         return None
 
-# ===============================================
-# ROTAS PARA SERVIR O SEU FRONTEND (PÁGINAS HTML)
-# ===============================================
 
-# Quando alguém acede a http://localhost:5000, serve a página de login.
+
 @app.route('/')
 def serve_login_page():
     return send_from_directory('src', 'login.html')
 
-# Esta rota serve as outras páginas, como cadastro.html e programa_Fidelidade.html
+
 @app.route('/<path:filename>')
 def serve_html_pages(filename):
     return send_from_directory('src', filename)
 
-# ===============================================
-# SUAS ROTAS DE API (O SEU BACKEND ORIGINAL)
-# ===============================================
 
 @app.route('/api/registrar', methods=['POST'])
 def registrar():
