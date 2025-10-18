@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SJCC - Notícias</title>
   <link rel="stylesheet" href="styles/noticia.css" />
+  <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 <body>
@@ -12,7 +13,7 @@
   <!-- HEADER -->
   <header class="header-main">
     <div class="container" style="background-color:#262626; justify-content: center; height: 30px;"> 
-      <img style="height: 150px; margin-left: 15px;" src="assets/logooul.png" alt="UOL" />
+      <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL" />
     </div>
     <div class="container">
       <div class="header-left">
@@ -26,13 +27,17 @@
         <!-- Barra de XP -->
         <div class="xp-container">
           <div class="xp-info">
-            <span class="level"><img class="emblema" src="assets/Crítico_Bronze.png" alt=""></span>
+            <a href="programa_Fidelidade.html">
+              <span class="level">
+                <img class="emblema" src="assets/Frequente_Prata.png" alt="">
+              </span>
+            </a>
           </div>
-          <div class="xp-bar">
+          <div class="xp-bar-header">
             <div class="xp-fill" style="width: 45%;"></div>
           </div>
         </div>
-        <a href="login.html"><i class="fas fa-user-circle"></i></a>
+        <a href="cadastro.html"><i class="fas fa-user-circle"></i></a>
       </div>
     </div>
   </header>
@@ -51,7 +56,6 @@
         <span>16/10/2025 08:00</span>
       </div>
       <div style="display: flex; gap: 10px; font-size: 16px;">
-        <i class="far fa-heart"></i>
         <i class="fas fa-share-alt"></i>
       </div>
     </div>
@@ -66,8 +70,11 @@
       <div style="display: flex; align-items: center; gap: 12px;">
         <img src="assets/jornalista.webp" alt="Autor" style="width: 50px; height: 50px; border-radius: 50%;" />
         <div>
-          <strong style="display: block;">Autor: Joana Oliveira</strong>
-          <span style="font-size: 13px; color: #555;">⭐ 410 JC Points</span>
+          <div class="container-noticia">
+            <strong style="display: block;">Autor: Joana Oliveira</strong>
+            <img style="margin-right: 10px; width: 30px;" class="emblema" src="assets/Vip_Bronze.png" alt="">
+          </div>
+          <span style="font-size: 13px; color: #555; margin-right: 120px;">⭐ 410 JC Points</span>
         </div>
       </div>
       
@@ -90,7 +97,7 @@
         </div>
         <div class="conteudo-parabens">
           <strong>Parabéns!</strong>
-          <p>Você leu mais de 70% da notícia <span>+20 XP</span></p>
+          <p>Você Concluiu a leitura da notícia <span>+20 XP</span></p>
         </div>
       </div>
 
