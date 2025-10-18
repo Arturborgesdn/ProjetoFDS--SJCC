@@ -1,0 +1,438 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Manrope", sans-serif;
+}
+
+body {
+  background: #f5f7fa;
+  color: #333;
+}
+
+/* HEADER */
+.header-main {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-main .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.header-left, .header-right {
+  display: flex;
+  gap: 10px;
+}
+
+.menu-btn, .lupa-btn, .header-right a {
+  font-size: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #333;
+  transition: 0.2s;
+}
+
+.menu-btn:hover, .lupa-btn:hover {
+  color: #d4040c;
+}
+
+.logo-jc {
+  height: 30px;
+  margin-left: 40px;
+}
+
+/* CONTEÚDO */
+.content {
+  padding: 20px;
+  max-width: 520px;
+  margin: auto;
+}
+
+.page-title {
+  text-align: center;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+
+.subtitle {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 25px;
+}
+
+/* CARDS SUPERIORES */
+.medalhas-top-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.card-top {
+  flex: 1;
+  border-radius: 14px;
+  color: #fff;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.card-top i {
+  font-size: 22px;
+  opacity: 0.9;
+  margin-bottom: 6px;
+}
+
+.card-top p {
+  font-size: 13px;
+  opacity: 0.9;
+  margin-bottom: 2px;
+}
+
+.card-top h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.card-top.blue {
+  background: linear-gradient(135deg, #1a4cff, #4a8eff);
+}
+
+.card-top.green {
+  background: linear-gradient(135deg, #00a86b, #00c68a);
+}
+
+.progress {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #000;
+  border-radius: 4px;
+}
+
+.subtext {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+/* CARD PRINCIPAL */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+
+/* LISTA DE MEDALHAS */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li.medalha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  gap: 15px;
+}
+
+.list li.medalha:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* ÍCONE */
+.list li .icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.list li.comum .icon { background: #e0e0e0; color: #555; }
+.list li.rara .icon { background: #dceeff; color: #007bff; }
+.list li.epica .icon { background: #f5e0ff; color: #a64dff; }
+
+/* INFO */
+.list li .info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title-row h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+}
+
+.tipo {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+}
+
+.list li.comum .tipo { background: #e0e0e0; color: #555; }
+.list li.rara .tipo { background: #dceeff; color: #007bff; }
+.list li.epica .tipo { background: #f5e0ff; color: #a64dff; }
+
+.info p {
+  font-size: 13px;
+  color: #555;
+  margin: 2px 0 6px;
+  line-height: 1.3;
+}
+
+/* SUBINFORMAÇÕES */
+.subinfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: #777;
+}
+
+.subinfo .status {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.list li .date i {
+  margin-right: 5px;
+  color: #999;
+}
+
+/* PONTOS */
+.points {
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 13px;
+  color: #ffb400;
+  white-space: nowrap;
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* PUBLICIDADE */
+.publicidade {
+  text-align: center;
+  margin: 35px 0;
+}
+
+.publicidade p {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.publicidade-img {
+  max-width: 75%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card-parabens {
+  background-color: #007bff; /* azul */
+  color: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+  margin: 20px 0;
+}
+
+.card-parabens .icone-check {
+  font-size: 28px;
+  color: #00ff90; /* verde claro */
+  display: flex;
+  align-items: center;
+}
+
+.card-parabens strong {
+  font-size: 16px;
+  display: block;
+}
+
+.card-parabens p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.card-parabens span {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 3px 8px;
+  border-radius: 8px;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+/* === BARRA DE XP NO HEADER === */
+.xp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+  margin-top: 5px;
+}
+
+.xp-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 10px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.level, .next-level {
+  font-weight: 600;
+}
+
+.xp-bar {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff1a1a, #f57373);
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.emblema {
+  width: 22px;
+  margin-left: 20px;
+}
+
+
+
+/* MOBILE */
+@media (max-width: 500px) {
+  .medalhas-top-cards {
+    flex-direction: column;
+  }
+
+  .card-top {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .list li.medalha {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .points {
+    align-self: flex-end;
+  }
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+  .content {
+    padding: 15px;
+  }
+
+  .page-title {
+    font-size: 18px;
+  }
+
+  .list li.medalha {
+    padding: 15px;
+  }
+}
+
+/* === NOTÍCIA === */
+
+/* Info da matéria */
+.noticia-info {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #777;
+}
+
+.noticia-info .acoes {
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.noticia-info .acoes i {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.noticia-info .acoes i:hover {
+  color: #d4040c;
+}
+
+/* Imagem da notícia */
+.noticia-img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0)
+}
