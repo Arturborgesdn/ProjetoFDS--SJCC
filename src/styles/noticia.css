@@ -21,13 +21,6 @@ body {
   z-index: 100;
 }
 
-.header-main .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-}
-
 .header-left, .header-right {
   display: flex;
   gap: 10px;
@@ -320,22 +313,6 @@ body {
 }
 
 /* === BARRA DE XP NO HEADER === */
-.xp-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 60px;
-  margin-top: 5px;
-}
-
-.xp-info {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  font-size: 10px;
-  color: #555;
-  margin-bottom: 4px;
-}
 
 .level, .next-level {
   font-weight: 600;
