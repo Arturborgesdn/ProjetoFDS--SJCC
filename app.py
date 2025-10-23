@@ -155,10 +155,7 @@ def calcular_categoria_e_medalha(xp: int):
     seguindo as regras definidas para o projeto SJCC.
     Retorna uma tupla: (categoria, medalha)
     """
-    if xp <= 0:
-        return "Sem Categoria", "Nenhuma" 
-
-    elif 0 <= xp <= 1500:
+    if 0 <= xp <= 1500:
         categoria = "Leitor Leigo"
         if xp <= 500:
             medalha = "Bronze"
