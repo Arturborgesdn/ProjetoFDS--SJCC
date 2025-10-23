@@ -35,6 +35,10 @@ def serve_login_page():
 @app.route('/<path:filename>')
 def serve_html_pages(filename):
     return send_from_directory('src', filename)
+@app.route('/assets/<path:filename>')
+def serve_assets(filename):
+    # Garante que ele procura na subpasta 'assets' dentro de 'src'
+    return send_from_directory(os.path.join('src', 'assets'), filename)
 
 
 @app.route('/api/registrar', methods=['POST'])
@@ -145,7 +149,6 @@ def calcular_nivel(xp: int):
     }
 
 # categoria para mandar p castilhos 
-# Coloque esta função no seu app.py, junto com as outras funções de lógica
 def calcular_categoria_e_medalha(xp: int):
     """
     Calcula a Categoria e a Medalha do utilizador com base no XP,
@@ -153,7 +156,7 @@ def calcular_categoria_e_medalha(xp: int):
     Retorna uma tupla: (categoria, medalha)
     """
     if xp <= 0:
-        return "Sem Categoria", "Nenhuma" # Caso de XP zero ou negativo
+        return "Sem Categoria", "Nenhuma" 
 
     elif 0 <= xp <= 1500:
         categoria = "Leitor Leigo"
@@ -183,7 +186,7 @@ def calcular_categoria_e_medalha(xp: int):
             medalha = "Ouro"
 
     elif 4501 <= xp <= 6000:
-        categoria = "Leitor Arretado" # Assumi este nome baseado nas suas regras, ajuste se necessário
+        categoria = "Leitor Arretado" 
         if xp <= 5000:
             medalha = "Bronze"
         elif xp <= 5500:
@@ -192,7 +195,7 @@ def calcular_categoria_e_medalha(xp: int):
             medalha = "Ouro"
 
     elif 6001 <= xp <= 7500:
-        categoria = "Leitor Desenrolado" # Assumi este nome
+        categoria = "Leitor Desenrolado"
         if xp <= 6500:
             medalha = "Bronze"
         elif xp <= 7000:
@@ -201,7 +204,7 @@ def calcular_categoria_e_medalha(xp: int):
             medalha = "Ouro"
 
     else: # xp >= 7501
-        categoria = "Leitor Topado" # Assumi este nome
+        categoria = "Leitor Topado" 
         if xp <= 8500:
             medalha = "Bronze"
         elif xp <= 9500:
