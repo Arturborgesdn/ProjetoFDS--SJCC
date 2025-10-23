@@ -11,35 +11,28 @@
 <body>
   <!-- HEADER -->
   <header class="header-main">
-    <div class="container" style="background-color:#262626; justify-content: center; height: 44px;"> 
-      <img style="height: 150px; margin-left: 0px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL" />
-    </div>
-    <div class="container">
-      <div class="header-left">
-        <button class="menu-btn"><i class="fas fa-bars"></i></button>
-        <button class="lupa-btn"><i class="fas fa-search"></i></button>
-      </div>
-      <div class="logo-container">
-        <img src="assets/jc-novo.webp" alt="Logo JC" class="logo-jc" />
-      </div>
-      <div class="header-right">
-        <!-- Barra de XP -->
-        <div class="xp-container">
-          <div class="xp-info">
-           <a href="programa_Fidelidade.html">
-              <span class="level">
-                <img style="height: 90%;" class="emblema" src="assets/Leitor_Massa_Prata-removebg-preview.png" alt="">
-              </span>
-            </a>
-          </div>
-          <div class="xp-bar-header">
-            <div class="xp-fill" style="width: 55%;"></div>
-          </div>
+        <div class="container" style="background-color:#262626; justify-content: center; height: 44px; max-width: 100%;"> 
+        <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL" />
         </div>
-        <a href="login.html"><i style="margin-top: 25px;" class="fas fa-user-circle"></i></a>
-      </div>
-    </div>
-  </header>
+        <div style="max-width: 100%;" class="container">
+        <div class="header-left">
+            <button class="menu-btn"><i class="fas fa-bars"></i></button>
+            <button class="lupa-btn"><i class="fas fa-search"></i></button> 
+        </div>
+        <div class="logo-container">
+            <img style="margin-right: 25px;" src="assets/jc-novo.webp" alt="Logo JC" class="logo-jc" />
+        </div>
+            <div class="header-right">
+                    <div>
+                        <a href="programa_Fidelidade.html"><i style="margin-top: 20px;font-size: 20px;color: #333;margin-left: 20px;" class="fas fa-trophy"></i></a>
+                        <span><img style="width: 20px; height: 20px;margin-top: 20px;margin-right: 50px;background-color: transparent;" class="level-circle-new" src="assets/New_decoracao-removebg-preview.png" alt="Novo"></span>
+                    </div>
+                    <div>
+                        <a href="login.html"><img style="height: 35px ; width: 35px; margin-top: 10px;" src="assets/unnamed.png" alt="Foto perfil" class="profile-img">
+                        <span><img class="level-circle" src="assets/Leitor_Massa_Prata-removebg-preview.png" alt="emblema"></span></a>
+                    </div>            
+            </div>
+    </header>
   <!-- CONTEÚDO -->
   <main class="content">
     <h1 class="page-title">MEDALHAS</h1>
@@ -47,8 +40,8 @@
 
     <!-- NOVOS CARDS SUPERIORES -->
     <div class="medalhas-top-cards">
-      <div class="card-top blue">
-        <i class="fas fa-trophy"></i>
+      <div style="background-color: #2473b5;" class="card-top blue">
+        <i class="fas fa-check-circle"></i>
         <p>Conquistadas</p>
         <h2>5/14</h2>
         <div class="progress">
@@ -57,8 +50,8 @@
       </div>
 
       <div class="card-top green">
-        <i class="fas fa-star"></i>
-        <p>Pontos<br>Ganhos</p>
+        <div><img style="width: 40px; height: 40px;margin-right: 10px;" src="assets/JC_Points_Novo.png" alt=""></div>
+        <p>JC Points Ganhos</p>
         <h2>385</h2>
         <span class="subtext">de medalhas conquistadas</span>
       </div>
@@ -184,3 +177,4 @@
   <script src="scripts/script.js"></script>
 </body>
 </html>
+
