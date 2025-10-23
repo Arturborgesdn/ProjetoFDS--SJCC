@@ -1,4 +1,6 @@
-/* Variáveis de Cores de Cadastro (Mantidas) */
+/* --- Seu Reset (Prioridade) --- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap');
+
 :root {
     --color-primary: #3b82f6; /* Azul do botão de cadastro */
     --color-text-dark: #333;
@@ -21,9 +23,6 @@
     --ranking-red-down: #e53935;
     --ranking-card-background: #ffffff;
 }
-
-/* --- Seu Reset (Prioridade) --- */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap');
 
 * {
     margin: 0;
@@ -86,6 +85,7 @@ body {
 .header-right{
     display: flex;
     gap: 10px;
+    cursor: pointer;
 }
 
 .menu-btn:hover, .lupa-btn:hover{
@@ -142,7 +142,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 30px;
+    margin-left: 20px;
     position: relative;
     cursor: pointer;
     box-shadow: 0 1px 3px #777;
