@@ -9,39 +9,28 @@
 </head>
 <body>
     <!-- HEADER -->
-  <header class="header-main">
-    <div class="container" style="background-color:#262626; justify-content: center; height: 44px;"> 
-      <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL" />
-    </div>
-    <div class="container">
-      <div class="header-left">
-        <button class="menu-btn"><i class="fas fa-bars"></i></button>
-        <button class="lupa-btn"><i class="fas fa-search"></i></button> 
-      </div>
-      <div class="logo-container">
-        <img src="assets/jc-novo.webp" alt="Logo JC" class="logo-jc" />
-      </div>
-      <div class="header-right">
-
-        <!-- Barra de XP -->
-        <div class="xp-container">
-          <div class="xp-info">
-            <div>
-              <p></p>
-                <a href="programa_Fidelidade.html">
-                  <span class="level">
-                    <img class="emblema" src="assets/Leitor_Massa_Prata-removebg-preview.png" alt="">
-                  </span>
-                </a>
-            </div>
-          </div>
-          <div class="xp-bar-header">
-            <div class="xp-fill" style="width: 45%;"></div>
-          </div>
+ <header class="header-main">
+        <div class="container" style="background-color:#262626; justify-content: center; height: 44px; max-width: 100%;"> 
+        <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL" />
         </div>
-        <a href="login.html"><i style="margin-top: 18px;" class="fas fa-user-circle"></i></a>
-      </div>
-    </div>
+        <div style="max-width: 100%;" class="container">
+        <div class="header-left">
+            <button class="menu-btn"><i class="fas fa-bars"></i></button>
+            <button class="lupa-btn"><i class="fas fa-search"></i></button> 
+        </div>
+        <div class="logo-container">
+            <img style="margin-right: 25px;" src="assets/jc-novo.webp" alt="Logo JC" class="logo-jc" />
+        </div>
+            <div class="header-right">
+                    <div>
+                        <a href="programa_Fidelidade.html"><i style="margin-top: 20px;font-size: 20px;color: #333;margin-left: 20px;" class="fas fa-trophy"></i></a>
+                        <span><img style="width: 20px; height: 20px;margin-top: 20px;margin-right: 50px;background-color: transparent;" class="level-circle-new" src="assets/New_decoracao-removebg-preview.png" alt="Novo"></span>
+                    </div>
+                    <div>
+                        <a href="login.html"><img style="height: 35px ; width: 35px; margin-top: 10px;" src="assets/unnamed.png" alt="Foto perfil" class="profile-img"></a>
+                        <span><img class="level-circle" src="assets/Leitor_Massa_Prata-removebg-preview.png" alt="emblema"></span>
+                    </div>            
+            </div>
   </header>
 
 
@@ -66,79 +55,84 @@
         <img style="margin-right: 17px; padding: auto;" class="emblema-xp" src="assets/XP_JC.png" alt="XP">
       </div> 
     </section>
-
-      <!-- Card Missões -->
+    <h1 class="titulos_card_link" >Saldo</h1>
+    <div class="card_link_">
+      <a href="recompensas.html"></a>
       <section class="cardjc">
         <div>
-          <h3>SEUS JC POINTS</h3>
           <div class="container-jc">
-            <h1>1987</h1>
-            <img style="margin-bottom: 6px;" class="emblema" src="assets/JC_Points.png" alt="JC_Points">
+            <div style="display: flex; flex-direction: row-reverse;">
+              <h2 style="font-size: 2.5em;font-weight: 700;color:goldenrod;margin-top: 20px;">1987</h2>
+              <img style=" width: 100px; height: 100px;"  src="assets/JC_Points_Novo.png" alt="JC_Points">
+            </div>
+            <div>
+              <p class="footer_recompensas" >Clique para gastar seus JC Points em recompensas!⭐</p>
+            </div>
           </div>
         </div>
-        <div class="botaojc">
-          <button class="jcpoints">COMO GASTAR?</button>
-        </div>
       </section>
+      </div>
 
-    <!-- Card Medalhas -->
-    <section class="card">
-      <h3>MEDALHAS</h3>
-      <ul class="list">
-        <li>
-          <i class="fas fa-book"></i>
-          <p>Novinho em Folha</p>
-          <span class="badge green">Conquistada</span>
-        </li>
-        <li>
-          <i class="fas fa-fire"></i>
-          <p>Pegou ar</p>
-          <span class="badge green">Conquistada</span>
-        </li>
-        <li>
-          <i class="fas fa-coins"></i>
-          <p>Mil Conto</p>
-          <span class="badge green">20% completado</span>
-        </li>
-      </ul>
-      <div class="botaojc">
-          <a href="medalhas.html"><button class="jcpoints">Saiba Mais</button></a>
-        </div>
-    </section>
+    <div class="card_link">
+      <a href="medalhas.html"></a>
+        <section class="card">
+          <h3 class="titulos_card_link">MEDALHAS</h3>
+          <ul class="list">
+            <li>
+              <i class="fas fa-book"></i>
+              <p>Novinho em Folha</p>
+              <span class="badge green">Conquistada</span>
+            </li>
+            <li>
+              <i class="fas fa-fire"></i>
+              <p>Pegou ar</p>
+              <span class="badge green">Conquistada</span>
+            </li>
+            <li>
+              <i class="fas fa-coins"></i>
+              <p>Mil Conto</p>
+              <span class="badge green">20% completado</span>
+            </li>
+          </ul>
+        </section>
+    </div>
 
-    <!-- Card Missões -->
-    <section class="card">
-      <h3>MISSÕES DIÁRIAS</h3>
-      <ul class="list">
-        <li>
-          <i class="fas fa-book-open"></i>
-          <p>Leia por 10 min</p>
-          <span class="xp">+10 XP</span>
-        </li>
-        <li>
-          <i class="fas fa-play-circle"></i>
-          <p>Assista um vídeo</p>
-          <span class="xp">+10 XP</span>
-        </li>
-        <li>
-          <i class="fas fa-share-alt"></i>
-          <p>Compartilhe uma notícia</p>
-          <span class="xp">+10 XP</span>
-        </li>
-      </ul>
-    </section>
+    <div class="card_link">
+      <a href="missoes.html"></a>
+      <section class="card">
+        <h3 class="titulos_card_link" >MISSÕES DIÁRIAS</h3>
+        <ul class="list">
+          <li>
+            <i class="fas fa-book-open"></i>
+            <p>Leia por 10 min</p>
+            <span class="xp">+10 XP</span>
+          </li>
+          <li>
+            <i class="fas fa-play-circle"></i>
+            <p>Assista um vídeo</p>
+            <span class="xp">+10 XP</span>
+          </li>
+          <li>
+            <i class="fas fa-share-alt"></i>
+            <p>Compartilhe uma notícia</p>
+            <span class="xp">+10 XP</span>
+          </li>
+        </ul>
+      </section>
+    </div>
 
-    <!-- Card Ranking -->
-    <section class="card">
-      <h3>RANKING DE LÍDERES</h3>
-      <ol class="ranking">
-        <li><span>1</span> Gabriel Gomes <span class="points">2.850</span></li>
-        <li class="highlight"><span>2</span> Fernando Azevedo <span class="points">2.500</span></li>
-        <li><span>3</span> Carla Silva <span class="points">2.200</span></li>
-        <li><span>4</span> Tiago Marques <span class="points">1.950</span></li>
-      </ol>
-    </section>
-  </main>
+    <div class="card_link">
+      <a href="ranking.html"></a>
+      <section class="card">
+        <h3 class="titulos_card_link" >RANKING DE LÍDERES</h3>
+        <ol class="ranking">
+          <li><span>1</span>Ana Rodriguez<span class="points">8.540</span></li>
+          <li><span>2</span>Carlos David<span class="points">7.240</span></li>
+          <li><span>3</span>Marina Barbosa<span class="points">6.840</span></li>
+          <li><span>4</span>Julia Ribeiro<span class="points">5.230</span></li>
+        </ol>
+      </section>
+    </div>
 
   <!-- PUBLICIDADE -->
     <section class="publicidade">
