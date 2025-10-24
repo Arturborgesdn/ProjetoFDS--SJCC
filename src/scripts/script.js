@@ -26,10 +26,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const API_LOGIN = '/api/login';
     const API_USUARIO = '/api/usuario'; 
 
-    // --- Lógica de Memória (Sessão) ---
-    function salvarSessao(usuarioId) { localStorage.setItem('usuario_id_sjcc', usuarioId); }
-    function getUsuarioId() { return localStorage.getItem('usuario_id_sjcc'); }
-    function limparSessao() { localStorage.removeItem('usuario_id_sjcc'); } 
+  
+    // Agora guarda um objeto com ID e Nome
+    function salvarSessao(userData) { 
+        const sessionData = { id: userData.usuario_id, nome: userData.nome };
+        localStorage.setItem('usuario_sjcc', JSON.stringify(sessionData)); 
+    }
+    // Função para pegar os dados da sessão (ID e Nome)
+    function getSessaoUsuario() { 
+        const session = localStorage.getItem('usuario_sjcc');
+        return session ? JSON.parse(session) : null;
+    }
+    // Função para pegar apenas o ID (para compatibilidade)
+    function getUsuarioId() {
+        const session = getSessaoUsuario();
+        return session ? session.id : null;
+    }
+    function limparSessao() { localStorage.removeItem('usuario_sjcc'); }
 
     // --- Funções de Login/Registo (Keep your existing functions here) ---
     function cadastrarUsuario() {
@@ -64,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.sucesso) {
                 console.log(data.mensagem); // Log success instead of alert
-                salvarSessao(data.usuario_id); 
+                salvarSessao(data); 
                 window.location.href = '/programa_Fidelidade.html';  
             } else {
                 console.error('Erro de login (API): ' + data.mensagem); 
