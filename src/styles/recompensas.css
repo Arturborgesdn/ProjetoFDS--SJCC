@@ -1,0 +1,376 @@
+/* Variáveis para fácil manutenção das cores */
+:root {
+    --color-primary: #3b82f6; /* Azul do botão de cadastro */
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-border: #ddd;
+    --color-success-light: #e6f7e9;
+    --color-green-dark: #00b783;
+    --color-purple-light: #f3e8ff;
+    --color-purple-dark: #6c3e96;
+    --color-blue-light: #e0f2ff; 
+    --color-blue-dark: #2473b5;
+    --color-pink-rose: #e50069;
+
+
+    --ranking-orange: #ff8200; /* Laranja principal do gradiente */
+    --ranking-yellow-gold: #ffc107; /* Cor de ouro/amarelo */
+    --ranking-light-grey: #f5f5f5; /* Fundo geral do card */
+    --ranking-red-streak: #d4040c; /* Vermelho do fire/streak */
+    --ranking-green-up: #4caf50;
+    --ranking-red-down: #e53935;
+    --ranking-card-background: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif; /* Use uma fonte comum ou importe uma específica */
+}
+
+body {
+    background-color: var(--cor-cinza-claro);
+    padding-bottom: 50px; /* Espaço no final */
+}
+
+.container {
+    padding: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ---------------------------------- */
+/* CABEÇALHO (Topo da página) */
+/* ---------------------------------- */
+.cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.menu-icon, .search-icon {
+    font-size: 1.5em;
+    color: var(--cor-texto-escuro);
+}
+
+.logo {
+    height: 30px; /* Ajuste conforme a imagem real */
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.nivel-barra {
+    position: relative;
+    font-size: 0.7em;
+    color: var(--cor-texto-escuro);
+}
+
+.nivel-texto {
+    font-weight: bold;
+    display: block;
+    text-align: right;
+}
+
+.pontos {
+    display: block;
+    text-align: right;
+}
+
+.barra-xp {
+    position: absolute;
+    bottom: -3px;
+    right: 0;
+    height: 3px;
+    background-color: var(--cor-primaria-laranja);
+    border-radius: 5px;
+    max-width: 100%;
+}
+
+
+/* ---------------------------------- */
+/* LOJA DE RECOMPENSAS (Primeira Imagem) */
+/* ---------------------------------- */
+.secao-loja-recompensas {
+    color: var(--cor-texto-claro);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fundo-gradiente-laranja {
+    background-color: var(--ranking-orange);
+}
+
+.cabecalho-loja {
+    margin-bottom: 20px;
+}
+
+.icone-loja {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.cabecalho-loja h2 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+}
+
+.cabecalho-loja p {
+    font-size: 1em;
+}
+
+.seus-pontos {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 15px 25px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.seus-pontos p {
+    font-size: 0.8em;
+    margin-bottom: 5px;
+}
+
+.valor-pontos {
+    font-size: 1.8em;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.valor-pontos .fa-coins {
+    margin-right: 5px;
+}
+
+.informacoes-loja {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.info-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.info-item i {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.info-item p {
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.info-item strong {
+    font-size: 1.2em;
+    display: block;
+    margin-top: 2px;
+}
+
+
+/* ---------------------------------- */
+/* COMO GANHAR MAIS PONTOS (Terceira Imagem) */
+/* ---------------------------------- */
+.secao-ganhar-pontos {
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    color: var(--cor-texto-escuro);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fundo-gradiente-verde {
+    background-color: #00b783;
+}
+
+.cabecalho-pontos {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.icone-pontos {
+    font-size: 1.5em;
+    margin-right: 10px;
+}
+
+.cabecalho-pontos h3 {
+    font-size: 1.2em;
+}
+
+.lista-metas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.meta-item {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.meta-item i {
+    font-size: 1.5em;
+    margin-right: 15px;
+    width: 30px;
+    text-align: center;
+}
+
+.meta-item p {
+    font-weight: bold;
+    margin: 0;
+    flex: 1;
+}
+
+.meta-item span {
+    font-size: 0.8em;
+    color: #666;
+    text-align: right;
+}
+
+/* Cores dos Ícones das Metas */
+.estrela { color: var(--ranking-yellow-gold); }
+.grafico { color: var(--color-blue-dark); }
+.escudo { color: var(--color-purple-dark); }
+.coroa { color: var(--color-pink-rose); }
+
+
+/* ---------------------------------- */
+/* ITENS DA LOJA (Segunda Imagem) */
+/* ---------------------------------- */
+.secao-itens-loja h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: var(--cor-texto-escuro);
+}
+
+.item-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden; /* Para garantir que o gradiente de borda fique contido */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Efeito de Borda de Raridade (O gradiente nas bordas) */
+.card-epico { border: 2px solid var(--color-purple-dark); }
+.card-lendario { border: 2px solid var(--color-pink-rose); }
+.card-raro { border: 2px solid var(--color-green-dark); }
+
+
+.icone-raridade {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    color: var(--cor-texto-claro);
+    margin-bottom: 10px;
+}
+
+.fundo-epico { background-color: var(--cor-epico-borda); }
+.fundo-lendario { background-color: var(--cor-frevo-roxo); }
+.fundo-raro { background-color: var(--cor-raro-borda); }
+
+
+.tag {
+    position: absolute;
+    top: 15px;
+    left: 80px;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: var(--cor-texto-claro);
+}
+
+.tag-epico { background-color: var(--cor-epico-borda); }
+.tag-lendario { background-color: var(--cor-primaria-laranja); } /* Usando laranja por ser mais legível */
+.tag-raro { background-color: var(--cor-raro-borda); }
+
+.tag-limitado {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff3864; /* Cor de limite */
+    color: var(--cor-texto-claro);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.item-card h3 {
+    font-size: 1.4em;
+    margin-bottom: 5px;
+    color: var(--cor-texto-escuro);
+}
+
+.item-card p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.compra-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custo {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--cor-texto-escuro);
+}
+
+.custo .fa-coins {
+    color: var(--cor-dourada);
+    margin-right: 5px;
+}
+
+.btn-comprar {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: var(--cor-texto-claro);
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.fundo-btn-laranja {
+    background-color: var(--cor-primaria-laranja);
+}
+
+.btn-comprar:hover {
+    background-color: #e06d0a;
+}

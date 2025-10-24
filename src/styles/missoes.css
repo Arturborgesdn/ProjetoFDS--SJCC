@@ -1,0 +1,514 @@
+/* ##################################################################
+   NOVOS ESTILOS - METAS E RECOMPENSAS DIÁRIAS (GAMIFICAÇÃO)
+   ################################################################## */
+
+/* Container Principal para a Página de Missões */
+.page-missoes {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+/* -------------------
+   1. CARD DE RESUMO PRINCIPAL (MISSION SUMMARY)
+   ------------------- */
+.mission-summary-card {
+    background: linear-gradient(145deg, #ffc107, var(--ranking-orange)); /* Gradiente Laranja/Amarelo */
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+    color: white;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mission-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.target-icon {
+    background: rgba(255, 255, 255, 0.2);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    margin-right: 15px;
+}
+
+.mission-header h2 {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.mission-header p {
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+.user-level-info {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    text-align: right;
+    font-size: 0.7em;
+    font-weight: 600;
+}
+
+/* Stats (1/4, 7 dias, 100/285) */
+.summary-stats {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 10px 21px;
+    flex-basis: 33%;
+    font-size: 30px;
+}
+
+.stat-item i {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    font-size: 0.75em;
+    margin-bottom: 3px;
+    opacity: 0.9;
+}
+
+.stat-item strong {
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+/* -------------------
+   2. SEQUÊNCIA DA SEMANA (WEEKLY STREAK)
+   ------------------- */
+.weekly-streak-container {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    color: var(--color-text-dark);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.streak-days-counter {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--ranking-orange);
+}
+
+.weekly-streak-container h4 {
+    font-size: 1.1em;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.weekly-streak-container p {
+    font-size: 0.8em;
+    color: var(--color-text-light);
+    margin-bottom: 15px;
+}
+
+.day-list {
+    display: flex;
+    justify-content: space-around;
+}
+
+.day-item {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--color-text-light);
+    border: 1px solid #ddd;
+    line-height: 1;
+}
+
+.day-item i {
+    font-size: 1em;
+    margin-top: 2px;
+}
+
+.day-item.completed {
+    background-color: #e6f7e9;
+    border-color: var(--color-success-dark);
+    color: var(--color-success-dark);
+}
+
+.day-item.completed i {
+    color: var(--color-success-dark);
+}
+
+.day-item.current {
+    background: var(--ranking-orange);
+    color: white;
+    border: none;
+    padding: 5px;
+}
+
+/* -------------------
+   3. LISTA DE METAS DIÁRIAS (DAILY GOALS)
+   ------------------- */
+.goals-title {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin: 25px 0 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.goals-title i {
+    color: var(--ranking-orange);
+    margin-right: 8px;
+}
+
+.goals-counter {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--ranking-orange);
+    background: #ffecb3;
+    padding: 4px 8px;
+    border-radius: 15px;
+    margin-left: auto;
+}
+
+.daily-goals-list {
+    background: white;
+    border-radius: 15px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+}
+
+.goal-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.goal-item:last-child {
+    border-bottom: none;
+}
+
+.goal-icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1em;
+    margin-right: 15px;
+    color: white;
+}
+
+.goal-icon-circle.star { background-color: #ffc107; }
+.goal-icon-circle.fire { background-color: var(--ranking-red-streak); }
+.goal-icon-circle.explore { background-color: #00bcd4; }
+.goal-icon-circle.time { background-color: var(--color-primary); }
+
+.goal-details {
+    flex-grow: 1;
+}
+
+.goal-title {
+    font-weight: 700;
+    font-size: 1em;
+    margin-bottom: 2px;
+}
+
+.goal-description {
+    font-size: 0.85em;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+}
+
+.goal-progress-text {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #4ade80; /* Cor de progresso */
+}
+
+.goal-xp {
+    font-size: 0.9em;
+    font-weight: 700;
+    color: #4ade80;
+    margin-left: 15px;
+    text-align: right;
+    line-height: 1.2;
+}
+
+.goal-xp i {
+    color: #4ade80;
+    font-size: 1.2em;
+    display: block; /* Garante que o ícone de check na direita vá para baixo */
+}
+
+.goal-item.completed .goal-details {
+    opacity: 0.7; /* Suaviza a cor das metas completas */
+}
+
+.check-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+/* Se a meta está completa, escondemos o checkbox e mostramos o XP e o check (feito no HTML) */
+.goal-item.completed .check-box {
+    display: none; 
+}
+.goal-item.completed .goal-xp i {
+    display: inline; /* Corrige o display para alinhar o XP e o check no mesmo bloco */
+}
+.goal-item:not(.completed) .goal-xp {
+    color: var(--ranking-orange); /* XP em laranja para metas incompletas */
+    font-size: 1em;
+}
+.goal-item:not(.completed) .goal-xp i {
+    display: none; /* Esconde o check para metas incompletas */
+}
+
+
+/* -------------------
+   4. RECOMPENSAS DISPONÍVEIS (REWARDS)
+   ------------------- */
+.rewards-section {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+}
+
+.rewards-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.rewards-icon-box {
+    background-color: #ffc107;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    margin-right: 15px;
+}
+
+.rewards-header h3 {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.rewards-header p {
+    font-size: 0.85em;
+    color: var(--color-text-light);
+}
+
+.reward-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.reward-card {
+    background: #fcfcfc;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.reward-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    color: white;
+    margin-right: 15px;
+}
+/* Cores dos ícones de recompensa (ajustadas para semelhança) */
+.reward-card:nth-child(1) .reward-icon { background-color: var(--ranking-orange); } /* Raio */
+.reward-card:nth-child(2) .reward-icon { background-color: #ff9800; } /* Dobro de pontos */
+.reward-card:nth-child(3) .reward-icon { background-color: #f44336; } /* Selo Especial */
+
+.reward-title {
+    font-weight: 700;
+    font-size: 1em;
+    line-height: 1.3;
+}
+
+.reward-detail {
+    font-size: 0.85em;
+    color: var(--color-text-light);
+    flex-grow: 1;
+}
+
+.btn-resgatar {
+    background-color: var(--ranking-orange);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-resgatar:hover {
+    background-color: #e54b17;
+}
+
+/* Barra de Progresso de Desbloqueio */
+.unlock-progress {
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.progress-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--color-text-light);
+}
+
+.progress-bar-unlock {
+    width: 100%;
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    margin: 5px 0 10px 0;
+}
+
+.progress-fill-unlock {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 3px;
+}
+
+.progress-label {
+    color: var(--color-text-dark);
+}
+
+.progress-count {
+    color: var(--ranking-red-down);
+}
+
+/* -------------------
+   5. DICA DO DIA (TIP OF THE DAY)
+   ------------------- */
+.tip-of-the-day {
+    background: #fff8e1; /* Amarelo claro/creme */
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tip-header {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #ffc107;
+    margin-bottom: 10px;
+}
+
+.tip-header i {
+    margin-right: 8px;
+}
+
+.tip-of-the-day p {
+    font-size: 0.9em;
+    color: var(--color-text-dark);
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.tip-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: 600;
+    border: 1px solid;
+}
+
+.tag-blue { background-color: #e0f2ff; color: var(--color-primary); border-color: var(--color-primary); }
+.tag-green { background-color: #e6f7e9; color: #4ade80; border-color: #4ade80; }
+.tag-orange { background-color: #fff8e1; color: var(--ranking-orange); border-color: var(--ranking-orange); }
+.tag-purple { background-color: #f3e8ff; color: #a855f7; border-color: #a855f7; }
+
+.medalhas-top-cards{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.card-top{
+    flex: 1;
+    border-radius: 14px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 3px 10px;
+}
