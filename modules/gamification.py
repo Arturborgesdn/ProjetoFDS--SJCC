@@ -21,66 +21,90 @@ MEDALHAS = {
 
 # --- Funções de Categoria, Nível e XP ---
 
+# modules/gamification.py
+
+# ... (imports e MEDALHAS omitidos) ...
+
 def calcular_categoria_e_medalha(xp: int):
-    """Calcula Categoria e Medalha com base no XP."""
-    if xp <= 0: return "Sem Categoria", "Nenhuma"
-    elif 0 <= xp <= 1500:
+    """Calcula Categoria e Medalha (Bronze, Prata, Ouro) com base no XP."""
+    
+    # 1. Leitor Leigo (0 a 1500 XP)
+    if xp <= 1500:
         categoria = "Leitor Leigo"
-        if xp <= 500: medalha = "Bronze"
-        elif xp <= 1000: medalha = "Prata"
-        else: medalha = "Ouro"
-    # ... (Restante da lógica da Categoria) ...
-    elif 1501 <= xp <= 3000:
+        if xp <= 500: medalha = "Bronze"       # 0 - 500
+        elif xp <= 1000: medalha = "Prata"      # 501 - 1000
+        else: medalha = "Ouro"                  # 1001 - 1500
+        
+    # 2. Leitor Massa (1501 a 3000 XP)
+    elif xp <= 3000:
         categoria = "Leitor Massa"
-        if xp <= 2000: medalha = "Bronze"
-        elif xp <= 2500: medalha = "Prata"
-        else: medalha = "Ouro"
-    elif 3001 <= xp <= 4500:
+        if xp <= 2000: medalha = "Bronze"       # 1501 - 2000
+        elif xp <= 2500: medalha = "Prata"      # 2001 - 2500
+        else: medalha = "Ouro"                  # 2501 - 3000
+
+    # 3. Leitor Engajado (3001 a 4500 XP)
+    elif xp <= 4500:
         categoria = "Leitor Engajado"
-        if xp <= 3500: medalha = "Bronze"
-        elif xp <= 4000: medalha = "Prata"
-        else: medalha = "Ouro"
-    elif 4501 <= xp <= 6000:
+        if xp <= 3500: medalha = "Bronze"       # 3001 - 3500
+        elif xp <= 4000: medalha = "Prata"      # 3501 - 4000
+        else: medalha = "Ouro"                  # 4001 - 4500
+
+    # 4. Leitor Arretado (4501 a 6000 XP)
+    elif xp <= 6000:
         categoria = "Leitor Arretado"
-        if xp <= 5000: medalha = "Bronze"
-        elif xp <= 5500: medalha = "Prata"
-        else: medalha = "Ouro"
-    elif 6001 <= xp <= 7500:
+        if xp <= 5000: medalha = "Bronze"       # 4501 - 5000
+        elif xp <= 5500: medalha = "Prata"      # 5001 - 5500
+        else: medalha = "Ouro"                  # 5501 - 6000
+
+    # 5. Leitor Desenrolado (6001 a 7500 XP)
+    elif xp <= 7500:
         categoria = "Leitor Desenrolado"
-        if xp <= 6500: medalha = "Bronze"
-        elif xp <= 7000: medalha = "Prata"
-        else: medalha = "Ouro"
-    else: # xp >= 7501
+        if xp <= 6500: medalha = "Bronze"       # 6001 - 6500
+        elif xp <= 7000: medalha = "Prata"      # 6501 - 7000
+        else: medalha = "Ouro"                  # 7001 - 7500
+        
+    # 6. Leitor Topado (7501+ XP)
+    else:
         categoria = "Leitor Topado"
+        # Regras de XP Topado: Bronze (7501-8500) / Prata (8501-9500) / Ouro (9501+)
         if xp <= 8500: medalha = "Bronze"
         elif xp <= 9500: medalha = "Prata"
-        else: medalha = "Ouro"
+        else: medalha = "Ouro" # 9501+
+
     return categoria, medalha
 
-def calcular_nivel(xp: int):
-    """Calcula Nível e Progresso da Barra de XP."""
-    
-    # === ALTERAÇÃO AQUI (Linha 1): Mudar o XP inicial para o próximo nível para 1500 ===
-    # Assumindo que você quer que o Nível 1 vá de 0 a 1500.
-    nivel, xp_para_proximo_nivel, xp_base_nivel_atual = 1, 1500, 0 # ALTERADO
-    
-    while xp >= xp_para_proximo_nivel:
-        nivel += 1
-        xp_base_nivel_atual = xp_para_proximo_nivel
-        # O cálculo de progressão precisa ser ajustado se você quer um aumento diferente de 300 + 150*(n-1)
-        # Se você quer que CADA nível seja 1500, simplifique a linha abaixo:
-        xp_para_proximo_nivel += 1500 # Se cada nível aumenta 1500 XP
-        
-        # OU, se a progressão ORIGINAL (300 + 150*(n-1)) deve ser mantida APÓS o primeiro nível:
-        # xp_para_proximo_nivel += 300 + (nivel - 1) * 150 
-        
-    xp_no_nivel_atual = xp - xp_base_nivel_atual
-    xp_total_do_nivel = xp_para_proximo_nivel - xp_base_nivel_atual
 
-    progresso_percentual = int((xp_no_nivel_atual / xp_total_do_nivel) * 100) if xp_total_do_nivel > 0 else 0
+# modules/gamification.py
+
+# ... (código anterior omitido) ...
+
+def calcular_nivel(xp: int):
+    """
+    Calcula o Nível e o Progresso da Barra de XP.
+    
+    A barra visual (percentual) se baseia no ciclo de 1500 XP.
+    O texto (progresso_xp_texto) exibe o XP TOTAL / LIMITE DA CATEGORIA.
+    """
+    
+    nivel, xp_limite_categoria, xp_base_nivel_atual = 1, 1500, 0
+    
+    # 1. Determinar o limite da categoria atual (1500, 3000, 4500, etc.)
+    while xp >= xp_limite_categoria:
+        nivel += 1
+        xp_base_nivel_atual = xp_limite_categoria
+        xp_limite_categoria += 1500 
+        
+    # 2. Calcular progresso DENTRO da categoria (para a barra visual)
+    xp_no_ciclo_atual = xp - xp_base_nivel_atual # XP de 0 a 1500
+    xp_total_do_ciclo = xp_limite_categoria - xp_base_nivel_atual # O limite do ciclo (1500)
+
+    # 3. Calcular a porcentagem da barra (0-100%)
+    progresso_percentual = int((xp_no_ciclo_atual / xp_total_do_ciclo) * 100) if xp_total_do_ciclo > 0 else 0
+    
+    # 4. Retornar o XP TOTAL / LIMITE DA CATEGORIA para o texto
     return {
         "nivel": nivel,
-        "progresso_xp_texto": f"{xp_no_nivel_atual} / {xp_total_do_nivel}",
+        "progresso_xp_texto": f"{xp} / {xp_limite_categoria}", # NOVO FORMATO SOLICITADO
         "progresso_percentual": progresso_percentual
     }
 # ===============================================
