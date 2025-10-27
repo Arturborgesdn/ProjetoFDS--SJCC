@@ -55,31 +55,6 @@ Desenvolver uma plataforma digital integrada, centrada na experiência do usuár
 * **Framework API:** Flask
 * **Banco de Dados:** MySQL
 
-## Relatório sobre o uso da Metodologia de Programação em Par
-
-Conforme solicitado nos requisitos da Entrega 3, a equipe avaliou a experimentação da metodologia de Programação em Par. No entanto, após análise do nosso contexto de trabalho, optamos por não aplicar esta prática, apresentando a seguinte justificativa:
-
-**1. Incompatibilidade de Agendas (Trabalho Síncrono)**
-
-- O principal obstáculo para a adoção da programação em par foi a dificuldade logística em conciliar as agendas dos membros da equipe. Nossas janelas de disponibilidade para o trabalho síncrono são muito limitadas e conflitantes.
-
-- A adoção da programação em par exigiria longos períodos de trabalho conjunto, e forçar esse alinhamento causaria um impacto negativo no cronograma da entrega, arriscando o cumprimento do prazo da Sprint.
-
-**2. Otimização do Fluxo com Trabalho Assíncrono e Revisão de Código**
-
-- Em vez de adotar a programação em par, a equipe optou estrategicamente por um fluxo de trabalho assíncrono, que se provou mais eficiente para nossa dinâmica. Nossa metodologia de colaboração consistiu em:
-
-- Divisão de Tarefas: As histórias dos usuários da Sprint foram claramente divididas entre os membros da equipe no Trello.
-
--Desenvolvimento Individual: Cada membro pôde focar no desenvolvimento de sua funcionalidade designada, trabalhando em seu próprio ritmo e no seu melhor horário.
-
-Durante o processo, o grupo manteve uma comunicação constante via canais de mensagens e reuniões pontuais, garantindo alinhamento sobre decisões técnicas e de design.
-Cada integrante foi responsável por testar e validar seu próprio código localmente, assegurando o funcionamento correto das funcionalidades antes da integração final.
-
-## Reflexão sobre o Processo de Trabalho
-
-Mesmo sem o uso formal da Programação em Par ou revisões de código entre membros, a equipe manteve a colaboração ativa, organização do fluxo de trabalho e validação técnica das entregas. Essa abordagem foi a mais adequada para o contexto de disponibilidade e resultou em um desenvolvimento ágil e alinhado com os objetivos da Sprint.
-
 ## Impacto Esperado
 
 * Aumento do tempo médio de permanência no portal.
