@@ -55,6 +55,19 @@ Desenvolver uma plataforma digital integrada, centrada na experiência do usuár
 * **Framework API:** Flask
 * **Banco de Dados:** MySQL
 
+## Programação em Par
+
+Neste projeto, aplicamos a metodologia de Programação em Par (Pair Programming) para otimizar o desenvolvimento e garantir a qualidade do código.
+
+Nossa abordagem foi a seguinte:
+
+* *Dinâmica:* Utilizamos o formato clássico de *Piloto* (quem digita o código) e *Navegador* (quem revisa e guia a lógica).
+* *Ferramentas:* As sessões foram conduzidas principalmente com VS Code e Google Meets para permitir a colaboração.
+* *Aplicação:* Priorizamos o pareamento para implementar as histórias com um design alinhado, bem como uma integração do Front-End e o Back-End.
+* *Rotatividade:* Os papéis eram trocados a cada 30 minutos para manter a dupla engajada e compartilhar o conhecimento tático e estratégico. 
+
+![Programação em Par](docs/programacaoempar)
+
 ## Impacto Esperado
 
 * Aumento do tempo médio de permanência no portal.
