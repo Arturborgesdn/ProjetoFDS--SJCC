@@ -2,10 +2,25 @@
 
 ---
 
-[![Trello](https://img.shields.io/badge/Trello-Acessar-0079BF?style=for-the-badge&logo=trello&logoColor=white)](https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds)
-[![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/board/B3wO9eCAwwirIUX0HBQcqy/Entregas-Semanais?node-id=894-1918&t=O6Ta6C0y53pCBiOe-4)
-[![Youtube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/oiesoixmxKM)
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
 
+<a href="https://www.figma.com/proto/TgAIH2eIymFhMhaVS1UxcE/Prot%C3%B3tipo-de-Alta-Fidelidade?node-id=253-2&t=ePZPFyadMbsHqr7E-1">
+  <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" alt="Protótipo de Alta Fidelidade"/>
+</a>
+
+<a href="https://youtu.be/oiesoixmxKM">
+    <img src="https://img.shields.io/badge/Screencast Wireframes-b50404?style=for-the-badge&logo=youtube&logoColor=white" alt="Screencast - Wireframes"/>
+</a>
+
+<a href="https://youtu.be/hLKGfpBvM-k">
+    <img src="https://img.shields.io/badge/Screencast Entrega 3-b50404?style=for-the-badge&logo=youtube&logoColor=white" alt="Screencast Entrega 3"/>
+</a>
+
+<a href="https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds">
+  <img src="https://img.shields.io/badge/Trello-0079BF?style=for-the-badge&logo=trello&logoColor=white" alt="Trello - Projeto FDS"/>
+</a>
+
+</div>
 
 ## Contexto
 
@@ -38,34 +53,20 @@ Desenvolver uma plataforma digital integrada, centrada na experiência do usuár
 * **Frontend:** HTML, CSS, JavaScript
 * **Backend:** Python
 * **Framework API:** Flask
+* **Banco de Dados:** MySQL
 
-## Como Rodar o Projeto (Setup)
+## Programação em Par
 
-Para configurar e executar o projeto localmente, siga os passos abaixo:
+Neste projeto, aplicamos a metodologia de Programação em Par (Pair Programming) para otimizar o desenvolvimento e garantir a qualidade do código.
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
-    cd seu-repositorio
-    ```
+Nossa abordagem foi a seguinte:
 
-2.  **Configurar e Rodar o Backend (Servidor Flask):**
-    * Navegue até a pasta do backend:
-        ```bash
-        cd python
-        ```
-    * Instale as dependências listadas no arquivo `requirements.txt`:
-        ```bash
-        pip install -r ../requirements.txt
-        ```
-    * Inicie o servidor Flask (lembre-se de ajustar `seu_app.py` para o nome real do seu arquivo):
-        ```bash
-        python seu_app.py
-        ```
-    * O servidor estará rodando em `http://localhost:5000`.
+* *Dinâmica:* Utilizamos o formato clássico de *Piloto* (quem digita o código) e *Navegador* (quem revisa e guia a lógica).
+* *Ferramentas:* As sessões foram conduzidas principalmente com VS Code e Google Meets para permitir a colaboração.
+* *Aplicação:* Priorizamos o pareamento para implementar as histórias com um design alinhado, bem como uma integração do Front-End e o Back-End.
+* *Rotatividade:* Os papéis eram trocados a cada 30 minutos para manter a dupla engajada e compartilhar o conhecimento tático e estratégico. 
 
-3.  **Visualizar o Frontend:**
-    * Com o servidor backend rodando, abra o arquivo `src/programa_Fidelidade.html` diretamente no seu navegador de preferência (Firefox, Chrome, etc.).
+![Programação em Par](docs/programacaoempar)
 
 ## Impacto Esperado
 
