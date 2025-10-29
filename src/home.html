@@ -1,16 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SJCC - Programa de Fidelidade</title>
-  <link rel="stylesheet" href="styles/style.css">
-  <link rel="stylesheet" href="styles/home.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SJCC - Programa de Fidelidade</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Define o elemento pai como referência para o position: absolute dos badges */
+        /* Tanto o .box quanto o figure.wide podem servir como referência, dependendo da estrutura exata */
+        .hard-box .box, .hard-box figure.wide {
+            position: relative; 
+            border-radius: 10px; /* Adicionado para arredondar os cantos da box se a imagem não preencher tudo */
+            overflow: hidden; /* Garante que os cantos arredondados sejam respeitados */
+        }
+        .hard-box figure.wide img {
+            border-radius: 10px; /* Bordas arredondadas nas imagens das notícias */
+        }
+
+        /* --- NOVOS ESTILOS PARA O BADGE DE DESTAQUE --- */
+        .jc-badge-destaque {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e74c3c; /* Vermelho vibrante */
+            border-radius: 5px; 
+            padding: 5px 10px;
+            position: absolute; 
+            top: 15px; 
+            left: 15px;
+            z-index: 15; 
+            font-family: Arial, sans-serif;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .jc-badge-destaque i { 
+            margin-right: 5px;
+            font-size: 1.1em;
+        }
+
+        /* --- AJUSTES NO ESTILO EXISTENTE PARA O BADGE DE PONTOS --- */
+        .jc-ponto-fidelidade-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #00b783;
+            border-radius: 50px; 
+            padding: 4px 12px 4px 4px; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; /* ALTERADO: Mudei de 'left' para 'right' */
+            left: auto; /* Garante que não haja conflito com 'left' antigo */
+            z-index: 10; 
+            font-family: Arial, sans-serif;
+            border: none; 
+        }
+
+        .jc-ponto-fidelidade-icone-img {
+            width: 25px; 
+            height: 25px;
+            margin-right: 5px; 
+            background-color: transparent; 
+        }
+
+        .jc-ponto-fidelidade-valor {
+            color: white; 
+            font-weight: bold;
+            font-size: 1.1em;
+            line-height: 1; 
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); 
+        }
+    </style>
 </head>
 <body>
-    <!-- HEADER -->
- <header style="box-shadow: 0 2px 6px color;" class="header-main">
+    <header style="box-shadow: 0 2px 6px color;" class="header-main">
         <div class="container" style="background-color:#262626; justify-content: center; height: 44px; max-width: 100%;"> 
         <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL" />
         </div>
@@ -37,229 +105,190 @@
                     </div>            
             </div>
  </header>
-    <a href="programa_Fidelidade.html">
-        <div class="jc-aviso-fidelidade-container-melhorado">
-    <div class="jc-aviso-fidelidade-conteudo">
-        <h2 style="color: #333;"  class="jc-aviso-fidelidade-titulo">Seu Novo Programa de Fidelidade Chegou!</h2>
-        <p style="color: #333;" class="jc-aviso-fidelidade-descricao">
-            Faça o login, acumule pontos e desbloqueie um mundo de vantagens exclusivas do Jornal do Commercio &rarr;
-        </p>
-    </div>
-    </a>
-</div>
-    </a>
- <div class="wrap-hardnews">
-            
-        
-                    <section class="hard-box" id="hardnews1">
-    <div class="container">
-        <div class="row mb-4">
-            <div class="col-xs-12 col-lg-12">
-                <div class="box" >
-                    <div class="row">
-                                                                                <div class="col-xs-12 col-md-12 col-lg-8">
-                                
-                                <a href="https://jc.uol.com.br/brasil/2025/10/28/operacao-no-rj-contra-o-comando-vermelho-deixa-ao-menos-20-mortos-nesta-terca-feira-28.html">
-                                    <figure  class="wide">
-                                        <img width="852" height="479" 
-                                        src="https://imagens.ne10.uol.com.br/legado/156/imagemjc/imagem/noticia/2015/05/04/normal/e2dd7c15fb5b6989cc0f2068e87a0181.jpg" 
-                                        alt="Pol&amp;iacute;cia Militar do Rio de Janeiro no Complexo do Alem&amp;atilde;o"
-                                        
-                    data-midia-publi=119500
-                    data-midia-id=7479682
-                    data-default-height=
-                    data-default-width=
-                    data-midia=7479682;;;;;7479682
-                
-                                        >
-                                    </figure>
-                                </a>
-                            </div>
-                              
-                                                <div class="col-xs-12 col-md-12 col-lg-4">
-                                                                                                <div class="box">
-                                        <a href="https://jc.uol.com.br/brasil/2025/10/28/operacao-no-rj-contra-o-comando-vermelho-deixa-ao-menos-20-mortos-nesta-terca-feira-28.html">
-                                            <div class="content-text">
-                                                <small class="d-block hat mt-4-xs mt-0-md">GUERRA NO RJ</small>
-                                                <h1 class="title">Operação no RJ contra o Comando Vermelho deixa ao menos 20 mortos nesta terça-feira (28)</h1>
-                                                <h2 class="summary summary-subtitle">Ação conjunta da Polícia Civil e Militar mobiliza 2.500 agentes, com prisões e confrontos intensos nos Complexos da Penha e do Alemão</h2>
-                                                                                            </div>
-                                        </a>
-                                    </div>        
-                                                                                                                        <div class="inside-box-link mt-4">
-                                    
-                                    <h3 class="inside-box-title">
-                                        <a href="https://jc.uol.com.br/colunas/seguranca/2025/10/27/policia-faz-alerta-para-novo-golpe-no-whatsapp-entenda-como-se-proteger.html">
-                                            Polícia faz alerta para novo golpe no WhatsApp; entenda como se proteger
-                                        </a>
-                                    </h3>
-                                </div>
-                                                    </div>
-                    </div>
+        <a href="programa_Fidelidade.html">
+            <div class="jc-aviso-fidelidade-container-melhorado">
+                <div class="jc-aviso-fidelidade-conteudo">
+                    <h2 style="color: #333;" class="jc-aviso-fidelidade-titulo">Seu Novo Programa de Fidelidade Chegou!</h2>
+                    <p style="color: #333;" class="jc-aviso-fidelidade-descricao">
+                        Faça o login, acumule pontos e desbloqueie um mundo de vantagens exclusivas do Jornal do Commercio &rarr;
+                    </p>
                 </div>
             </div>
-                        
-                                            <div class="col-xs-6 col-md-6 col-lg-3 mt-4">
-                    <div class="box">
-                        
-                        <div class="row">
-                            <div class="col-xs-12 col-md-12">
-                                <a href="https://jc.uol.com.br/colunas/jc-negocios/2025/10/28/mercado-de-academias-no-nordeste-tera-concorrente-nacional-com-chegada-da-sky-fit-que-planeja-200-unidades-ate-2026.html">
-                                    <figure  class="wide">
-                                        <img width="305" height="171" 
-                                        src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/28/305x171/1_rede_de_academias_sky_fit_01-35934220.jpg" 
-                                        alt="Rede de Academias Sky Fit  chegando no Recife e RMR."
-                                        
-                    data-midia-publi=117812
-                    data-midia-id=35934220
-                    data-default-height=1371
-                    data-default-width=1920
-                    data-midia=35934220;1920;1371;1920;1371;35934220
-                
-                                        >
-                                    </figure>
-                                </a>
+        </a>
+        <div class="wrap-hardnews">
+            <section class="hard-box" id="hardnews1">
+                <div class="container">
+                    <div class="row mb-4">
+                        <div class="col-xs-12 col-lg-12">
+                            <div class="box">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12 col-lg-8">
+                                        <a href="https://jc.uol.com.br/brasil/2025/10/28/operacao-no-rj-contra-o-comando-vermelho-deixa-ao-menos-20-mortos-nesta-terca-feira-28.html">
+                                            <figure class="wide">
+                                                <img width="852" height="479" 
+                                                src="https://imagens.ne10.uol.com.br/legado/156/imagemjc/imagem/noticia/2015/05/04/normal/e2dd7c15fb5b6989cc0f2068e87a0181.jpg" 
+                                                alt="Pol&amp;iacute;cia Militar do Rio de Janeiro no Complexo do Alem&amp;atilde;o">
+                                            </figure>
+                                        </a>
+                                    </div>      
+
+                                    <div class="col-xs-12 col-md-12 col-lg-4">
+                                        <div class="box">
+                                            <a href="https://jc.uol.com.br/brasil/2025/10/28/operacao-no-rj-contra-o-comando-vermelho-deixa-ao-menos-20-mortos-nesta-terca-feira-28.html">
+                                                <div class="content-text">
+                                                    <small class="d-block hat mt-4-xs mt-0-md">GUERRA NO RJ</small>  
+                                                    <div class="jc-ponto-fidelidade-badge">
+                                                        <img class="jc-ponto-fidelidade-icone-img" src="assets/XP_JC.png" alt="Emblema de Pontos: ganhe 50 pontos">
+                                                        <span class="jc-ponto-fidelidade-valor">+50</span>
+                                                    </div>
+                                                    <h1 class="title">Operação no RJ contra o Comando Vermelho deixa ao menos 20 mortos nesta terça-feira (28)</h1>
+                                                    <h2 class="summary summary-subtitle">Ação conjunta da Polícia Civil e Militar mobiliza 2.500 agentes, com prisões e confrontos intensos nos Complexos da Penha e do Alemão</h2>
+                                                </div>
+                                            </a>
+                                        </div>        
+                                        <div class="inside-box-link mt-4">
+                                            <h3 class="inside-box-title">
+                                                <a href="https://jc.uol.com.br/colunas/seguranca/2025/10/27/policia-faz-alerta-para-novo-golpe-no-whatsapp-entenda-como-se-proteger.html">
+                                                    Polícia faz alerta para novo golpe no WhatsApp; entenda como se proteger
+                                                </a>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                          <div class="col-xs-12 col-md-12 mt-3">
-                            <a href="https://jc.uol.com.br/colunas/jc-negocios/2025/10/28/mercado-de-academias-no-nordeste-tera-concorrente-nacional-com-chegada-da-sky-fit-que-planeja-200-unidades-ate-2026.html">
-                                <div class="content-text">
-                                    <small class="d-block hat">
-                                        Coluna JC Negócios
-                                    </small>
-
-                                    <h4 class="title">
-                                        Mercado de academias no Nordeste terá concorrente nacional com chegada da Sky Fit que planeja 200 unidades até 2026
-                                    </h4>
-
-                                    
-                                                                    </div>
-                            </a>
                         </div>
-
+                        
+                        <div class="col-xs-6 col-md-6 col-lg-3 mt-4">
+                            <div class="box">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12">
+                                        <a href="https://jc.uol.com.br/colunas/jc-negocios/2025/10/28/mercado-de-academias-no-nordeste-tera-concorrente-nacional-com-chegada-da-sky-fit-que-planeja-200-unidades-ate-2026.html">
+                                            <figure class="wide">
+                                                <div class="jc-ponto-fidelidade-badge" style="top: 8px; right: 8px; padding: 3px 10px 3px 3px;">
+                                                    <img class="jc-ponto-fidelidade-icone-img" style="width: 20px; height: 20px;" src="assets/XP_JC.png" alt="Emblema de Pontos: ganhe 50 pontos">
+                                                    <span class="jc-ponto-fidelidade-valor" style="font-size: 0.9em;">+50</span>
+                                                </div>
+                                                <img width="305" height="171" 
+                                                src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/28/305x171/1_rede_de_academias_sky_fit_01-35934220.jpg" 
+                                                alt="Rede de Academias Sky Fit chegando no Recife e RMR.">
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-md-12 mt-3">
+                                        <a href="https://jc.uol.com.br/colunas/jc-negocios/2025/10/28/mercado-de-academias-no-nordeste-tera-concorrente-nacional-com-chegada-da-sky-fit-que-planeja-200-unidades-ate-2026.html">
+                                            <div class="content-text">
+                                                <small class="d-block hat">
+                                                    Coluna JC Negócios
+                                                </small>
+                                                <h4 class="title">
+                                                    Mercado de academias no Nordeste terá concorrente nacional com chegada da Sky Fit que planeja 200 unidades até 2026
+                                                </h4>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-6 col-md-6 col-lg-3 mt-4">
+                            <div class="box">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12">
+                                        <a href="https://jc.uol.com.br/colunas/seguranca/2025/10/28/prejuizo-dos-brasileiros-com-golpes-digitais-cresceu-21-em-2025-aponta-estudo.html">
+                                            <figure class="wide">
+                                                <div class="jc-ponto-fidelidade-badge" style="top: 8px; right: 8px; padding: 3px 10px 3px 3px;">
+                                                    <img class="jc-ponto-fidelidade-icone-img" style="width: 20px; height: 20px;" src="assets/XP_JC.png" alt="Emblema de Pontos: ganhe 50 pontos">
+                                                    <span class="jc-ponto-fidelidade-valor" style="font-size: 0.9em;">+50</span>
+                                                </div>
+                                                <img width="305" height="171" 
+                                                src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2022/07/25/whatsapp-21415198.jpg" 
+                                                alt="A Meta, empresa respons&amp;aacute;vel pela rede social, realiza essa a&amp;ccedil;&amp;atilde;o anualmente">
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-md-12 mt-3">
+                                        <a href="https://jc.uol.com.br/colunas/seguranca/2025/10/28/prejuizo-dos-brasileiros-com-golpes-digitais-cresceu-21-em-2025-aponta-estudo.html">
+                                            <div class="content-text">
+                                                <small class="d-block hat">
+                                                    CRIMINALIDADE
+                                                </small>
+                                                <h4 class="title">
+                                                    Prejuízo dos brasileiros com golpes digitais cresceu 21% em 2025, aponta estudo
+                                                </h4>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-6 col-md-6 col-lg-3 mt-4">
+                            <div class="box">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12">
+                                        <a href="https://jc.uol.com.br/pernambuco/2025/10/27/joao-carlos-paes-mendonca-celebra-90-anos-do-grupo-jcpm-e-defende-mais-investimentos-no-nordeste.html">
+                                            <figure class="wide">
+                                                <div class="jc-ponto-fidelidade-badge" style="top: 8px; right: 8px; padding: 3px 10px 3px 3px;">
+                                                    <img class="jc-ponto-fidelidade-icone-img" style="width: 20px; height: 20px;" src="assets/XP_JC.png" alt="Emblema de Pontos: ganhe 50 pontos">
+                                                    <span class="jc-ponto-fidelidade-valor" style="font-size: 0.9em;">+50</span>
+                                                </div>
+                                                <img width="305" height="171" 
+                                                src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/27/305x171/1_jj_37-35929293.jpg" 
+                                                alt="João Carlos Paes Mendonça durante entrevista ao programa &quot;Passando a Limpo&quot;, da Rádio Jornal">
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-md-12 mt-3">
+                                        <a href="https://jc.uol.com.br/pernambuco/2025/10/27/joao-carlos-paes-mendonca-celebra-90-anos-do-grupo-jcpm-e-defende-mais-investimentos-no-nordeste.html">
+                                            <div class="content-text">
+                                                <small class="d-block hat">
+                                                    ENTREVISTA
+                                                </small>
+                                                <h4 class="title">
+                                                    João Carlos Paes Mendonça celebra 90 anos do Grupo JCPM e defende mais investimentos no Nordeste
+                                                </h4>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-6 col-md-6 col-lg-3 mt-4">
+                            <div class="box">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12">
+                                        <a href="https://jc.uol.com.br/colunas/jc-negocios/2025/10/28/excesso-de-energia-precisa-ser-vista-como-oportunidade-de-nao-como-um-problema-avalia-consultor-ex-presidente-da-aneel-e-da-epe.html">
+                                            <figure class="wide">
+                            
+                                                <div class="jc-ponto-fidelidade-badge" style="top: 8px; right: 8px; padding: 3px 10px 3px 3px;">
+                                                    <img class="jc-ponto-fidelidade-icone-img" style="width: 20px; height: 20px;" src="assets/XP_JC.png" alt="Emblema de Pontos: ganhe 50 pontos">
+                                                    <span class="jc-ponto-fidelidade-valor" style="font-size: 0.9em;">+50</span>
+                                                </div>
+                                                <img width="305" height="171" 
+                                                src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/27/305x171/1_whatsapp_image_2025_10_27_at_11_34_09-35933801.jpeg" 
+                                                alt="Presidente da Acrópolis Energia e coordenador da Conferência Ibero Brasileira (Coniben), Reive Barros">
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-md-12 mt-3">
+                                        <a href="https://jc.uol.com.br/colunas/jc-negocios/2025/10/28/excesso-de-energia-precisa-ser-vista-como-oportunidade-de-nao-como-um-problema-avalia-consultor-ex-presidente-da-aneel-e-da-epe.html">
+                                            <div class="content-text">
+                                                <small class="d-block hat">
+                                                    Coluna JC Negócios
+                                                </small>
+                                                <h4 class="title">
+                                                    Excesso de energia precisa ser vista como oportunidade, não como um problema avalia consultor ex-presidente da Aneel
+                                                </h4>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                                            <div class="col-xs-6 col-md-6 col-lg-3 mt-4">
-                    <div class="box">
-                        
-                        <div class="row">
-                            <div class="col-xs-12 col-md-12">
-                                <a href="https://jc.uol.com.br/colunas/seguranca/2025/10/28/prejuizo-dos-brasileiros-com-golpes-digitais-cresceu-21-em-2025-aponta-estudo.html">
-                                    <figure  class="wide">
-                                        <img width="305" height="171" 
-                                        src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2022/07/25/whatsapp-21415198.jpg" 
-                                        alt="A Meta, empresa respons&amp;aacute;vel pela rede social, realiza essa a&amp;ccedil;&amp;atilde;o anualmente"
-                                        
-                    data-midia-publi=115609
-                    data-midia-id=21415198
-                    data-default-height=688
-                    data-default-width=1224
-                    data-midia=21415198;1224;688;1224;688;21415198
-                
-                                        >
-                                    </figure>
-                                </a>
-                            </div>
-                          <div class="col-xs-12 col-md-12 mt-3">
-                            <a href="https://jc.uol.com.br/colunas/seguranca/2025/10/28/prejuizo-dos-brasileiros-com-golpes-digitais-cresceu-21-em-2025-aponta-estudo.html">
-                                <div class="content-text">
-                                    <small class="d-block hat">
-                                        CRIMINALIDADE
-                                    </small>
-
-                                    <h4 class="title">
-                                        Prejuízo dos brasileiros com golpes digitais cresceu 21% em 2025, aponta estudo
-                                    </h4>
-
-                                    
-                                                                    </div>
-                            </a>
-                        </div>
-
-                        </div>
-                    </div>
-                </div>
-                                            <div class="col-xs-6 col-md-6 col-lg-3 mt-4">
-                    <div class="box">
-                        
-                        <div class="row">
-                            <div class="col-xs-12 col-md-12">
-                                <a href="https://jc.uol.com.br/pernambuco/2025/10/27/joao-carlos-paes-mendonca-celebra-90-anos-do-grupo-jcpm-e-defende-mais-investimentos-no-nordeste.html">
-                                    <figure  class="wide">
-                                        <img width="305" height="171" 
-                                        src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/27/305x171/1_jj_37-35929293.jpg" 
-                                        alt="João Carlos Paes Mendonça durante entrevista ao programa &quot;Passando a Limpo&quot;, da Rádio Jornal
-"
-                                        
-                    data-midia-publi=115608
-                    data-midia-id=35929293
-                    data-default-height=1280
-                    data-default-width=1920
-                    data-midia=35929293;1920;1280;1920;1280;35929293
-                
-                                        >
-                                    </figure>
-                                </a>
-                            </div>
-                          <div class="col-xs-12 col-md-12 mt-3">
-                            <a href="https://jc.uol.com.br/pernambuco/2025/10/27/joao-carlos-paes-mendonca-celebra-90-anos-do-grupo-jcpm-e-defende-mais-investimentos-no-nordeste.html">
-                                <div class="content-text">
-                                    <small class="d-block hat">
-                                        ENTREVISTA
-                                    </small>
-
-                                    <h4 class="title">
-                                        João Carlos Paes Mendonça celebra 90 anos do Grupo JCPM e defende mais investimentos no Nordeste
-                                    </h4>
-
-                                    
-                                                                    </div>
-                            </a>
-                        </div>
-
-                        </div>
-                    </div>
-                </div>
-                                            <div class="col-xs-6 col-md-6 col-lg-3 mt-4">
-                    <div class="box">
-                        
-                        <div class="row">
-                            <div class="col-xs-12 col-md-12">
-                                <a href="https://jc.uol.com.br/colunas/jc-negocios/2025/10/28/excesso-de-energia-precisa-ser-vista-como-oportunidade-de-nao-como-um-problema-avalia-consultor-ex-presidente-da-aneel-e-da-epe.html">
-                                    <figure  class="wide">
-                                        <img width="305" height="171" 
-                                        src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/27/305x171/1_whatsapp_image_2025_10_27_at_11_34_09-35933801.jpeg" 
-                                        alt="Presidente da Acrópolis Energia e coordenador da Conferência Ibero Brasileira (Coniben), Reive Barros"
-                                        
-                    data-midia-publi=115604
-                    data-midia-id=35933801
-                    data-default-height=1372
-                    data-default-width=1920
-                    data-midia=35933801;1920;1372;1920;1372;35933801
-                
-                                        >
-                                    </figure>
-                                </a>
-                            </div>
-                          <div class="col-xs-12 col-md-12 mt-3">
-                            <a href="https://jc.uol.com.br/colunas/jc-negocios/2025/10/28/excesso-de-energia-precisa-ser-vista-como-oportunidade-de-nao-como-um-problema-avalia-consultor-ex-presidente-da-aneel-e-da-epe.html">
-                                <div class="content-text">
-                                    <small class="d-block hat">
-                                        Coluna JC Negócios
-                                    </small>
-
-                                    <h4 class="title">
-                                        Excesso de energia precisa ser vista como oportunidade, não como um problema avalia consultor ex-presidente da Aneel
-                                    </h4>
-
-                                    
-                                                                    </div>
-                            </a>
-                        </div>
-
-                        </div>
-                    </div>
-                </div>
-                    </div>
-    </div>
-</section> 
+            </section>
+        </div>
+</body>
+</html>

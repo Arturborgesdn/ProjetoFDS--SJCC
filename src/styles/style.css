@@ -52,11 +52,32 @@ body {
     border-width: 0;
 }
 
+.jc_circulo{
+    position: absolute;
+    top: 55px; 
+    right: 15px;
+    background-color: transparent;
+    color: var(--light-text);
+    font-size: 10px;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.destque_jc{
+    display: flex;
+}
+
+
+
 /* Estilos Específicos para o Aviso de Fidelidade do Jornal do Commercio (JC) */
 /* Estilos Aprimorados para o Aviso de Fidelidade do Jornal do Commercio */
 .jc-aviso-fidelidade-container-melhorado {
     width: 100%;
-    background: var(--color-green-dark);
+    background: var(--ranking-orange);
     color: white;
     padding: 15px 25px; /* Mais preenchimento */
     text-align: center;
