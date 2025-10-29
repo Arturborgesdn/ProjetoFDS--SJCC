@@ -52,6 +52,114 @@ body {
     border-width: 0;
 }
 
+.jc_circulo{
+    position: absolute;
+    top: 55px; 
+    right: 15px;
+    background-color: transparent;
+    color: var(--light-text);
+    font-size: 10px;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.destque_jc{
+    display: flex;
+}
+
+
+
+/* Estilos Específicos para o Aviso de Fidelidade do Jornal do Commercio (JC) */
+/* Estilos Aprimorados para o Aviso de Fidelidade do Jornal do Commercio */
+.jc-aviso-fidelidade-container-melhorado {
+    width: 100%;
+    background: var(--ranking-orange);
+    color: white;
+    padding: 15px 25px; /* Mais preenchimento */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+    display: flex;
+    flex-direction: column; /* Conteúdo em coluna por padrão */
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Espaço abaixo da barra */
+    transition: transform 0.3s ease-in-out; /* Transição para hover */
+    border-radius: 6px;
+}
+
+.jc-aviso-fidelidade-container-melhorado:hover {
+    transform: translateY(-3px); /* Leve levantamento ao passar o mouse */
+}
+
+.jc-aviso-fidelidade-conteudo {
+    margin-bottom: 15px; /* Espaço entre o texto e o botão */
+}
+
+.jc-aviso-fidelidade-icone {
+    font-size: 2.5em; /* Ícone maior */
+    margin-right: 10px;
+    display: block; /* Garante que o ícone fique em sua própria linha em dispositivos móveis */
+    margin-bottom: 5px; /* Espaço abaixo do ícone */
+}
+
+.jc-aviso-fidelidade-titulo {
+    font-size: 1.8em; /* Título maior e mais impactante */
+    font-weight: 700;
+    margin: 5px 0 10px 0; /* Margens ajustadas */
+    line-height: 1.2;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Sombra no texto do título */
+}
+
+.jc-aviso-fidelidade-descricao {
+    font-size: 1.1em;
+    line-height: 1.4;
+    max-width: 600px; /* Limita a largura do texto para melhor leitura */
+    margin: 0 auto; /* Centraliza a descrição */
+}
+
+/* Ajustes para telas maiores */
+@media (min-width: 768px) {
+    .jc-aviso-fidelidade-container-melhorado {
+        flex-direction: row; /* Volta a alinhar lado a lado */
+        justify-content: space-between; /* Espaça o conteúdo */
+        padding: 20px 40px;
+    }
+    .jc-aviso-fidelidade-conteudo {
+        text-align: left; /* Texto alinhado à esquerda */
+        margin-bottom: 0;
+        display: flex; /* Para alinhar ícone, título e descrição */
+        align-items: center;
+        flex-wrap: wrap; /* Permite quebrar a linha */
+        flex-grow: 1; /* Ocupa o espaço disponível */
+    }
+    .jc-aviso-fidelidade-icone {
+        display: inline-block; /* Ícone alinhado ao texto */
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+    .jc-aviso-fidelidade-titulo {
+        margin-right: 15px; /* Espaço após o título */
+        margin-bottom: 0;
+    }
+    .jc-aviso-fidelidade-descricao {
+        margin-left: 0; /* Remove margem automática */
+        max-width: none; /* Remove limitação de largura */
+    }
+}
+/* Ajuste para telas menores (se necessário) */
+@media (max-width: 600px) {
+    .jc-aviso-fidelidade-container {
+        flex-direction: column; /* Coloca os itens um abaixo do outro */
+    }
+    .jc-aviso-fidelidade-texto {
+        margin: 0 0 10px 0; /* Espaço abaixo do texto em telas menores */
+    }
+}
+
 /* --- Seus Estilos de Header --- */
 .header-main {
     background: #fff;
@@ -66,6 +174,8 @@ body {
     align-items: center;
     padding: 0 25px;
     height: 100px;
+    box-shadow: 0 0.5px 2px var(--color-text-light);
+    transition: transform .4s ease,opacity .4s ease;
 
 }
 .header-left {
