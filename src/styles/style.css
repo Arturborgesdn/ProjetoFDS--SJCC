@@ -115,7 +115,7 @@ body {
 }
 
 .jc-aviso-fidelidade-descricao {
-    font-size: 1.0em;
+    font-size: 0.9em;
     line-height: 1.4;
     max-width: 600px; /* Limita a largura do texto para melhor leitura */
     margin: 0 auto; /* Centraliza a descrição */
