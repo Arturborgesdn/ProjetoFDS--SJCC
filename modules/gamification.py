@@ -1,12 +1,22 @@
 # modules/gamification.py
 
-import mysql.connector
-from datetime import datetime, date
-from config import Config
+# Camada de Lógica de Negócios (Business Logic Layer)
+# Responsável PELAS REGRAS, cálculos e orquestração da gamificação.
+# NÃO executa SQL, chama o db_services.py para isso.
+
+from datetime import date
+# Importa as funções de banco de dados do novo arquivo
+from modules.db_services import (
+    get_db_connection,
+    get_user_data_from_db, 
+    update_xp_jc_in_db, 
+    insert_medal_in_db, 
+    get_completed_missions_from_db, 
+    insert_daily_mission_in_db
+)
 
 # ===============================================
-# LÓGICA DE GAMIFICAÇÃO (MEDALHAS E CATEGORIAS)
-# (Migrado integralmente do seu código)
+# DEFINIÇÕES E REGRAS (LÓGICA PURA)
 # ===============================================
 
 # --- Medalhas Definidas ---
@@ -19,11 +29,47 @@ MEDALHAS = {
     "Êta bicho insistente": {"jc_points": 100, "check": lambda u: u.get('dias_consecutivos_acesso', 0) >= 30}
 }
 
-# --- Funções de Categoria, Nível e XP ---
+# --- Missões Diárias Definidas ---
+MISSOES_DIARIAS = {
+    "Fica de olho, visse?": {
+        "descricao": "Passar 10 minutos no site",
+        "xp": 100,
+        "jc_points": 20,
+        "metrica": "tempo_online_hoje_minutos", 
+        "requisito": 10,
+        "check": lambda u: u.get('tempo_online_hoje_minutos', 0) >= 10
+    },
+    # (Adicione outras missões aqui)
+    # --- NOVAS MISSÕES DE COMPARTILHAMENTO ---
+    "Compartilha aí, na moral": {
+        "descricao": "Compartilhar 1 matéria",
+        "xp": 75,
+        "jc_points": 15, # (Nota: PDF diz 15, imagem diz 75JC. Ajuste se necessário)
+        "metrica": "compartilhamentos_hoje",
+        "requisito": 1,
+        "check": lambda u: u.get('compartilhamentos_hoje', 0) >= 1
+    },
+    "Compartilhamento arretado": {
+        "descricao": "Compartilhar 2 matérias",
+        "xp": 200, # (Nota: PDF diz 200, imagem diz 250XP. Ajuste se necessário)
+        "jc_points": 40, # (Nota: PDF diz 40, imagem diz 50JC. Ajuste se necessário)
+        "metrica": "compartilhamentos_hoje",
+        "requisito": 2,
+        "check": lambda u: u.get('compartilhamentos_hoje', 0) >= 2
+    },
+    "Na resenha": { 
+        "descricao": "Compartilhar 5 notícias",
+        "xp": 400,
+        "jc_points": 80,
+        "metrica": "compartilhamentos_hoje",
+        "requisito": 5,
+        "check": lambda u: u.get('compartilhamentos_hoje', 0) >= 5
+    }
+    # (Adicione as outras missões aqui depois, como "Leitura massa", etc.)
 
-# modules/gamification.py
+}
 
-# ... (imports e MEDALHAS omitidos) ...
+# --- Funções de Cálculo (Lógica Pura) ---
 
 def calcular_categoria_e_medalha(xp: int):
     """Calcula Categoria e Medalha (Bronze, Prata, Ouro) com base no XP."""
@@ -66,250 +112,108 @@ def calcular_categoria_e_medalha(xp: int):
     # 6. Leitor Topado (7501+ XP)
     else:
         categoria = "Leitor Topado"
-        # Regras de XP Topado: Bronze (7501-8500) / Prata (8501-9500) / Ouro (9501+)
-        if xp <= 8500: medalha = "Bronze"
-        elif xp <= 9500: medalha = "Prata"
-        else: medalha = "Ouro" # 9501+
+        if xp <= 8500: medalha = "Bronze"       # 7501 - 8500
+        elif xp <= 9500: medalha = "Prata"      # 8501 - 9500
+        else: medalha = "Ouro"                  # 9501+
 
     return categoria, medalha
 
 
-# modules/gamification.py
-
-# ... (código anterior omitido) ...
-
 def calcular_nivel(xp: int):
-    """
-    Calcula o Nível e o Progresso da Barra de XP.
-    
-    A barra visual (percentual) se baseia no ciclo de 1500 XP.
-    O texto (progresso_xp_texto) exibe o XP TOTAL / LIMITE DA CATEGORIA.
-    """
+    """Calcula o Nível e o Progresso da Barra de XP (XP Total / Limite Categoria)."""
     
     nivel, xp_limite_categoria, xp_base_nivel_atual = 1, 1500, 0
     
-    # 1. Determinar o limite da categoria atual (1500, 3000, 4500, etc.)
     while xp >= xp_limite_categoria:
         nivel += 1
         xp_base_nivel_atual = xp_limite_categoria
         xp_limite_categoria += 1500 
         
-    # 2. Calcular progresso DENTRO da categoria (para a barra visual)
-    xp_no_ciclo_atual = xp - xp_base_nivel_atual # XP de 0 a 1500
-    xp_total_do_ciclo = xp_limite_categoria - xp_base_nivel_atual # O limite do ciclo (1500)
+    xp_no_ciclo_atual = xp - xp_base_nivel_atual
+    xp_total_do_ciclo = xp_limite_categoria - xp_base_nivel_atual
 
-    # 3. Calcular a porcentagem da barra (0-100%)
     progresso_percentual = int((xp_no_ciclo_atual / xp_total_do_ciclo) * 100) if xp_total_do_ciclo > 0 else 0
     
-    # 4. Retornar o XP TOTAL / LIMITE DA CATEGORIA para o texto
     return {
         "nivel": nivel,
-        "progresso_xp_texto": f"{xp} / {xp_limite_categoria}", # NOVO FORMATO SOLICITADO
+        "progresso_xp_texto": f"{xp} / {xp_limite_categoria}",
         "progresso_percentual": progresso_percentual
     }
 
 
-MISSOES_DIARIAS = {
-    
-    "Fica de olho, visse?": {
-        "descricao": "Passar 10 minutos no site",
-        "xp": 100,
-        "jc_points": 20,
-        "metrica": "tempo_online_hoje_minutos", 
-        "requisito": 10,
-        "check": lambda u: u.get('tempo_online_hoje_minutos', 0) >= 10
-    },
-    
-}
 # ===============================================
-# FUNÇÕES AUXILIARES DA BASE DE DADOS
+# FUNÇÕES DE SERVIÇO (Orquestração da Lógica)
 # ===============================================
-
-def get_db_connection():
-    """Tenta conectar ao banco de dados MySQL."""
-    try:
-        # Usa a configuração importada do arquivo config.py
-        return mysql.connector.connect(**Config.MYSQL_CONFIG)
-    except mysql.connector.Error as err:
-        print(f"Erro ao conectar: {err}")
-        return None
 
 def get_user_data(user_id):
     """Busca dados do utilizador e suas medalhas."""
-    conn = get_db_connection()
-    if not conn: return None
-    cursor = conn.cursor(dictionary=True)
-    user_data = None
-    try:
-        cursor.execute(
-            "SELECT g.*, u.nome FROM gamificacao g JOIN usuarios u ON g.usuario_id = u.id WHERE g.usuario_id = %s",
-             (user_id,)
-        )
-        user_data = cursor.fetchone()
-        if user_data:
-            cursor.execute("SELECT medalha_nome FROM medalhas_usuario WHERE usuario_id = %s", (user_id,))
-            medalhas = [row['medalha_nome'] for row in cursor.fetchall()]
-            user_data['medalhas_conquistadas'] = medalhas
-    except Exception as e:
-        print(f"Erro ao buscar dados do utilizador {user_id}: {e}")
-    finally:
-        if cursor: cursor.close()
-        if conn: conn.close()
-    return user_data
+    # Chama a função de serviço de banco de dados
+    return get_user_data_from_db(user_id)
 
 def adicionar_xp_jc(user_id, xp_ganho=0, jc_ganho=0):
     """Adiciona XP e/ou JC Points a um utilizador."""
-    if xp_ganho == 0 and jc_ganho == 0: return True
-
-    conn = get_db_connection()
-    if not conn: return False
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            "UPDATE gamificacao SET xps = xps + %s, jc_points = jc_points + %s WHERE usuario_id = %s",
-            (xp_ganho, jc_ganho, user_id)
-        )
-        conn.commit()
-        print(f"Utilizador {user_id}: +{xp_ganho} XP, +{jc_ganho} JC Points")
-        return True
-    except Exception as e:
-        conn.rollback()
-        print(f"Erro ao adicionar XP/JC Points para {user_id}: {e}")
-        return False
-    finally:
-        if cursor: cursor.close()
-        if conn: conn.close()
+    # Chama a função de serviço de banco de dados
+    return update_xp_jc_in_db(user_id, xp_ganho, jc_ganho)
 
 def award_medal(user_id, medalha_nome, jc_points_ganhos):
-    """Regista uma medalha conquistada e adiciona os JC Points."""
-    conn = get_db_connection()
-    if not conn: return False
-    cursor = conn.cursor()
+    """Lógica de negócio para conceder uma medalha."""
     try:
-        cursor.execute(
-            "INSERT INTO medalhas_usuario (usuario_id, medalha_nome) VALUES (%s, %s)",
-            (user_id, medalha_nome)
-        )
-        conn.commit()
-        print(f"🏅 Medalha '{medalha_nome}' concedida ao utilizador {user_id}!")
-        if jc_points_ganhos > 0:
-            adicionar_xp_jc(user_id, jc_ganho=jc_points_ganhos)
-        return True
-    except mysql.connector.IntegrityError:
-        print(f"Utilizador {user_id} já possui a medalha '{medalha_nome}'.")
-        return False
+        # 1. Tenta inserir a medalha no DB
+        if insert_medal_in_db(user_id, medalha_nome):
+            # 2. Se foi inserida com sucesso (não a possuía), adiciona os pontos
+            print(f"🏅 Medalha '{medalha_nome}' concedida! +{jc_points_ganhos} JC Points.")
+            if jc_points_ganhos > 0:
+                adicionar_xp_jc(user_id, jc_ganho=jc_points_ganhos)
+            return True
+        else:
+            # Se já possuía a medalha
+            return False
     except Exception as e:
-        conn.rollback()
-        print(f"Erro ao conceder medalha '{medalha_nome}' para {user_id}: {e}")
+        print(f"Erro na lógica de award_medal para {user_id}: {e}")
         return False
-    finally:
-        if cursor: cursor.close()
-        if conn: conn.close()
-    
-# modules/gamification.py
-# ... (imports, Config, MEDALHAS, MISSOES_DIARIAS) ...
 
-# --- NOVAS FUNÇÕES PARA GERENCIAR MISSÕES DIÁRIAS ---
-
-def get_completed_daily_missions(user_id, conn=None):
+def get_completed_daily_missions(user_id, conn):
     """Busca as missões diárias já completadas pelo usuário HOJE."""
-    should_close_conn = False
-    if not conn: 
-        conn = get_db_connection()
-        should_close_conn = True # Marcar para fechar a conexão no final
-    if not conn: return set() # Retorna um conjunto vazio se não houver conexão
-    
-    cursor = conn.cursor()
-    completed_missions = set()
-    today_str = date.today().isoformat()
-    try:
-        # Busca na tabela missoes_diarias_usuario
-        cursor.execute(
-            "SELECT missao_nome FROM missoes_diarias_usuario WHERE usuario_id = %s AND data_conclusao = %s",
-            (user_id, today_str)
-        )
-        for row in cursor.fetchall():
-            completed_missions.add(row[0]) # Adiciona o nome da missão ao conjunto
-    except Exception as e:
-        print(f"Erro ao buscar missões completas para {user_id}: {e}")
-    finally:
-        if cursor: cursor.close()
-        if should_close_conn and conn: conn.close() # Fecha a conexão só se foi criada aqui
-    return completed_missions
+    # Chama a função de serviço de banco de dados
+    return get_completed_missions_from_db(user_id, conn)
 
-def mark_daily_mission_complete(user_id, missao_nome, conn=None):
-    """Marca uma missão diária como completa para o usuário HOJE no banco de dados."""
-    should_close_conn = False
-    if not conn: 
-        conn = get_db_connection()
-        should_close_conn = True
-    if not conn: return False
-    
-    cursor = conn.cursor()
-    today_str = date.today().isoformat()
-    try:
-        # Insere o registro na tabela missoes_diarias_usuario
-        cursor.execute(
-            "INSERT INTO missoes_diarias_usuario (usuario_id, missao_nome, data_conclusao) VALUES (%s, %s, %s)",
-            (user_id, missao_nome, today_str)
-        )
-        conn.commit()
-        print(f"Missão '{missao_nome}' marcada como completa para {user_id} hoje.") # Log
-        return True
-    except mysql.connector.IntegrityError: # Caso a missão já tenha sido registrada hoje
-        print(f"Missão '{missao_nome}' já estava completa para {user_id} hoje.") # Log
-        return True # Considera sucesso, pois já está marcada
-    except Exception as e:
-        if conn: conn.rollback()
-        print(f"Erro ao marcar missão '{missao_nome}' como completa para {user_id}: {e}")
-        return False
-    finally:
-        if cursor: cursor.close()
-        if should_close_conn and conn: conn.close()
+def mark_daily_mission_complete(user_id, missao_nome, conn):
+    """Marca uma missão diária como completa para o usuário HOJE."""
+    # Chama a função de serviço de banco de dados
+    return insert_daily_mission_in_db(user_id, missao_nome, conn)
 
-# ESTA É A FUNÇÃO PRINCIPAL DE VERIFICAÇÃO
 def check_and_award_daily_missions(user_id, user_data, conn):
     """
-    Verifica TODAS as missões diárias definidas em MISSOES_DIARIAS.
-    Se uma missão foi cumprida (baseado em user_data) E ainda não foi marcada como
-    completa hoje, marca como completa e concede XP/JC Points.
-    Retorna uma lista das missões recém-completadas.
+    Verifica TODAS as missões diárias e concede recompensas (Lógica de Negócio).
     """
     if not conn:
         print("Erro Crítico: Conexão com DB é necessária para check_and_award_daily_missions")
-        return [] # Retorna lista vazia se não houver conexão
+        return [] 
 
-    # Busca quais missões o usuário já completou hoje
     completed_today = get_completed_daily_missions(user_id, conn)
-    newly_completed_missions = [] # Lista para retornar as missões completadas AGORA
+    newly_completed_missions = [] 
 
-    # Itera sobre todas as missões definidas no dicionário MISSOES_DIARIAS
     for nome_missao, dados_missao in MISSOES_DIARIAS.items():
         
-        # Condição 1: A missão ainda NÃO foi completada hoje
-        # Condição 2: A função 'check' da missão retorna True (baseado nos dados atuais do usuário)
+        # REGRA DE NEGÓCIO: A missão foi cumprida E ainda não foi completada hoje?
         if nome_missao not in completed_today and dados_missao['check'](user_data):
             
-            print(f"Tentando completar missão '{nome_missao}' para {user_id}...") # Log
+            print(f"Tentando completar missão '{nome_missao}' para {user_id}...")
             
-            # Tenta marcar a missão como completa no banco de dados
+            # Tenta marcar no DB
             if mark_daily_mission_complete(user_id, nome_missao, conn):
                 
-                # Se marcou com sucesso, tenta adicionar o XP e JC Points
+                # Tenta adicionar recompensas
                 if adicionar_xp_jc(user_id, xp_ganho=dados_missao['xp'], jc_ganho=dados_missao['jc_points']):
-                    print(f"✅ Missão Diária '{nome_missao}' completada E recompensada para {user_id}!") # Log
-                    # Adiciona à lista de retorno para o frontend saber o que foi completado
+                    print(f"✅ Missão Diária '{nome_missao}' completada E recompensada para {user_id}!")
                     newly_completed_missions.append({
                         "nome": nome_missao,
                         "xp": dados_missao['xp'],
                         "jc_points": dados_missao['jc_points']
                     })
                 else:
-                    # Se falhar ao dar XP/JC, loga um aviso. Idealmente, deveria desfazer a marcação.
                     print(f"⚠️ Alerta: Falha ao conceder recompensa para missão '{nome_missao}' (já marcada como completa) para {user_id}.")
             else:
                  print(f"⚠️ Alerta: Falha ao MARCAR missão '{nome_missao}' como completa para {user_id}.")
 
-    return newly_completed_missions # Retorna a lista de missões completadas nesta verificação
-
-# ... (Restante do seu gamification.py: calcular_categoria_e_medalha, calcular_nivel, etc.) ...
+    return newly_completed_missions

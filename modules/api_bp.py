@@ -235,3 +235,53 @@ def api_ler_noticia(user_id):
     finally:
         if cursor: cursor.close()
         if conn: conn.close()
+
+@api_bp.route('/usuario/<string:user_id>/share', methods=['POST'])
+def api_compartilhar(user_id):
+    """
+    Incrementa o contador de compartilhamentos diários do usuário
+    e verifica se alguma missão de compartilhamento foi completada.
+    """
+    conn = get_db_connection()
+    if not conn: return jsonify({"sucesso": False, "mensagem": "Erro de conexão com o DB"}), 500
+    cursor = conn.cursor()
+    
+    try:
+        # 1. Incrementa o contador de compartilhamentos_hoje no DB
+        cursor.execute(
+            "UPDATE gamificacao SET compartilhamentos_hoje = compartilhamentos_hoje + 1 WHERE usuario_id = %s",
+            (user_id,)
+        )
+        conn.commit()
+
+        # 2. Pega os dados atualizados do usuário (incluindo o novo contador)
+        user_data = get_user_data(user_id) 
+        if not user_data: 
+            return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
+        
+        # 3. Verifica se o novo contador completou alguma missão
+        # (check_and_award_daily_missions já concede o XP/JC se a missão for nova)
+        missoes_completadas_agora = check_and_award_daily_missions(user_id, user_data, conn)
+
+        # 4. Pega os dados finais (com o XP/JC atualizado, se houver)
+        user_final = get_user_data(user_id)
+        categoria_final, medalha_final = calcular_categoria_e_medalha(user_final['xps'])
+
+        return jsonify({
+            "sucesso": True,
+            "mensagem": "Compartilhamento registrado!",
+            "compartilhamentos_hoje": user_final.get('compartilhamentos_hoje', 0),
+            "novas_missoes_diarias": missoes_completadas_agora,
+            "xp_atual": user_final['xps'],
+            "jc_points_atual": user_final['jc_points'],
+            "categoria": categoria_final,
+            "medalha": medalha_final
+        })
+
+    except Exception as e:
+        if conn: conn.rollback()
+        print(f"Erro na rota /share: {e}")
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
