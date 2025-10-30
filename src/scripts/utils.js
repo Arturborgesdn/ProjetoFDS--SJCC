@@ -96,3 +96,38 @@ function getEmblemPath(categoria, medalha) {
     }
     return '/assets/unnamed.png'; // Fallback genérico
 }
+
+
+// aqui tem a função para o header dinâmico em todas as páginas, de acordo com o usuario id.
+async function updateHeader() {
+    const usuarioId = getUsuarioId();
+    // Seleção dos elementos do Header (IDs ou classes universais)
+    const headerProfileImg = document.querySelector('.header-right .profile-img');
+    const headerEmblem = document.querySelector('.header-right .level-circle'); 
+
+    if (!usuarioId) {
+        // Se não estiver logado, não faz nada (mantém os ícones de login)
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_USUARIO}/${usuarioId}`);
+        const result = await response.json();
+
+        if (result.sucesso && result.dados) {
+            const dados = result.dados;
+            
+            const categoria = dados.categoria;
+            const medalha = dados.medalha;
+            const emblemaPath = getEmblemPath(categoria, medalha); // Usa o mapeamento já definido
+            
+            // 1. Atualiza a foto do Perfil (assumindo que o src é 'unnamed.png' se não houver um dado real)
+            if (headerProfileImg) headerProfileImg.src = dados.foto_url || '/assets/unnamed.png'; 
+
+            // 2. Atualiza o Emblema (Status/Categoria) no Header
+            if (headerEmblem) headerEmblem.src = emblemaPath;
+        }
+    } catch (error) {
+        console.error("Falha ao carregar dados do header:", error);
+    }
+}

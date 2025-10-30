@@ -4,7 +4,8 @@
 // DEVEM ser definidas em arquivos carregados ANTES (ex: auth.js, fidelity.js, utils.js).
 
 document.addEventListener('DOMContentLoaded', function() {
-
+    
+    updateHeader();//chama a funcção de atualização do header
     // --- Seleção de Elementos de Roteamento ---
     // Usamos estes elementos para identificar em qual página estamos.
     const formCadastro = document.querySelector('#formCadastro'); // Presente em cadastro.html
