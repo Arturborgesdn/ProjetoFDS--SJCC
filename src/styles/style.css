@@ -77,18 +77,18 @@ body {
 /* Estilos Aprimorados para o Aviso de Fidelidade do Jornal do Commercio */
 .jc-aviso-fidelidade-container-melhorado {
     width: 100%;
-    background: var(--ranking-orange);
+    background: #eceef1 ;
     color: white;
     padding: 15px 25px; /* Mais preenchimento */
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
     display: flex;
     flex-direction: column; /* Conteúdo em coluna por padrão */
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
     margin-bottom: 20px; /* Espaço abaixo da barra */
     transition: transform 0.3s ease-in-out; /* Transição para hover */
     border-radius: 6px;
+    border: 2px solid #d4040c ;
 }
 
 .jc-aviso-fidelidade-container-melhorado:hover {
@@ -107,7 +107,7 @@ body {
 }
 
 .jc-aviso-fidelidade-titulo {
-    font-size: 1.8em; /* Título maior e mais impactante */
+    font-size: 1.2em; /* Título maior e mais impactante */
     font-weight: 700;
     margin: 5px 0 10px 0; /* Margens ajustadas */
     line-height: 1.2;
@@ -115,7 +115,7 @@ body {
 }
 
 .jc-aviso-fidelidade-descricao {
-    font-size: 1.1em;
+    font-size: 1.0em;
     line-height: 1.4;
     max-width: 600px; /* Limita a largura do texto para melhor leitura */
     margin: 0 auto; /* Centraliza a descrição */
