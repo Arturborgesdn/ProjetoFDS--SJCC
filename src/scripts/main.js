@@ -16,7 +16,58 @@ document.addEventListener('DOMContentLoaded', function() {
     // Elementos globais
     const lupaBtn = document.querySelector('.lupa-btn');
     const logoutButton = document.getElementById('logout-btn');
+    let tempoOnlineIntervalId = null; 
 
+    function iniciarContadorTempoOnline() {
+        const usuarioId = getUsuarioId(); // Pega o ID (de utils.js)
+        if (!usuarioId) {
+            console.log("Utilizador não logado. Timer de tempo online desativado.");
+            return; 
+        }
+
+        if (tempoOnlineIntervalId) clearInterval(tempoOnlineIntervalId); // Limpa timer anterior
+
+        console.log("Iniciando timer 'Fica de olho, visse?' (1 ping/minuto)...");
+
+        // Envia o primeiro ping imediatamente para registrar o início da sessão
+        enviarPingTempo(usuarioId); 
+
+        // Configura o envio periódico a cada 60 segundos
+        tempoOnlineIntervalId = setInterval(() => {
+            enviarPingTempo(usuarioId);
+        }, 60000); // 60 segundos
+    }
+
+    async function enviarPingTempo(usuarioId) {
+         try {
+            // Chama a rota /ping_tempo
+            const response = await fetch(`${API_USUARIO}/${usuarioId}/ping_tempo`, { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' } 
+            });
+            const result = await response.json();
+
+            if (result.sucesso) {
+                console.log(`Ping tempo OK. Minutos hoje: ${result.tempo_hoje_minutos}.`);
+                // Verifica se a missão "Fica de olho" (ou outra) foi completada
+                if (result.novas_missoes_diarias && result.novas_missoes_diarias.length > 0) {
+                    result.novas_missoes_diarias.forEach(missao => {
+                        console.log(`🎉 Missão Diária Completada: ${missao.nome}! Recompensas: +${missao.xp} XP, +${missao.jc_points} JC Points`);
+                        // Aqui você chamaria uma função para mostrar um alerta/toast visualmente
+                        alert(`🎉 Missão Diária Completada: ${missao.nome}! +${missao.xp} XP, +${missao.jc_points} JC Points`); 
+                    });
+                }
+            } else {
+                console.error("Erro retornado pela API de ping:", result.mensagem);
+            }
+        } catch (error) {
+            console.error("Falha de rede ao enviar ping de tempo:", error);
+        }
+    }
+    // --- FIM DO NOVO CÓDIGO ---
+
+    // --- CHAMADA PARA INICIAR O CONTADOR ---
+    iniciarContadorTempoOnline(); // Inicia o timer assim que o DOM carrega
     // --- LÓGICA DE ROTEAMENTO PRINCIPAL ---
 
     // 1. Página de Cadastro

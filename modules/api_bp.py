@@ -5,6 +5,7 @@ import uuid
 import bcrypt
 import mysql.connector
 from datetime import datetime, date
+from modules.gamification import get_db_connection, get_user_data, check_and_award_daily_missions, calcular_categoria_e_medalha # Importe as funções necessárias
 # Importa TODAS as funções e dados necessários do módulo de Gamificação
 from modules.gamification import (
     get_db_connection, 
@@ -24,7 +25,48 @@ api_bp = Blueprint('api', __name__, url_prefix='/api')
 # ===============================================
 
 # modules/api_bp.py (Com a correção)
+@api_bp.route('/usuario/<string:user_id>/ping_tempo', methods=['POST'])
+def api_ping_tempo(user_id):
+    """Recebe um ping do frontend, incrementa o tempo online e verifica missões."""
+    conn = get_db_connection()
+    if not conn: return jsonify({"sucesso": False, "mensagem": "Erro de conexão"}), 500
+    cursor = conn.cursor()
+    
+    incremento_minutos = 1 # Cada ping representa 1 minuto ativo
 
+    try:
+        # Atualiza o contador de tempo no banco
+        cursor.execute(
+            "UPDATE gamificacao SET tempo_online_hoje_minutos = tempo_online_hoje_minutos + %s WHERE usuario_id = %s",
+            (incremento_minutos, user_id)
+        )
+        conn.commit()
+
+        # Verifica missões após a atualização
+        user_data = get_user_data(user_id) # Pega dados atualizados
+        if not user_data: return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
+        
+        # Chama a função que verifica TODAS as missões definidas (incluindo "Fica de olho")
+        missoes_completadas_agora = check_and_award_daily_missions(user_id, user_data, conn)
+
+        # Prepara a resposta para o frontend
+        tempo_total_hoje = user_data.get('tempo_online_hoje_minutos', 0) + incremento_minutos
+
+        return jsonify({
+            "sucesso": True,
+            "mensagem": "Tempo online atualizado.",
+            "tempo_hoje_minutos": tempo_total_hoje,
+            "novas_missoes_diarias": missoes_completadas_agora # Informa se alguma missão foi completada
+        })
+
+    except Exception as e:
+        if conn: conn.rollback()
+        print(f"Erro no ping_tempo: {e}") # Adicionado para debug
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
+        
 @api_bp.route('/registrar', methods=['POST'])
 def registrar():
     """Registra um novo utilizador, cria sua conta de gamificação e retorna seu ID."""
