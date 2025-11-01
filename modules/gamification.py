@@ -39,20 +39,51 @@ MISSOES_DIARIAS = {
         "requisito": 10,
         "check": lambda u: u.get('tempo_online_hoje_minutos', 0) >= 10
     },
-    # (Adicione outras missões aqui)
-    # --- NOVAS MISSÕES DE COMPARTILHAMENTO ---
+
+    # --- INÍCIO DAS NOVAS MISSÕES (T2UH09) ---
+    # Baseado em src/missoes.html
+    
+    "Noticia Bunitinha": {
+        "descricao": "Ler 1 matéria completa", # Ajustei a descrição para bater com a lógica
+        "xp": 50,
+        "jc_points": 10,
+        "metrica": "noticias_lidas_hoje",
+        "requisito": 1,
+        "check": lambda u: u.get('noticias_lidas_hoje', 0) >= 1
+    },
+    
+    "Leitura Massa": {
+        "descricao": "Leia 2 matérias completas",
+        "xp": 50,       # O HTML lista 50XP/10JC
+        "jc_points": 10,
+        "metrica": "noticias_lidas_hoje",
+        "requisito": 2,
+        "check": lambda u: u.get('noticias_lidas_hoje', 0) >= 2
+    },
+
+    "Leitura Arretada": {
+        "descricao": "Leia 5 matérias completas", # O HTML também chama "Maratonista da peste" de 5 leituras.
+        "xp": 150,      # Estou usando os valores de "Leitura Arretada" (150XP/30JC)
+        "jc_points": 30,
+        "metrica": "noticias_lidas_hoje",
+        "requisito": 5,
+        "check": lambda u: u.get('noticias_lidas_hoje', 0) >= 5
+    },
+    
+    # --- FIM DAS NOVAS MISSÕES ---
+
     "Compartilha aí, na moral": {
         "descricao": "Compartilhar 1 matéria",
         "xp": 75,
-        "jc_points": 15, # (Nota: PDF diz 15, imagem diz 75JC. Ajuste se necessário)
+        "jc_points": 75, 
         "metrica": "compartilhamentos_hoje",
         "requisito": 1,
         "check": lambda u: u.get('compartilhamentos_hoje', 0) >= 1
     },
     "Compartilhamento arretado": {
         "descricao": "Compartilhar 2 matérias",
-        "xp": 200, # (Nota: PDF diz 200, imagem diz 250XP. Ajuste se necessário)
-        "jc_points": 40, # (Nota: PDF diz 40, imagem diz 50JC. Ajuste se necessário)
+        "xp": 250, 
+        "jc_points": 60, 
         "metrica": "compartilhamentos_hoje",
         "requisito": 2,
         "check": lambda u: u.get('compartilhamentos_hoje', 0) >= 2
@@ -65,8 +96,6 @@ MISSOES_DIARIAS = {
         "requisito": 5,
         "check": lambda u: u.get('compartilhamentos_hoje', 0) >= 5
     }
-    # (Adicione as outras missões aqui depois, como "Leitura massa", etc.)
-
 }
 
 # --- Funções de Cálculo (Lógica Pura) ---
@@ -145,33 +174,66 @@ def calcular_nivel(xp: int):
 # FUNÇÕES DE SERVIÇO (Orquestração da Lógica)
 # ===============================================
 
+# ===============================================
+# FUNÇÕES DE SERVIÇO (Orquestração da Lógica)
+# ===============================================
+
 def get_user_data(user_id):
     """Busca dados do utilizador e suas medalhas."""
-    # Chama a função de serviço de banco de dados
     return get_user_data_from_db(user_id)
 
 def adicionar_xp_jc(user_id, xp_ganho=0, jc_ganho=0):
     """Adiciona XP e/ou JC Points a um utilizador."""
-    # Chama a função de serviço de banco de dados
     return update_xp_jc_in_db(user_id, xp_ganho, jc_ganho)
 
-def award_medal(user_id, medalha_nome, jc_points_ganhos):
-    """Lógica de negócio para conceder uma medalha."""
-    try:
-        # 1. Tenta inserir a medalha no DB
-        if insert_medal_in_db(user_id, medalha_nome):
-            # 2. Se foi inserida com sucesso (não a possuía), adiciona os pontos
-            print(f"🏅 Medalha '{medalha_nome}' concedida! +{jc_points_ganhos} JC Points.")
-            if jc_points_ganhos > 0:
-                adicionar_xp_jc(user_id, jc_ganho=jc_points_ganhos)
-            return True
-        else:
-            # Se já possuía a medalha
-            return False
-    except Exception as e:
-        print(f"Erro na lógica de award_medal para {user_id}: {e}")
-        return False
+# --- FUNÇÃO ANTIGA REMOVIDA ---
+# A função 'award_medal' foi removida
+# pois a nova 'check_and_award_medals' é mais completa
+# e lida com a lógica de adicionar pontos.
 
+# --- NOVA FUNÇÃO (DO SEU AMIGO) ADICIONADA ---
+def check_and_award_medals(user_id, user_data): # <--- MUDANÇA AQUI (recebe user_data)
+    """
+    Verifica todas as medalhas possíveis e marca no banco as que forem completadas.
+    Retorna lista das medalhas recém-conquistadas.
+    (Código da T1UH13 - Refatorado para desacoplamento)
+    """
+    # 1. (REMOVIDO) Não busca mais user_data, usa o que foi passado.
+    if not user_data:
+        print(f"Erro: check_and_award_medals recebeu user_data vazio para {user_id}.")
+        return []
+
+    medalhas_ja_conquistadas = set(user_data.get('medalhas_conquistadas', []))
+    medalhas_novas = [] 
+
+    # 2. Verifica cada medalha definida no dicionário MEDALHAS
+    for nome_medalha, regra in MEDALHAS.items():
+
+        if nome_medalha in medalhas_ja_conquistadas:
+            continue
+        
+        # 3. VERIFICAÇÃO (AGORA CORRETA)
+        # Esta verificação agora usa o user_data que veio da API,
+        # que CONTERÁ a chave 'acessou_madrugada' se ela existir.
+        try:
+            if regra["check"](user_data):
+                print(f"✅ Medalha '{nome_medalha}' atingida pelo usuário {user_id} — registrando no DB...")
+
+                ganhou = insert_medal_in_db(user_id, nome_medalha)
+
+                if ganhou:
+                    if regra["jc_points"] > 0:
+                        update_xp_jc_in_db(user_id, jc_ganho=regra["jc_points"])
+
+                    medalhas_novas.append({
+                        "medalha": nome_medalha,
+                        "jc_points": regra["jc_points"]
+                    })
+
+        except Exception as e:
+            print(f"❌ Erro ao checar medalha '{nome_medalha}' para user {user_id}: {e}")
+
+    return medalhas_novas
 def get_completed_daily_missions(user_id, conn):
     """Busca as missões diárias já completadas pelo usuário HOJE."""
     # Chama a função de serviço de banco de dados

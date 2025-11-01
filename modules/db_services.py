@@ -3,7 +3,7 @@
 # Responsável EXCLUSIVAMENTE por executar SQL e interagir com o banco.
 
 import mysql.connector
-from datetime import date
+from datetime import date, datetime
 from config import Config
 
 # --- Conexão ---
@@ -19,21 +19,73 @@ def get_db_connection():
 # --- Funções de Leitura (SELECT) ---
 
 def get_user_data_from_db(user_id):
-    """Busca dados brutos do utilizador e suas medalhas do DB."""
+    """
+    Busca dados brutos do utilizador.
+    Usa LEFT JOIN e agora INCLUI 'compartilhamentos_hoje'.
+    """
     conn = get_db_connection()
     if not conn: return None
     cursor = conn.cursor(dictionary=True)
     user_data = None
+    
     try:
-        # 1. Busca dados da tabela gamificacao e usuarios
+        # ... (A lógica de RESET DIÁRIO que já existe aqui está correta) ...
+        today = date.today()
         cursor.execute(
-            "SELECT g.*, u.nome FROM gamificacao g JOIN usuarios u ON g.usuario_id = u.id WHERE g.usuario_id = %s",
+            "SELECT ultima_atualizacao_diaria FROM gamificacao WHERE usuario_id = %s",
+            (user_id,)
+        )
+        result = cursor.fetchone()
+        if result:
+            last_update = result['ultima_atualizacao_diaria']
+            if not last_update or last_update < today:
+                print(f"NOVO DIA: Zerando contadores diários para o usuário {user_id} (via get_user_data).")
+                cursor.execute(
+                    """
+                    UPDATE gamificacao
+                    SET
+                        tempo_online_hoje_minutos = 0,
+                        compartilhamentos_hoje = 0,
+                        noticias_lidas_hoje = 0,
+                        ultima_atualizacao_diaria = %s
+                    WHERE usuario_id = %s
+                    """,
+                    (today, user_id)
+                )
+                conn.commit()
+                print(f"Contadores para {user_id} zerados com sucesso para o dia {today}.")
+        # --- FIM DO RESET ---
+
+        # --- CORREÇÃO DO SQL: ADICIONADO 'g.compartilhamentos_hoje' ---
+        cursor.execute(
+            """
+            SELECT u.id AS usuario_id, u.nome, g.xps, g.jc_points, 
+                   g.dias_consecutivos_acesso, g.noticias_completas_total, 
+                   g.ultimo_acesso, g.tempo_online_hoje_minutos, 
+                   g.compartilhamentos_hoje,  -- <--- ADICIONADO AQUI
+                   g.noticias_lidas_hoje
+            FROM usuarios u
+            LEFT JOIN gamificacao g ON u.id = g.usuario_id
+            WHERE u.id = %s
+            """,
              (user_id,)
         )
         user_data = cursor.fetchone()
         
-        # 2. Se o usuário existe, busca suas medalhas
         if user_data:
+            # Define valores padrão (0) para evitar erros
+            user_data['xps'] = user_data['xps'] or 0
+            user_data['jc_points'] = user_data['jc_points'] or 0
+            user_data['dias_consecutivos_acesso'] = user_data['dias_consecutivos_acesso'] or 0
+            user_data['noticias_completas_total'] = user_data['noticias_completas_total'] or 0
+            user_data['tempo_online_hoje_minutos'] = user_data['tempo_online_hoje_minutos'] or 0
+            
+            # --- CORREÇÃO: ADICIONADO O VALOR PADRÃO ---
+            user_data['compartilhamentos_hoje'] = user_data['compartilhamentos_hoje'] or 0
+            
+            user_data['noticias_lidas_hoje'] = user_data['noticias_lidas_hoje'] or 0
+
+            # Busca medalhas
             cursor.execute("SELECT medalha_nome FROM medalhas_usuario WHERE usuario_id = %s", (user_id,))
             medalhas = [row['medalha_nome'] for row in cursor.fetchall()]
             user_data['medalhas_conquistadas'] = medalhas
@@ -139,3 +191,52 @@ def insert_daily_mission_in_db(user_id, missao_nome, conn):
         return False
     finally:
         if cursor: cursor.close()
+
+# --- NOVA FUNÇÃO PARA ZERAR CONTADORES DIÁRIOS ---
+def reset_daily_metrics_if_needed(user_id, conn):
+    """
+    Verifica se a última atualização foi em um dia anterior ao de hoje.
+    Se sim, zera todos os contadores diários ('_hoje').
+    """
+    if not conn:
+        print("AVISO: reset_daily_metrics_if_needed requer uma conexão com o DB.")
+        return
+
+    cursor = conn.cursor(dictionary=True)
+    today = date.today()
+
+    try:
+        # 1. Pega a data da última atualização para este usuário
+        cursor.execute(
+            "SELECT ultima_atualizacao_diaria FROM gamificacao WHERE usuario_id = %s",
+            (user_id,)
+        )
+        result = cursor.fetchone()
+        last_update = result['ultima_atualizacao_diaria'] if result else None
+
+        # 2. Se nunca houve uma atualização ou se a data é de um dia anterior
+        if not last_update or last_update < today:
+            print(f"NOVO DIA: Zerando contadores diários para o usuário {user_id}.")
+            
+            # 3. Executa o UPDATE para zerar os contadores
+            cursor.execute(
+                """
+                UPDATE gamificacao
+                SET
+                    tempo_online_hoje_minutos = 0,
+                    compartilhamentos_hoje = 0,
+                    noticias_lidas_hoje = 0,
+                    ultima_atualizacao_diaria = %s
+                WHERE usuario_id = %s
+                """,
+                (today, user_id)
+            )
+            conn.commit()
+            print(f"Contadores para {user_id} zerados com sucesso para o dia {today}.")
+
+    except Exception as e:
+        print(f"Erro ao tentar zerar as métricas diárias para {user_id}: {e}")
+        # Não fazemos rollback aqui para não atrapalhar a operação principal que chamou esta função
+    finally:
+        if cursor:
+            cursor.close()

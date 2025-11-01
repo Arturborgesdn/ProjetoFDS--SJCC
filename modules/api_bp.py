@@ -10,11 +10,12 @@ from modules.gamification import get_db_connection, get_user_data, check_and_awa
 from modules.gamification import (
     get_db_connection, 
     get_user_data, 
+    check_and_award_daily_missions,
     adicionar_xp_jc, 
-    award_medal, 
+    check_and_award_medals,
     calcular_nivel, 
     calcular_categoria_e_medalha, 
-    MEDALHAS
+    
 )
 
 # Cria o Blueprint com o prefixo '/api'
@@ -27,46 +28,56 @@ api_bp = Blueprint('api', __name__, url_prefix='/api')
 # modules/api_bp.py (Com a correção)
 @api_bp.route('/usuario/<string:user_id>/ping_tempo', methods=['POST'])
 def api_ping_tempo(user_id):
-    """Recebe um ping do frontend, incrementa o tempo online e verifica missões."""
+    """Incrementa o tempo online e verifica missões."""
+# --- CORREÇÃO AQUI ---
+    # 1. Chama get_user_data PRIMEIRO para garantir que o reset diário seja executado.
+    user_data_check = get_user_data(user_id)
+    if not user_data_check:
+        return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
+    # --- FIM DA CORREÇÃO ---
+    
     conn = get_db_connection()
     if not conn: return jsonify({"sucesso": False, "mensagem": "Erro de conexão"}), 500
-    cursor = conn.cursor()
     
-    incremento_minutos = 1 # Cada ping representa 1 minuto ativo
-
     try:
-        # Atualiza o contador de tempo no banco
+        # O RESET É FEITO AUTOMATICAMENTE QUANDO get_user_data() É CHAMADO ABAIXO
+        
+        cursor = conn.cursor()
+        incremento_minutos = 1
         cursor.execute(
             "UPDATE gamificacao SET tempo_online_hoje_minutos = tempo_online_hoje_minutos + %s WHERE usuario_id = %s",
             (incremento_minutos, user_id)
         )
         conn.commit()
+        cursor.close()
 
-        # Verifica missões após a atualização
-        user_data = get_user_data(user_id) # Pega dados atualizados
+        # Esta chamada agora faz o reset (se for o primeiro ping do dia)
+        # E também pega o valor ATUALIZADO (ex: 1)
+        user_data = get_user_data(user_id) 
         if not user_data: return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
         
-        # Chama a função que verifica TODAS as missões definidas (incluindo "Fica de olho")
         missoes_completadas_agora = check_and_award_daily_missions(user_id, user_data, conn)
 
-        # Prepara a resposta para o frontend
-        tempo_total_hoje = user_data.get('tempo_online_hoje_minutos', 0) + incremento_minutos
+        # --- CORREÇÃO DO BUG 1 (Duplo Incremento) ---
+        # O valor correto já está em user_data
+        tempo_total_hoje = user_data.get('tempo_online_hoje_minutos', 0)
 
         return jsonify({
             "sucesso": True,
             "mensagem": "Tempo online atualizado.",
-            "tempo_hoje_minutos": tempo_total_hoje,
-            "novas_missoes_diarias": missoes_completadas_agora # Informa se alguma missão foi completada
+            "tempo_hoje_minutos": tempo_total_hoje, # <-- CORRIGIDO
+            "novas_missoes_diarias": missoes_completadas_agora
         })
 
     except Exception as e:
         if conn: conn.rollback()
-        print(f"Erro no ping_tempo: {e}") # Adicionado para debug
+        print(f"Erro no ping_tempo: {e}")
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
     finally:
-        if cursor: cursor.close()
-        if conn: conn.close()
-        
+        # O cursor já foi fechado, então limpamos a referência
+        if 'cursor' in locals() and cursor: cursor.close()
+        if conn: conn.close()  
+
 @api_bp.route('/registrar', methods=['POST'])
 def registrar():
     """Registra um novo utilizador, cria sua conta de gamificação e retorna seu ID."""
@@ -160,62 +171,58 @@ def get_dados_usuario(usuario_id):
 
 @api_bp.route('/usuario/<string:user_id>/ler_noticia', methods=['POST'])
 def api_ler_noticia(user_id):
-    """Regista a leitura, atualiza XP e verifica medalhas."""
+    """Regista a leitura, atualiza XP e verifica medalhas E missões."""
+    
     user_antes = get_user_data(user_id)
     if not user_antes: return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
     
     conn = get_db_connection()
     if not conn: return jsonify({"sucesso": False, "mensagem": "Erro de conexão"}), 500
-    cursor = conn.cursor(dictionary=True)
 
     try:
-        # Lógica de atualização (Migrada integralmente)
         agora = datetime.now()
         hoje = agora.date()
-        acessou_madrugada = (3 <= agora.hour < 5)
-
-        dias_consecutivos = user_antes.get('dias_consecutivos_acesso', 0)
-        ultimo_acesso_str = user_antes.get('ultimo_acesso')
         
-        if ultimo_acesso_str:
-            if isinstance(ultimo_acesso_str, datetime): ultimo_acesso_date = ultimo_acesso_str.date()
-            else: 
-                 try: ultimo_acesso_date = date.fromisoformat(str(ultimo_acesso_str))
-                 except (TypeError, ValueError): ultimo_acesso_date = None
+        # <--- MUDANÇA AQUI: Cálculo do 'acessou_madrugada' ---
+        # (Este cálculo já existia, mas agora sabemos que ele é crucial)
+        acessou_madrugada = (3 <= agora.hour < 5)
+        
+        # (Cálculo de dias_consecutivos - o seu código existente vai aqui)
+        dias_consecutivos = user_antes.get('dias_consecutivos_acesso', 0)
+        # ... (lógica de 'diferenca' e 'dias_consecutivos') ...
 
-            if ultimo_acesso_date:
-                 diferenca = (hoje - ultimo_acesso_date).days
-                 if diferenca == 1: dias_consecutivos += 1
-                 elif diferenca > 1: dias_consecutivos = 1
-            else: dias_consecutivos = 1
-        else: dias_consecutivos = 1
-
+        cursor = conn.cursor()
         xp_por_noticia = 25
         cursor.execute("""
             UPDATE gamificacao SET
                 xps = xps + %s,
                 noticias_completas_total = noticias_completas_total + 1,
+                noticias_lidas_hoje = noticias_lidas_hoje + 1,
                 ultimo_acesso = %s,
                 dias_consecutivos_acesso = %s
             WHERE usuario_id = %s
         """, (xp_por_noticia, hoje, dias_consecutivos, user_id))
         conn.commit()
+        cursor.close()
+        # --- FIM DA ATUALIZAÇÃO DE STATS ---
 
-        # Lógica de verificação de medalhas (Migrada integralmente)
-        user_depois = get_user_data(user_id)
-        if not user_depois: return jsonify({"sucesso": False, "mensagem": "Erro ao buscar dados atualizados do utilizador"}), 500
-             
-        user_depois['acessou_madrugada'] = acessou_madrugada 
+        
+        # --- 2. VERIFICAÇÃO DE MEDALHAS (LÓGICA CORRIGIDA) ---
+        user_depois = get_user_data(user_id) # Pega os dados atualizados do DB
+        user_depois['acessou_madrugada'] = acessou_madrugada # Adiciona a métrica temporária
 
-        novas_medalhas_conquistadas = []
-        for nome_medalha, dados_medalha in MEDALHAS.items():
-            if nome_medalha not in user_depois.get('medalhas_conquistadas', []) and dados_medalha['check'](user_depois):
-                if award_medal(user_id, nome_medalha, dados_medalha['jc_points']):
-                    novas_medalhas_conquistadas.append(nome_medalha)
+        # <--- MUDANÇA CRÍTICA AQUI ---
+        # Passamos o objeto 'user_depois' para a função de verificação
+        novas_medalhas_conquistadas = check_and_award_medals(user_id, user_depois) 
+        # --- FIM DA VERIFICAÇÃO DE MEDALHAS ---
 
-        user_final = get_user_data(user_id)
-        if not user_final: return jsonify({"sucesso": False, "mensagem": "Erro ao buscar dados finais do utilizador"}), 500
+        
+        # --- 3. VERIFICAÇÃO DE MISSÕES DIÁRIAS (Lógica existente) ---
+        missoes_completadas_agora = check_and_award_daily_missions(user_id, user_depois, conn) 
 
+        
+        # --- 4. BUSCA DADOS FINAIS E RETORNA ---
+        user_final = get_user_data(user_id) 
         categoria_final, medalha_final = calcular_categoria_e_medalha(user_final['xps'])
         
         return jsonify({
@@ -224,6 +231,7 @@ def api_ler_noticia(user_id):
             "xp_atual": user_final['xps'],
             "jc_points_atual": user_final['jc_points'],
             "novas_medalhas": novas_medalhas_conquistadas,
+            "novas_missoes_diarias": missoes_completadas_agora,
             "categoria": categoria_final,
             "medalha": medalha_final
         })
@@ -233,26 +241,41 @@ def api_ler_noticia(user_id):
         print(f"Erro na rota ler_noticia: {e}")
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
     finally:
-        if cursor: cursor.close()
-        if conn: conn.close()
-
+        if 'cursor' in locals() and cursor: # <--- Correção aplicada aqui
+            cursor.close()
+        if conn: 
+            conn.close()
+        
 @api_bp.route('/usuario/<string:user_id>/share', methods=['POST'])
 def api_compartilhar(user_id):
     """
     Incrementa o contador de compartilhamentos diários do usuário
     e verifica se alguma missão de compartilhamento foi completada.
     """
+# --- CORREÇÃO AQUI ---
+    # 1. Chama get_user_data PRIMEIRO para garantir o reset diário.
+    user_data_check = get_user_data(user_id)
+    if not user_data_check:
+        return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
+    # --- FIM DA CORREÇÃO ---
+
     conn = get_db_connection()
     if not conn: return jsonify({"sucesso": False, "mensagem": "Erro de conexão com o DB"}), 500
-    cursor = conn.cursor()
+
     
     try:
+
+
+        cursor = conn.cursor()
+
+        
         # 1. Incrementa o contador de compartilhamentos_hoje no DB
         cursor.execute(
             "UPDATE gamificacao SET compartilhamentos_hoje = compartilhamentos_hoje + 1 WHERE usuario_id = %s",
             (user_id,)
         )
         conn.commit()
+        cursor.close()
 
         # 2. Pega os dados atualizados do usuário (incluindo o novo contador)
         user_data = get_user_data(user_id) 

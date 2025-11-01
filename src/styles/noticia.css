@@ -418,3 +418,90 @@ body {
   display: flex;
   flex-direction: row;
 }
+/* --- T1UH14: CSS PARA VERIFICAÇÃO DE LEITURA (ROBERTO E DUDUOS) --- */
+
+/* Esconde o card de parabéns que já existe no HTML */
+.card-parabens {
+  display: none; /* Começa escondido */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease-out;
+}
+/* Animação para mostrar o card (via JS) */
+.card-parabens.mostrar {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ====== Aviso de missão iniciada (Código do seu parceiro) ====== */
+.card-missao {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #e9f3ff, #ffffff);
+  color: #003366;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: "Manrope", sans-serif; /* Usando a fonte do projeto */
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.5s ease;
+  z-index: 9999;
+}
+.card-missao.mostrar {
+  transform: translateY(0);
+  opacity: 1;
+}
+.card-missao.ocultar {
+  transform: translateY(100px);
+  opacity: 0;
+}
+.icone-missao {
+    font-size: 22px; /* Ajustado */
+    color: #0077cc;
+}
+.conteudo-missao strong {
+  display: block;
+  font-size: 16px; /* Ajustado */
+  color: #003366;
+}
+.conteudo-missao p {
+  margin: 0;
+  font-size: 14px; /* Ajustado */
+  color: #004080;
+}
+.conteudo-missao span {
+  color: #0055aa;
+  font-weight: bold;
+}
+
+/* ====== Barra de progresso de leitura (Código do seu parceiro) ====== */
+.barra-leitura {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 5px;
+  width: 0%;
+  background: #28a745;
+  z-index: 9999;
+  transition: width 0.2s ease-out, opacity 0.8s ease, background-color 0.3s ease;
+  opacity: 1;
+  border-radius: 0 2px 2px 0; /* Arredondado só na ponta */
+}
+
+/* Efeito de pulso/brilho ao completar */
+.barra-leitura.completo {
+  animation: pulseBrilho 1s ease-out 0s 3; /* 3 pulsos */
+}
+
+@keyframes pulseBrilho {
+  0% { box-shadow: 0 0 5px #28a745; }
+  50% { box-shadow: 0 0 15px #28a745; }
+  100% { box-shadow: 0 0 5px #28a745; }
+}
