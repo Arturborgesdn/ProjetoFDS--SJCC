@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SJCC - Notícias Destaque</title>
+  <link rel="stylesheet" href="styles/noticia.css" />
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header style="box-shadow: 0 2px 6px color;" class="header-main">
+        <div class="container" style="background-color:#262626; justify-content: center; height: 44px; max-width: 100%;"> 
+        <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL" />
+        </div>
+        <div style="max-width: 100%;" class="container">
+        <div class="header-left">
+            <button class="menu-btn"><i class="fas fa-bars"></i></button>
+            <button class="lupa-btn"><i class="fas fa-search"></i></button> 
+        </div>
+        <div class="logo-container">
+            <a href="home.html">
+                <img style="width: 100px;height: 70px;" src="assets/logo (2).svg" alt="Logo JC" class="logo-jc" />
+            </a>
+        </div>
+            <div class="header-right">
+                    <div>
+                        <a href="programa_Fidelidade.html">
+                            <i style="margin-top: 20px;font-size: 20px;color: #333;margin-left: 20px;" class="fas fa-trophy"></i>
+                            <span><img style="width: 20px; height: 20px;margin-top: 20px;margin-right: 50px;background-color: transparent;" class="level-circle-new" src="assets/New_decoracao-removebg-preview.png" alt="Novo"></span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="login.html"><img style="height: 35px ; width: 35px; margin-top: 10px;" src="assets/unnamed.png" alt="Foto perfil" class="profile-img">
+                        <span><img class="level-circle" src="assets/Leitor_Massa_Prata-removebg-preview.png" alt="emblema"></span></a>
+                    </div>            
+            </div>
+ </header>
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+    <h1 class="page-title" style="text-align: left;">Lula e Trump assinam grande acordo de cooperação comercial e energética</h1>
+    <p class="subtitle" style="text-align: left; margin-top: 10px;">
+      Líderes de Brasil e EUA surpreendem mercado com pacto focado em biocombustíveis e infraestrutura, após reunião de alto nível em Nova York.
+    </p>
+
+    <!-- Informações da matéria -->
+    <div class="card" style="margin-top: 20px; padding: 10px 20px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; color: #777;">
+      <div>
+        <span><strong>Política</strong></span> • 
+        <span>28/10/2025 10:00</span>
+      </div>
+      <div style="display: flex; gap: 10px; font-size: 16px;">
+        <button id="share-button" class="menu-btn"><i class="fas fa-share-alt"></i></button>
+      </div>
+    </div>
+
+    <!-- Imagem da notícia -->
+    <div style="margin: 20px 0;">
+      <img src="assets/lula.webp" alt="REC'n'Play 2025" style="width: 100%; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
+    </div>
+
+    <!-- Bloco do autor -->
+    <div class="card" style="background: #edf2ff; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/João_Fernandes_Jornalista.png" alt="Autor" style="width: 40px; height: 40px; border-radius: 50%;" />
+        <div>
+          <div class="container-noticia">
+            <strong style="display: flex; margin-left: 30px;">Autor: João Fernandes</strong>
+            <img style="margin-right: 10px; width: 30px;" class="emblema" src="assets/Leitor_Topado_Ouro.png" alt="">
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Corpo da notícia -->
+    <div style="margin: 25px 0; font-size: 15px; color: #333; line-height: 1.6;">
+      <p>Em um movimento que pegou analistas e o mercado de surpresa, o presidente do Brasil, Lula, e o ex-presidente dos Estados Unidos, Donald Trump, assinaram nesta terça-feira (28) um "grande acordo" bilateral de cooperação em áreas estratégicas.</p>
+
+      <p>O pacto, negociado em sigilo durante as últimas semanas, visa fortalecer a parceria entre as duas maiores economias das Américas, focando principalmente em <strong>biocombustíveis</strong>, com a abertura de novos mercados para o etanol brasileiro, e em <strong>investimentos em infraestrutura</strong> no Nordeste brasileiro, com apoio tecnológico e financeiro americano.</p>
+
+      <p>Em coletiva conjunta, realizada em Nova York, ambos os líderes destacaram a importância de superar divergências políticas em prol do desenvolvimento econômico mútuo. "Este é um acordo que gera empregos em ambos os lados do Atlântico e garante um futuro energético mais limpo para o planeta", afirmou o presidente Lula.</p>
+
+      <p>O acordo inclui uma cláusula de facilitação de investimentos que deve reduzir a burocracia para empresas americanas que desejam atuar em setores de logística e energias renováveis no Brasil. Especialistas apontam que a aproximação é um sinal de maturidade diplomática, priorizando ganhos econômicos substanciais.</p>
+       <!-- Card de Parabéns -->
+      <div class="card-parabens">
+        <div class="icone-check">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="conteudo-parabens">
+          <strong>Parabéns!</strong>
+          <p>Você Concluiu a leitura da notícia <span>+20 XP</span></p>
+        </div>
+      </div>
+
+      <p>Apesar do foco em áreas de consenso, as negociações também abordaram o futuro do comércio de insumos agrícolas e a cooperação em segurança cibernética, temas que devem ser detalhados em protocolos adicionais nos próximos meses.</p>
+
+      <p>A Casa Branca e o Itamaraty emitiram notas conjuntas celebrando o acordo como um marco nas relações bilaterais.</p>
+    </div>
+
+    <!-- Leia também -->
+    <div class="card">
+      <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Leia também</h3>
+      <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+        <li style="display: flex; gap: 10px;">
+          <img src="assets/imagem1.webp" alt="Thumb" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+          <div>
+            <a href=""><strong style="font-size: 14px;">Recife Antigo será palco de oficinas de IA</strong></a>
+            <p style="font-size: 12px; color: #777;">Evento acontecerá durante o festival REC'n'Play 2025</p>
+          </div>
+        </li>
+        <li style="display: flex; gap: 10px;">
+          <img src="assets/imagem2.webp" alt="Thumb" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+          <div>
+            <a href=""><strong style="font-size: 14px;">Lula e Trump devem se encontrar em breve</strong></a>
+            <p style="font-size: 12px; color: #777;">Diz Mauro Vieira após "reunião produtiva"</p>
+          </div>
+        </li>
+        <li style="display: flex; gap: 10px;">
+          <img src="assets/imagem3.webp" alt="Thumb" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+          <div>
+            <a href=""><strong style="font-size: 14px;">Sport tem confronto duro contra o Flamengo</strong></a>
+            <p style="font-size: 12px; color: #777;">Rubronegro enfrenta o clube carioca dia 15 </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Publicidade -->
+    <section class="publicidade">
+      <p>PUBLICIDADE</p>
+      <a href="#" target="_blank">
+        <img src="assets/publicidade.jpeg" alt="Publicidade Caravana" class="publicidade-img" />
+      </a>
+    </section>
+
+  </main>
+
+
+
+
+</main>
+
+<script src="scripts/utils.js"></script> 
+<script src="scripts/noticia.js"></script>
+<script src="scripts/main.js"></script>
+
+
+</body>
+</html>
