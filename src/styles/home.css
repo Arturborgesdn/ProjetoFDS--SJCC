@@ -42,7 +42,7 @@
 }
 
 .carrossel-tag {
-  position: absolute;
+  position: relative;
   top: 8px;
   left: 8px;
   background: rgba(255, 255, 255, 0.2);
