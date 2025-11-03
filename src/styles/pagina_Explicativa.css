@@ -1,0 +1,359 @@
+/* ======================================= */
+/* == ESTILOS GERAIS & CORE DO PROGRAMA == */
+/* ======================================= */
+:root {
+    /* Cores base do design */
+    --cor-botao-principal: linear-gradient(to right, #ffb300, #ff8f00); /* Laranja/Amarelo Degradê */
+    --cor-fundo-card: #ffffff;
+    --cor-texto-principal: #ffffff;
+    --cor-texto-secundario: #444444;
+    --cor-destaque-rosa: #e91e63;
+}
+
+.jc-fidelidade-corpo {
+    background-color: var(--cor-principal-fundo);
+    color: var(--cor-texto-principal);
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* ======================================= */
+/* == SEÇÃO DE INTRODUÇÃO (TOPO)        == */
+/* ======================================= */
+.jc-intro-cabecalho {
+    padding: 30px 10px 50px;
+}
+
+.jc-tag-fidelidade {
+    display: inline-block;
+    background-color: #ffd600;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.jc-titulo-principal {
+    font-size: 2.2em;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.jc-subtitulo-descricao {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+/* Estilos dos Banners de Benefícios */
+.jc-beneficios-lista {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+}
+
+.jc-beneficios-lista li {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    padding: 10px 20px;
+    margin: 10px 0;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Botões de Ação Principal */
+.jc-botoes-acao {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.jc-botao-criar-conta, .jc-botao-login {
+    border: none;
+    padding: 15px;
+    border-radius: 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.jc-botao-criar-conta {
+    background: var(--cor-botao-principal);
+    color: var(--cor-principal-fundo);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.jc-botao-login {
+    background-color: var(--cor-fundo-card);
+    color: var(--cor-principal-fundo);
+}
+
+/* ======================================= */
+/* == CARD DE INFORMAÇÕES GERAIS        == */
+/* ======================================= */
+.jc-secao-geral {
+    background-color: var(--cor-fundo-card);
+    color: var(--cor-texto-secundario);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.jc-titulo-secao-interno {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--cor-principal-fundo);
+}
+
+.jc-texto-descritivo {
+    font-size: 0.95em;
+    margin-bottom: 20px;
+}
+
+/* Estilo para os Itens do Programa (Missões, Conquistas, etc.) */
+.jc-programa-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.jc-programa-item:last-child {
+    border-bottom: none;
+}
+
+.jc-item-titulo {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.jc-item-titulo::before {
+    content: '🎯'; /* Ícone placeholder */
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+
+/* Cores e Ícones Específicos */
+.jc-item-missoes .jc-item-titulo::before { content: '🎯'; color: #673ab7; }
+.jc-item-conquistas .jc-item-titulo::before { content: '🏆'; color: #ffeb3b; }
+.jc-item-ranking .jc-item-titulo::before { content: '👥'; color: #4caf50; }
+.jc-item-recompensas .jc-item-titulo::before { content: '🎁'; color: #e91e63; }
+.jc-item-pontos .jc-item-titulo::before { content: '⚡'; color: #ff9800; }
+.jc-item-streaks .jc-item-titulo::before { content: '🔥'; color: #ff5722; }
+
+.jc-item-progresso-barra {
+    height: 4px;
+    margin-top: 5px;
+    background-color: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.jc-item-progresso-barra span {
+    display: block;
+    height: 100%;
+    background-color: #673ab7; /* Cor base para a barra */
+    width: 75%; /* Exemplo de preenchimento */
+}
+
+/* ======================================= */
+/* == SEÇÃO FORMAS DE GANHAR (PONTOS)   == */
+/* ======================================= */
+.jc-ganhar-pontos-btn {
+    background: var(--cor-botao-principal);
+    color: var(--cor-texto-secundario);
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 20px auto;
+    display: block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.jc-formas-ganhar-lista {
+    padding: 0;
+    list-style: none;
+}
+
+.jc-forma-item-card {
+    display: flex;
+    align-items: center;
+    background-color: var(--cor-fundo-card);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.jc-icone-ganho {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    margin-right: 15px;
+}
+
+.jc-icone-ganho-leitura { background-color: #ff9800; }
+.jc-icone-ganho-streak { background-color: #ff5722; }
+.jc-icone-ganho-missao { background-color: #2196f3; }
+.jc-icone-ganho-share { background-color: #4caf50; }
+.jc-icone-ganho-primeira { background-color: #9c27b0; }
+.jc-icone-ganho-conquista { background-color: #e91e63; }
+
+.jc-texto-ganho {
+    flex-grow: 1;
+    text-align: left;
+    font-size: 1em;
+    color: var(--cor-texto-secundario);
+}
+
+.jc-pontos-valor {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    color: var(--cor-fundo-card);
+}
+
+/* Cores específicas dos pontos */
+.jc-pontos-valor-verde { background-color: #4caf50; }
+.jc-pontos-valor-azul { background-color: #2196f3; }
+.jc-pontos-valor-roxo { background-color: #9c27b0; }
+.jc-pontos-valor-laranja { background-color: #ff9800; }
+.jc-pontos-valor-vermelho { background-color: #ff5722; }
+.jc-pontos-valor-rosa { background-color: #e91e63; }
+
+/* ======================================= */
+/* == SEÇÃO DE RECOMPENSAS (LOJA)       == */
+/* ======================================= */
+.jc-recompensas-cabecalho {
+    background: linear-gradient(to right, #ff4081, #f50057);
+    color: var(--cor-texto-principal);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.jc-loja-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.jc-recompensa-card {
+    background-color: var(--cor-fundo-card);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: var(--cor-texto-secundario);
+    padding-bottom: 15px;
+}
+
+.jc-recompensa-visual {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    color: var(--cor-texto-principal);
+}
+
+.jc-recompensa-visual-antecipada {
+    background: linear-gradient(135deg, #ffc107, #ff9800);
+}
+
+.jc-recompensa-visual-voucher {
+    background: linear-gradient(135deg, #7c4dff, #536dfe);
+}
+
+.jc-recompensa-nome {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin: 15px 10px 10px;
+}
+
+.jc-recompensa-custo {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.jc-recompensa-custo img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    content: '🪙'; /* Placeholder para moeda */
+}
+
+/* ======================================= */
+/* == ESTILOS DO NOVO HEADER            == */
+/* ======================================= */
+.header-main {
+    /* Garante que ocupe 100% da largura do viewport, removendo margens padrão */
+    width: 100%;
+    /* Garante que ele fique fixo no topo ao rolar */
+    position: sticky;
+    top: 0;
+    /* Coloca o header acima do restante do conteúdo */
+    z-index: 1000;
+    background-color: white; /* Fundo do header principal */
+    /* Remove a sombra inline e usa a que você colocou no HTML (ou a padronizada) */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
+    /* Garante que não haja espaço extra devido a padding ou border */
+    box-sizing: border-box; 
+    /* Removendo qualquer margem externa que possa ter sobrado do body */
+    margin: 0; 
+}
+
+/* O .jc-fidelidade-corpo tem padding: 20px, vamos ajustar o HTML para não ter padding lateral, 
+   para que o header ocupe 100% */
+.jc-fidelidade-corpo {
+    padding: 0 0 20px 0; /* Remove padding lateral, mantém apenas no fundo */
+}
+
+
+/* Container principal (para alinhamento interno) */
+/* Resetando a largura máxima que estava no HTML */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    width: 100%; /* Garante que ocupe toda a largura disponível */
+}
+
+/* Primeira linha do header (Fundo preto - UOL) */
+.container:first-child {
+    background-color: #262626;
+    height: 44px;
+    justify-content: center;
+    padding: 0 10px; /* Adiciona um pequeno padding horizontal */
+}
+
+
+
