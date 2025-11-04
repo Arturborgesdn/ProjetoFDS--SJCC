@@ -2,12 +2,33 @@
 /* == ESTILOS GERAIS & CORE DO PROGRAMA == */
 /* ======================================= */
 :root {
-    /* Cores base do design */
-    --cor-botao-principal: linear-gradient(to right, #ffb300, #ff8f00); /* Laranja/Amarelo Degradê */
-    --cor-fundo-card: #ffffff;
-    --cor-texto-principal: #ffffff;
-    --cor-texto-secundario: #444444;
-    --cor-destaque-rosa: #e91e63;
+    --color-primary: #3b82f6; /* Azul do botão de cadastro */
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-border: #ddd;
+    --color-success-light: #e6f7e9;
+    --color-green-dark: #00b783;
+    --color-purple-light: #f3e8ff;
+    --color-purple-dark: #6c3e96;
+    --color-blue-light: #e0f2ff; 
+    --color-blue-dark: #2473b5;
+    --color-pink-rose: #e50069;
+
+
+    --ranking-orange: #ff8200; /* Laranja principal do gradiente */
+    --ranking-yellow-gold: #ffc107; /* Cor de ouro/amarelo */
+    --ranking-light-grey: #f5f5f5; /* Fundo geral do card */
+    --ranking-red-streak: #e53935; /* Vermelho do fire/streak */
+    --ranking-green-up: #4caf50;
+    --ranking-red-down: #e53935;
+    --ranking-card-background: #ffffff;
+}
+
+
+
+body{
+
+    display: inline;
 }
 
 .jc-fidelidade-corpo {
@@ -22,7 +43,10 @@
 /* == SEÇÃO DE INTRODUÇÃO (TOPO)        == */
 /* ======================================= */
 .jc-intro-cabecalho {
-    padding: 30px 10px 50px;
+    padding: 20px;
+    border: solid 2px #6c3e96;
+    background-color: #6c3e96 ;
+    border-radius: 16px;
 }
 
 .jc-tag-fidelidade {
@@ -75,7 +99,7 @@
 .jc-botao-criar-conta, .jc-botao-login {
     border: none;
     padding: 15px;
-    border-radius: 30px;
+    border-radius: 100px;
     font-size: 1.1em;
     font-weight: bold;
     cursor: pointer;
@@ -84,14 +108,17 @@
 }
 
 .jc-botao-criar-conta {
-    background: var(--cor-botao-principal);
-    color: var(--cor-principal-fundo);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    background-color: white;
 }
 
 .jc-botao-login {
     background-color: var(--cor-fundo-card);
     color: var(--cor-principal-fundo);
+}
+
+.jc-botao-criar-conta :hover{
+    background-color: #2196f3;
 }
 
 /* ======================================= */
@@ -162,7 +189,7 @@
 .jc-item-progresso-barra span {
     display: block;
     height: 100%;
-    background-color: #673ab7; /* Cor base para a barra */
+    background-color: #d4040c; /* Cor base para a barra */
     width: 75%; /* Exemplo de preenchimento */
 }
 
@@ -209,12 +236,12 @@
     margin-right: 15px;
 }
 
-.jc-icone-ganho-leitura { background-color: #ff9800; }
-.jc-icone-ganho-streak { background-color: #ff5722; }
-.jc-icone-ganho-missao { background-color: #2196f3; }
-.jc-icone-ganho-share { background-color: #4caf50; }
-.jc-icone-ganho-primeira { background-color: #9c27b0; }
-.jc-icone-ganho-conquista { background-color: #e91e63; }
+.jc-icone-ganho-leitura { background-color: #00b783; }
+.jc-icone-ganho-streak { background-color: #00b783; }
+.jc-icone-ganho-missao { background-color: #00b783; }
+.jc-icone-ganho-share { background-color: #00b783; }
+.jc-icone-ganho-primeira { background-color: #00b783; }
+.jc-icone-ganho-conquista { background-color: #00b783; }
 
 .jc-texto-ganho {
     flex-grow: 1;
@@ -232,18 +259,18 @@
 }
 
 /* Cores específicas dos pontos */
-.jc-pontos-valor-verde { background-color: #4caf50; }
-.jc-pontos-valor-azul { background-color: #2196f3; }
-.jc-pontos-valor-roxo { background-color: #9c27b0; }
-.jc-pontos-valor-laranja { background-color: #ff9800; }
-.jc-pontos-valor-vermelho { background-color: #ff5722; }
-.jc-pontos-valor-rosa { background-color: #e91e63; }
+.jc-pontos-valor-verde { background-color: var(--ranking-orange); }
+.jc-pontos-valor-azul { background-color: var(--ranking-orange) }
+.jc-pontos-valor-roxo { background-color: var(--ranking-orange); }
+.jc-pontos-valor-laranja { background-color: var(--ranking-orange)}
+.jc-pontos-valor-vermelho { background-color: var(--ranking-orange) }
+.jc-pontos-valor-rosa { background-color: var(--ranking-orange); }
 
 /* ======================================= */
 /* == SEÇÃO DE RECOMPENSAS (LOJA)       == */
 /* ======================================= */
 .jc-recompensas-cabecalho {
-    background: linear-gradient(to right, #ff4081, #f50057);
+    background: var(--color-pink-rose);
     color: var(--cor-texto-principal);
     padding: 15px;
     border-radius: 10px;
