@@ -15,9 +15,8 @@ from modules.db_services import (
     insert_daily_mission_in_db
 )
 
-# ===============================================
 # DEFINIÇÕES E REGRAS (LÓGICA PURA)
-# ===============================================
+
 
 # --- Medalhas Definidas ---
 MEDALHAS = {
@@ -40,11 +39,11 @@ MISSOES_DIARIAS = {
         "check": lambda u: u.get('tempo_online_hoje_minutos', 0) >= 10
     },
 
-    # --- INÍCIO DAS NOVAS MISSÕES (T2UH09) ---
-    # Baseado em src/missoes.html
+ 
+
     
     "Noticia Bunitinha": {
-        "descricao": "Ler 1 matéria completa", # Ajustei a descrição para bater com a lógica
+        "descricao": "Ler 1 matéria completa", 
         "xp": 50,
         "jc_points": 10,
         "metrica": "noticias_lidas_hoje",
@@ -54,7 +53,7 @@ MISSOES_DIARIAS = {
     
     "Leitura Massa": {
         "descricao": "Leia 2 matérias completas",
-        "xp": 50,       # O HTML lista 50XP/10JC
+        "xp": 50,       
         "jc_points": 10,
         "metrica": "noticias_lidas_hoje",
         "requisito": 2,
@@ -62,15 +61,15 @@ MISSOES_DIARIAS = {
     },
 
     "Leitura Arretada": {
-        "descricao": "Leia 5 matérias completas", # O HTML também chama "Maratonista da peste" de 5 leituras.
-        "xp": 150,      # Estou usando os valores de "Leitura Arretada" (150XP/30JC)
+        "descricao": "Leia 5 matérias completas", 
+        "xp": 150,      
         "jc_points": 30,
         "metrica": "noticias_lidas_hoje",
         "requisito": 5,
         "check": lambda u: u.get('noticias_lidas_hoje', 0) >= 5
     },
     
-    # --- FIM DAS NOVAS MISSÕES ---
+
 
     "Compartilha aí, na moral": {
         "descricao": "Compartilhar 1 matéria",

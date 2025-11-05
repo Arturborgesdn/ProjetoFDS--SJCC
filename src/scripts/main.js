@@ -105,10 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // carregarDadosDeMedalhas(); // (Implementação futura)
         console.log("Módulo: Medalhas. Carregamento de dados será iniciado.");
     
-    } else if (cardParabens) {
-        console.log("Módulo: Notícia. Configurando botão de compartilhar...");
-        setupShareButton(); 
-    }
+    } 
     
     // --- LÓGICA GLOBAL (Eventos Comuns) ---
 
