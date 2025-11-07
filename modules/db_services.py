@@ -47,6 +47,7 @@ def get_user_data_from_db(user_id):
                         tempo_online_hoje_minutos = 0,
                         compartilhamentos_hoje = 0,
                         noticias_lidas_hoje = 0,
+                        noticias_destaque_lidas_hoje = 0,
                         ultima_atualizacao_diaria = %s
                     WHERE usuario_id = %s
                     """,
@@ -62,8 +63,9 @@ def get_user_data_from_db(user_id):
             SELECT u.id AS usuario_id, u.nome, g.xps, g.jc_points, 
                    g.dias_consecutivos_acesso, g.noticias_completas_total, 
                    g.ultimo_acesso, g.tempo_online_hoje_minutos, 
-                   g.compartilhamentos_hoje,  -- <--- ADICIONADO AQUI
-                   g.noticias_lidas_hoje
+                   g.compartilhamentos_hoje,  
+                   g.noticias_lidas_hoje,
+                   g.noticias_destaque_lidas_hoje
             FROM usuarios u
             LEFT JOIN gamificacao g ON u.id = g.usuario_id
             WHERE u.id = %s
@@ -84,6 +86,8 @@ def get_user_data_from_db(user_id):
             user_data['compartilhamentos_hoje'] = user_data['compartilhamentos_hoje'] or 0
             
             user_data['noticias_lidas_hoje'] = user_data['noticias_lidas_hoje'] or 0
+
+            user_data['noticias_destaque_lidas_hoje'] = user_data['noticias_destaque_lidas_hoje'] or 0
 
             # Busca medalhas
             cursor.execute("SELECT medalha_nome FROM medalhas_usuario WHERE usuario_id = %s", (user_id,))
@@ -184,7 +188,7 @@ def insert_daily_mission_in_db(user_id, missao_nome, conn):
         return True
     except mysql.connector.IntegrityError: # Se já completou hoje
         print(f"DB Info: Missão '{missao_nome}' já estava completa para {user_id} hoje.")
-        return True # Considera sucesso
+        return False # Considera sucesso
     except Exception as e:
         if conn: conn.rollback()
         print(f"Erro ao inserir missão diária no DB para {user_id}: {e}")
@@ -240,3 +244,79 @@ def reset_daily_metrics_if_needed(user_id, conn):
     finally:
         if cursor:
             cursor.close()
+
+def get_leaderboard_from_db(limit=10, order_by="xps"):
+    """
+    Retorna o ranking geral dos usuários com base em XP ou JC Points.
+    """
+    conn = get_db_connection()
+    if not conn:
+        print("❌ Falha na conexão ao banco.")
+        return []
+    
+    cursor = conn.cursor(dictionary=True)
+    try:
+        if order_by not in ("xps", "jc_points"):
+            order_by = "xps"
+
+        query = f"""
+            SELECT 
+                u.id AS usuario_id,
+                u.nome,
+                g.xps,
+                g.jc_points,
+                g.dias_consecutivos_acesso,
+                g.noticias_completas_total
+            FROM gamificacao g
+            JOIN usuarios u ON g.usuario_id = u.id
+            ORDER BY g.{order_by} DESC, g.xps DESC
+            LIMIT %s;
+        """
+        cursor.execute(query, (limit,))
+        return cursor.fetchall()
+    
+    except Exception as e:
+        print(f"❌ Erro ao buscar ranking: {e}")
+        return []
+    
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def get_user_rank_from_db(user_id, order_by="xps"):
+    """
+    Retorna a posição do usuário no ranking geral (por XP ou JC Points).
+    """
+    conn = get_db_connection()
+    if not conn:
+        return None
+    
+    cursor = conn.cursor(dictionary=True)
+    try:
+        if order_by not in ("xps", "jc_points"):
+            order_by = "xps"
+
+        query = f"""
+            SELECT posicao, usuario_id, nome, xps, jc_points FROM (
+                SELECT 
+                    u.id AS usuario_id,
+                    u.nome,
+                    g.xps,
+                    g.jc_points,
+                    RANK() OVER (ORDER BY g.{order_by} DESC, g.xps DESC) AS posicao
+                FROM gamificacao g
+                JOIN usuarios u ON g.usuario_id = u.id
+            ) ranked
+            WHERE usuario_id = %s;
+        """
+        cursor.execute(query, (user_id,))
+        return cursor.fetchone()
+    
+    except Exception as e:
+        print(f"❌ Erro ao buscar posição do usuário: {e}")
+        return None
+    
+    finally:
+        cursor.close()
+        conn.close()

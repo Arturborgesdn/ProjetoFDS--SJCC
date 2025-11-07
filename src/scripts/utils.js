@@ -131,3 +131,98 @@ async function updateHeader() {
         console.error("Falha ao carregar dados do header:", error);
     }
 }
+
+// ... (final do arquivo utils.js, depois de updateHeader)
+
+/**
+ * MOSTRA UM ALERTA (TOAST) E ATUALIZA A UI EM TEMPO REAL.
+ * Esta função agora é global.
+ * @param {object} item - O objeto da missão ou medalha (deve ter .nome, .xp, .jc_points)
+ * @param {string} tipo - 'missao' ou 'medalha'
+ */
+function mostrarAlertaFeedback(item, tipo) {
+    // 1. Cria o container de toasts (se ainda não existir)
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.classList.add('toast-container');
+        document.body.appendChild(container);
+    }
+
+    // 2. Define o conteúdo do toast
+    const eMedalha = (tipo === 'medalha');
+    const icone = eMedalha ? 'fa-medal' : 'fa-check-circle';
+    const corClasse = eMedalha ? 'medalha' : 'missao';
+    const titulo = eMedalha ? 'Medalha Conquistada!' : 'Missão Cumprida!';
+    const recompensa = eMedalha ? `+${item.jc_points} JC Points` : `+${item.xp} XP, +${item.jc_points} JC Points`;
+
+    // 3. Cria o elemento do toast
+    const toast = document.createElement('div');
+    toast.classList.add('toast'); // Adiciona a classe base
+
+    if (eMedalha) {
+        toast.classList.add('medalha');
+    } else {
+        // É uma missão
+        toast.classList.add('missao');
+        if (item.raridade) {
+            toast.classList.add(item.raridade); // Adiciona 'comum', 'rara', ou 'epica'
+        }
+    }
+    toast.innerHTML = `
+        <i class="fas ${icone}"></i>
+        <div class="toast-content">
+            <strong>${titulo}</strong>
+            <span>${item.nome} (${recompensa})</span>
+        </div>
+    `;
+
+    // 4. Adiciona o toast ao container
+    container.appendChild(toast);
+
+    // 5. Remove o toast após 5 segundos
+    setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 400);
+    }, 5000);
+
+    // 6. ATUALIZAÇÃO DA UI EM TEMPO REAL (Sua solicitação)
+    atualizarUIemRealTime(item, tipo);
+}
+
+/**
+ * Função auxiliar para encontrar e atualizar o item na página ATUAL.
+ */
+function atualizarUIemRealTime(item, tipo) {
+    // Escopo de segurança: só faz algo se o item tiver um nome
+    if (!item || !item.nome) return;
+
+    // Tenta "adivinhar" o seletor baseado no nome (escapando caracteres)
+    const nomeFormatado = item.nome.replace(/"/g, '\\"');
+    
+    if (tipo === 'missao') {
+        // Procura pela missão na página de missões
+        const elementoMissao = document.querySelector(`.goal-item[data-nome="${nomeFormatado}"]`);
+        if (elementoMissao) {
+            console.log(`Atualizando UI para missão: ${item.nome}`);
+            elementoMissao.classList.remove('pendente');
+            elementoMissao.classList.add('concluida');
+            // A regra de CSS que adicionamos (passo 1) vai esconder a barra automaticamente
+        }
+    } 
+    else if (tipo === 'medalha') {
+        // Procura pela medalha na página de medalhas
+        const elementoMedalha = document.querySelector(`.medalha[data-nome="${nomeFormatado}"]`);
+        if (elementoMedalha) {
+            console.log(`Atualizando UI para medalha: ${item.nome}`);
+            elementoMedalha.classList.remove('pendente');
+            elementoMedalha.classList.add('concluida');
+        }
+    }
+    
+    // ATUALIZAR O HEADER (XP/JC Points)
+    // A função updateHeader() busca o total. Vamos chamá-la após um pequeno delay
+    // para dar tempo do DB processar a recompensa antes da nova busca.
+    setTimeout(updateHeader, 1000); 
+}

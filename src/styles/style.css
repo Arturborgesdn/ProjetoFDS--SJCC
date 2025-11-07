@@ -1318,3 +1318,104 @@ h1 {
     text-underline-offset: 8px;
 
 }
+
+/* =================================== */
+/* === ALERTA GLOBAL (TOAST) === */
+/* =================================== */
+
+.toast-container {
+  position: fixed;
+  bottom: 20px; 
+  right: 20px;
+  display: flex;
+  flex-direction: column-reverse; /* Novos alertas aparecem em cima */
+  gap: 10px;
+  z-index: 9999;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-left: 6px solid #00c68a; /* Verde sucesso */
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  animation: toastSlideIn 0.4s ease forwards;
+  min-width: 280px;
+}
+
+.toast.medalha {
+  border-left-color: #ffb400; /* Dourado para medalhas */
+}
+
+.toast.hide {
+  animation: toastFadeOut 0.4s ease forwards;
+}
+
+.toast i {
+  font-size: 22px;
+  color: #00c68a;
+}
+
+.toast.medalha i {
+  color: #ffb400;
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.toast-content strong {
+  font-size: 14px;
+  color: #222;
+}
+
+.toast-content span {
+  font-size: 12px;
+  color: #555;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastFadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
+
+/* Padrão (Comum) - Verde (cor já padrão do .toast) */
+.toast.missao.comum {
+    border-left-color: #00b783;
+}
+.toast.missao.comum i {
+    color: #00b783;
+}
+
+/* Rara - Laranja */
+.toast.missao.rara {
+    border-left-color: #ff8200;
+}
+.toast.missao.rara i {
+    color: #ff8200;
+}
+
+/* Épica - Vermelho */
+.toast.missao.epica {
+    border-left-color: #d4040c;
+}
+.toast.missao.epica i {
+    color: #d4040c;
+}

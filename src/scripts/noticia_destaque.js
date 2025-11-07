@@ -39,8 +39,10 @@ function setupShareButton() {
                     // alert("Obrigado por compartilhar!"); // (Removido - ou pode criar um toast de "info")
                 }
                 if (result.novas_medalhas && result.novas_medalhas.length > 0) {
-                    result.novas_medalhas.forEach(medalha => {
-                        mostrarAlertaFeedback(medalha, 'medalha'); // <-- ADICIONADO
+                    result.novas_medalhas.forEach(m => {
+                        // Padroniza o objeto que vem do backend
+                        const medalhaObj = { nome: m.medalha, jc_points: m.jc_points };
+                        mostrarAlertaFeedback(medalhaObj, 'medalha');
                     });
                 }
                 // --- FIM DA SUBSTITUIÇÃO ---
@@ -89,7 +91,9 @@ async function apiNoticiaDestaqueLida() { // <--- NOME DA FUNÇÃO MUDADO
             // Alerta sobre novas medalhas
             if (result.novas_medalhas && result.novas_medalhas.length > 0) {
                 result.novas_medalhas.forEach(m => {
-                    mostrarAlertaFeedback(m, 'medalha');;
+                    // Padronizando o objeto que o backend envia (m.medalha)
+                    const medalhaObj = { nome: m.medalha, jc_points: m.jc_points };
+                    mostrarAlertaFeedback(medalhaObj, 'medalha'); // <--- MUDANÇA AQUI
                 });
             }
             // Alerta sobre novas missões (incluindo "Destaque massa")
@@ -141,7 +145,6 @@ function atualizarBarraScroll() {
     else barraLeitura.style.backgroundColor = "#28a745";
     if (posicao >= altura * 0.95) {
         atingiuScroll = true;
-        verificarConclusaoLeituraDestaque(); // <--- CHAMA A FUNÇÃO DE DESTAQUE
     }
 }
 

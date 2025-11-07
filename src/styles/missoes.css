@@ -580,3 +580,89 @@
     transform: translateX(80px);
   }
 }
+
+/* ... (no final de missoes.css) ... */
+
+/* --- NOVOS ESTILOS DINÂMICOS --- */
+
+/* Cores de Raridade dos Ícones */
+.goal-icon-circle.comum { background-color: #00b783; }
+.goal-icon-circle.rara { background-color: #ff8200; }
+.goal-icon-circle.epica { background-color: #d4040c; }
+
+/* Estilo para Missão PENDENTE */
+.goal-item.pendente .check-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+
+/* Estilo para Missão CONCLUÍDA */
+.goal-item.concluida {
+    opacity: 0.7; /* Suaviza a missão inteira */
+}
+
+.goal-item.concluida .check-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #00b783;
+    background-color: #00b783;
+    margin-left: 15px;
+    flex-shrink: 0;
+    
+    /* Centraliza o checkmark */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Adiciona o "check" usando pseudo-elemento */
+.goal-item.concluida .check-box::after {
+    content: '✔';
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* Barra de Progresso (para cada missão) */
+.progress-bar-container {
+    height: 5px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.progress-fill-mission {
+    height: 100%;
+    background: var(--ranking-orange); /* Laranja para progresso */
+    border-radius: 5px;
+    transition: width 0.5s ease;
+}
+
+.goal-item.concluida .progress-fill-mission {
+    background: #00b783; /* Verde se concluída */
+}
+
+/* Texto de Progresso (Ex: 1/2) */
+.progress-text {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 3px;
+    font-weight: 600;
+}
+/* ... (final do arquivo missoes.css) ... */
+
+/* --- AJUSTE: Esconde a barra de progresso e o texto se a missão estiver concluída --- */
+
+.goal-item.concluida .progress-bar-container {
+    display: none;
+}
+
+.goal-item.concluida .progress-text {
+    display: none;
+}

@@ -1,77 +1,86 @@
-//deixei esse para fazer os checks de missoes
-document.addEventListener("DOMContentLoaded", () => {
-    // Cria o container para os alertas (caso não exista)
-    let toastContainer = document.querySelector(".toast-container");
-    if (!toastContainer) {
-      toastContainer = document.createElement("div");
-      toastContainer.classList.add("toast-container");
-      document.body.appendChild(toastContainer);
+// src/scripts/missoes.js
+
+/**
+ * Função principal para carregar os dados das missões diárias.
+ */
+async function carregarDadosDeMissoes() {
+    console.log("Módulo Missões: Carregando dados...");
+    
+    const usuarioId = getUsuarioId(); // Pega ID de utils.js
+    if (!usuarioId) {
+        limparSessao(); // Se não está logado, volta para login
+        return;
     }
-  
-    // Lista de conquistas simuladas
-    const conquistas = [
-      {
-        nome: "Leitura massa",
-        pontos: 10,
-        icone: "fa-book-open",
-        tipo: "comum"
-      },
-      {
-        nome: "Fica de olho, visse?",
-        pontos: 20,
-        icone: "fa-fire",
-        tipo: "rara"
-      },
-      {
-        nome: "Noticia bunitinha",
-        pontos: 10,
-        icone: "fa-calendar",
-        tipo: "epica"
-      },
-      {
-        nome: "Compartilha ai, na moral",
-        pontos: 75,
-        icone: "fa-share-alt",
-        tipo: "epica"
-      },
-      {
-        nome: "Destaque massa",
-        pontos: 20,
-        icone: "fa-star",
-        tipo: "epica"
-      }
-    ];
-  
-    // Função para exibir um alerta
-    function mostrarAlerta(conquista) {
-      const toast = document.createElement("div");
-      toast.classList.add("toast");
-  
-      toast.innerHTML = `
-        <i class="fas ${conquista.icone}"></i>
-        <div class="toast-content">
-          <strong>${conquista.nome}</strong>
-          <span>⭐ +${conquista.pontos} JC Points</span>
-        </div>
-      `;
-  
-      toastContainer.appendChild(toast);
-  
-      // Remove o alerta depois de 4 segundos
-      setTimeout(() => {
-        toast.classList.add("hide");
-        setTimeout(() => toast.remove(), 400);
-      }, 4000);
+
+    // Seletores dos elementos da página
+    const listaMissoesElement = document.querySelector('.daily-goals-list');
+    const cardRealizadas = document.querySelector('.card-top.blue h2');
+    const cardXp = document.querySelector('.card-top.green h2');
+    const cardProgressoFill = document.querySelector('.card-top.blue .progress-fill');
+
+    if (!listaMissoesElement || !cardRealizadas || !cardXp || !cardProgressoFill) {
+        console.error("Erro: Elementos da UI de missões não encontrados.");
+        return;
     }
-  
-    // Simula conquistas automáticas (1 a cada 3 segundos)
-    let index = 0;
-    const intervalo = setInterval(() => {
-      if (index < conquistas.length) {
-        mostrarAlerta(conquistas[index]);
-        index++;
-      } else {
-        clearInterval(intervalo);
-      }
-    }, 2000);
-  });
+    
+    listaMissoesElement.innerHTML = '<p>Carregando missões...</p>';
+
+    try {
+        // 1. Chamar a nova API
+        const response = await fetch(`${API_USUARIO}/${usuarioId}/missoes`);
+        const result = await response.json();
+
+        if (result.sucesso && result.missoes) {
+            
+            // 2. Atualizar os Cards de Resumo (Topo)
+            cardRealizadas.textContent = result.resumo.realizadas_texto;
+            cardXp.textContent = result.resumo.xp_conquistado_texto;
+            cardProgressoFill.style.width = result.resumo.progresso_percentual + '%';
+            
+            // 3. Gerar o HTML da Lista (Já vem ordenada do backend)
+            let htmlMissoes = '';
+            
+            result.missoes.forEach(missao => {
+                const classeStatus = missao.is_complete ? 'concluida' : 'pendente';
+                const classeRaridade = missao.raridade; // 'comum', 'rara', 'epica'
+                
+                // Gera o HTML para este <li>
+                htmlMissoes += `
+                    <div class="goal-item ${classeStatus}"data-nome="${missao.nome}">
+                        <div class="goal-icon-circle ${classeRaridade}">
+                            <i class="fas ${missao.icone}"></i>
+                        </div>
+                        
+                        <div class="goal-details">
+                            <p class="goal-title">${missao.nome}</p>
+                            <p class="goal-description">${missao.descricao}</p>
+                            
+                            <div class="progress-bar-container">
+                                 <div class="progress-fill-mission" style="width: ${missao.progresso_percentual}%;"></div>
+                            </div>
+                            <p class="progress-text">${missao.progresso_atual} / ${missao.requisito}</p>
+                        </div>
+                        
+                        <div style="display: flex;flex-direction: column;gap: 10px;"> 
+                            <div style="color: #00b783;" class="goal-xp">+${missao.xp}XP</div>
+                            <div class="goal-xp">+${missao.jc_points}JC</div>
+                        </div>
+                        
+                        <div class="check-box"></div> 
+                    </div>
+                `;
+            });
+
+            // 4. Inserir o HTML na página
+            listaMissoesElement.innerHTML = htmlMissoes;
+            console.log("Módulo Missões: Dados carregados e renderizados.");
+
+        } else {
+            throw new Error(result.mensagem || "Resposta da API inválida.");
+        }
+
+    } catch (error) {
+        console.error("Erro ao carregar dados das missões:", error);
+        listaMissoesElement.innerHTML = '<p style="color: red;">Erro ao carregar missões.</p>';
+    }
+}

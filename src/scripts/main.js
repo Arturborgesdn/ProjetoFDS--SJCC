@@ -9,8 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const formCadastro = document.querySelector('#formCadastro'); 
     const formLogin = document.querySelector('#formLogin');       
     const profileCard = document.querySelector('.card.profile'); 
-    const medalhasSection = document.querySelector('.medalhas-top-cards'); 
+    const medalhasSection = document.querySelector('#titulo-pagina-medalhas');
+    const missoesSection = document.querySelector('#titulo-pagina-missoes');
     const cardParabens = document.querySelector('.card-parabens'); 
+    
     
     // Elementos globais
     const lupaBtn = document.querySelector('.lupa-btn');
@@ -64,7 +66,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (result.novas_missoes_diarias && result.novas_missoes_diarias.length > 0) {
                     result.novas_missoes_diarias.forEach(missao => {
                         console.log(`🎉 Missão Diária Completada: ${missao.nome}! Recompensas: +${missao.xp} XP, +${missao.jc_points} JC Points`);
-                        alert(`🎉 Missão Diária Completada: ${missao.nome}! +${missao.xp} XP, +${missao.jc_points} JC Points`); 
+                        mostrarAlertaFeedback(missao, 'missao');
+                    });
+                }
+                if (result.novas_medalhas && result.novas_medalhas.length > 0) {
+                    result.novas_medalhas.forEach(m => {
+                        // Padroniza o objeto que vem do backend
+                        const medalhaObj = { nome: m.medalha, jc_points: m.jc_points };
+                        mostrarAlertaFeedback(medalhaObj, 'medalha');
                     });
                 }
             } else {
@@ -102,10 +111,18 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Módulo: Fidelidade. Carregamento de dados iniciado.");
     
     } else if (medalhasSection) {
-        // carregarDadosDeMedalhas(); // (Implementação futura)
+         carregarDadosDeMedalhas(); 
         console.log("Módulo: Medalhas. Carregamento de dados será iniciado.");
     
-    } 
+    } else if (missoesSection) { 
+        carregarDadosDeMissoes();
+        console.log("Módulo: Missões. Carregamento de dados iniciado.");
+
+    } else if (cardParabens) { // <-- ADICIONE ESTE BLOCO
+        // Estamos em uma página de notícia (comum ou destaque)
+        setupShareButton();
+        console.log("Módulo: Notícia. Botão de compartilhar ativado.");
+    }
     
     // --- LÓGICA GLOBAL (Eventos Comuns) ---
 

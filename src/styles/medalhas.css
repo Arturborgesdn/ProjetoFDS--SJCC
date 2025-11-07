@@ -434,3 +434,34 @@ body {
     transform: translateX(80px);
   }
 }
+
+/* --- NOVOS ESTILOS DINÂMICOS --- */
+
+/* Estilo para medalha PENDENTE (borda normal) */
+.list li.medalha.pendente {
+  border: 2px solid #f0f0f0; /* Borda cinza clara "normal" */
+  background: #fdfdfd;
+  opacity: 0.7; /* Levemente apagado para indicar pendência */
+}
+
+/* Estilo para medalha CONCLUÍDA (borda verde) */
+.list li.medalha.concluida {
+  border: 2px solid #00b783; /* Borda verde, como no exemplo */
+  background: #fff;
+  opacity: 1;
+}
+
+/* Controla a visibilidade dos textos 'Conquistada em' vs 'Em andamento' */
+.list li.medalha.concluida .status {
+  display: none; /* Esconde "Em andamento" se concluída */
+}
+
+.list li.medalha.pendente .date {
+  /* Por enquanto, vamos esconder a data se não foi conquistada */
+  display: none; 
+}
+
+.list li.medalha.pendente .status {
+  color: #777; /* Cor do texto "Em andamento" */
+  font-weight: 600;
+}

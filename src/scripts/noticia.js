@@ -38,13 +38,18 @@ function setupShareButton() {
 
             if (result.sucesso) {
                 console.log(`Compartilhamento registrado. Total hoje: ${result.compartilhamentos_hoje}`);
+               
                 if (result.novas_missoes_diarias && result.novas_missoes_diarias.length > 0) {
-                    result.novas_missoes_diarias.forEach(missao => {
-                        alert(`🎉 Missão Diária Completada: ${missao.nome}!\n+${missao.xp} XP, +${missao.jc_points} JC Points`);
+                result.novas_missoes_diarias.forEach(missao => {
+                    mostrarAlertaFeedback(missao, 'missao'); 
+                });
+            }
+                if (result.novas_medalhas && result.novas_medalhas.length > 0) {
+                    result.novas_medalhas.forEach(m => {
+                        const medalhaObj = { nome: m.medalha, jc_points: m.jc_points };
+                        mostrarAlertaFeedback(medalhaObj, 'medalha');
                     });
-                } else {
-                    alert("Obrigado por compartilhar!");
-                }
+                } 
                 updateHeader(); // Atualiza o header (XP/JC)
             } else {
                 throw new Error(result.mensagem || "Erro ao registrar compartilhamento.");
@@ -95,15 +100,18 @@ async function apiNoticiaLida() {
             updateHeader();
 
             // Alerta sobre novas medalhas
-            if (result.novas_medalhas && result.novas_medalhas.length > 0) {
+            
+           if (result.novas_medalhas && result.novas_medalhas.length > 0) {
                 result.novas_medalhas.forEach(m => {
-                    alert(`🏅 Medalha Conquistada: ${m.medalha}!\n+${m.jc_points} JC Points!`);
+                    // Padroniza o objeto para a função de alerta
+                    const medalhaObj = { nome: m.medalha, jc_points: m.jc_points };
+                    mostrarAlertaFeedback(medalhaObj, 'medalha');
                 });
             }
-            // Alerta sobre novas missões
+            // Alerta sobre novas missões (AGORA COM O CARD)
             if (result.novas_missoes_diarias && result.novas_missoes_diarias.length > 0) {
                  result.novas_missoes_diarias.forEach(missao => {
-                    alert(`🎉 Missão Diária Completada: ${missao.nome}!\n+${missao.xp} XP, +${missao.jc_points} JC Points`);
+                    mostrarAlertaFeedback(missao, 'missao');
                 });
             }
 
@@ -159,7 +167,7 @@ function atualizarBarraScroll() {
 
     if (posicao >= altura * 0.95) {
         atingiuScroll = true;
-        verificarConclusaoLeitura();
+        
     }
 }
 
@@ -215,7 +223,7 @@ function mostrarParabens(xp) {
 // }
 
 // 1. Configura o botão de compartilhar
-setupShareButton();
+
 
 // 2. Configura a verificação de leitura (T1UH14)
 criarBarraProgresso();

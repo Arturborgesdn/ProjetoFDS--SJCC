@@ -15,7 +15,10 @@ from modules.gamification import (
     check_and_award_medals,
     calcular_nivel, 
     calcular_categoria_e_medalha, 
-    
+    MEDALHAS,
+    MISSOES_DIARIAS,
+    get_completed_daily_missions,
+   
 )
 
 # Cria o Blueprint com o prefixo '/api'
@@ -56,9 +59,11 @@ def api_ping_tempo(user_id):
         user_data = get_user_data(user_id) 
         if not user_data: return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
         
+        # 1. Verifica Missões (que adiciona 'missoes_completas_hoje_count' ao user_data)
         missoes_completadas_agora = check_and_award_daily_missions(user_id, user_data, conn)
-
-        # --- CORREÇÃO DO BUG 1 (Duplo Incremento) ---
+        # 2. Verifica Medalhas (que AGORA pode ler 'missoes_completas_hoje_count')
+        novas_medalhas_conquistadas = check_and_award_medals(user_id, user_data)
+    
         # O valor correto já está em user_data
         tempo_total_hoje = user_data.get('tempo_online_hoje_minutos', 0)
 
@@ -66,7 +71,8 @@ def api_ping_tempo(user_id):
             "sucesso": True,
             "mensagem": "Tempo online atualizado.",
             "tempo_hoje_minutos": tempo_total_hoje, # <-- CORRIGIDO
-            "novas_missoes_diarias": missoes_completadas_agora
+            "novas_missoes_diarias": missoes_completadas_agora,
+            "novas_medalhas": novas_medalhas_conquistadas,
         })
 
     except Exception as e:
@@ -189,7 +195,15 @@ def api_ler_noticia(user_id):
         
         # (Cálculo de dias_consecutivos - o seu código existente vai aqui)
         dias_consecutivos = user_antes.get('dias_consecutivos_acesso', 0)
-        # ... (lógica de 'diferenca' e 'dias_consecutivos') ...
+        ultimo_acesso = user_antes.get('ultimo_acesso')
+        if ultimo_acesso:
+            diferenca = (hoje - ultimo_acesso).days
+            if diferenca == 1:
+                dias_consecutivos += 1
+            elif diferenca > 1:
+                dias_consecutivos = 1 # Quebrou a sequência
+        else:
+            dias_consecutivos = 1 # Primeiro acesso
 
         cursor = conn.cursor()
         xp_por_noticia = 25
@@ -211,15 +225,9 @@ def api_ler_noticia(user_id):
         user_depois = get_user_data(user_id) # Pega os dados atualizados do DB
         user_depois['acessou_madrugada'] = acessou_madrugada # Adiciona a métrica temporária
 
-        # <--- MUDANÇA CRÍTICA AQUI ---
-        # Passamos o objeto 'user_depois' para a função de verificação
-        novas_medalhas_conquistadas = check_and_award_medals(user_id, user_depois) 
-        # --- FIM DA VERIFICAÇÃO DE MEDALHAS ---
-
-        
-        # --- 3. VERIFICAÇÃO DE MISSÕES DIÁRIAS (Lógica existente) ---
         missoes_completadas_agora = check_and_award_daily_missions(user_id, user_depois, conn) 
-
+        # 2. Verifica Medalhas DEPOIS
+        novas_medalhas_conquistadas = check_and_award_medals(user_id, user_depois)
         
         # --- 4. BUSCA DADOS FINAIS E RETORNA ---
         user_final = get_user_data(user_id) 
@@ -282,10 +290,11 @@ def api_compartilhar(user_id):
         if not user_data: 
             return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
         
-        # 3. Verifica se o novo contador completou alguma missão
-        # (check_and_award_daily_missions já concede o XP/JC se a missão for nova)
+        # 3. Verifica Missões
         missoes_completadas_agora = check_and_award_daily_missions(user_id, user_data, conn)
-
+        # 4. Verifica Medalhas
+        novas_medalhas_conquistadas = check_and_award_medals(user_id, user_data)
+        
         # 4. Pega os dados finais (com o XP/JC atualizado, se houver)
         user_final = get_user_data(user_id)
         categoria_final, medalha_final = calcular_categoria_e_medalha(user_final['xps'])
@@ -295,6 +304,7 @@ def api_compartilhar(user_id):
             "mensagem": "Compartilhamento registrado!",
             "compartilhamentos_hoje": user_final.get('compartilhamentos_hoje', 0),
             "novas_missoes_diarias": missoes_completadas_agora,
+            "novas_medalhas": novas_medalhas_conquistadas,
             "xp_atual": user_final['xps'],
             "jc_points_atual": user_final['jc_points'],
             "categoria": categoria_final,
@@ -308,3 +318,227 @@ def api_compartilhar(user_id):
     finally:
         if cursor: cursor.close()
         if conn: conn.close()
+
+@api_bp.route('/usuario/<string:user_id>/medalhas', methods=['GET'])
+def get_medalhas_usuario(user_id):
+    """
+    Retorna uma lista de TODAS as medalhas do sistema,
+    indicando quais o usuário completou.
+    """
+    user_data = get_user_data(user_id)
+    if not user_data:
+        return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
+
+    try:
+        medalhas_conquistadas_set = set(user_data.get('medalhas_conquistadas', []))
+        
+        lista_completa_medalhas = []
+        
+        # Itera sobre o dicionário de medalhas definido no gamification
+        for nome, dados in MEDALHAS.items():
+            is_complete = nome in medalhas_conquistadas_set
+            
+            lista_completa_medalhas.append({
+                "nome": nome,
+                "descricao": dados.get("descricao", "Descrição pendente"),
+                "jc_points": dados.get("jc_points", 0),
+                "raridade": dados.get("raridade", "comum"),
+                "icone": dados.get("icone", "fa-question-circle"),
+                "is_complete": is_complete
+                # Adicionaremos a data de conquista futuramente, se necessário
+            })
+        
+        # Ordena: Concluídas (is_complete=True) vêm primeiro (como você pediu na imagem)
+        lista_completa_medalhas.sort(key=lambda x: x['is_complete'], reverse=True)
+
+        # Prepara os dados do resumo (cards do topo)
+        total_medalhas = len(MEDALHAS)
+        conquistadas_count = len(medalhas_conquistadas_set)
+        
+        # Calcula o total de JC Points ganhos *apenas* com medalhas
+        jc_points_ganhos = 0
+        for nome_conquistada in medalhas_conquistadas_set:
+            if nome_conquistada in MEDALHAS:
+                jc_points_ganhos += MEDALHAS[nome_conquistada].get('jc_points', 0)
+
+        resumo = {
+            "conquistadas_texto": f"{conquistadas_count}/{total_medalhas}",
+            "jc_points_ganhos": jc_points_ganhos
+        }
+
+        return jsonify({
+            "sucesso": True, 
+            "resumo": resumo,
+            "medalhas": lista_completa_medalhas
+        })
+
+    except Exception as e:
+        print(f"Erro ao buscar medalhas: {e}")
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+    
+@api_bp.route('/usuario/<string:user_id>/missoes', methods=['GET'])
+def get_missoes_usuario(user_id):
+    """
+    Retorna uma lista de TODAS as missões diárias,
+    o progresso atual do usuário e o status (completa/pendente).
+    """
+    user_data = get_user_data(user_id)
+    if not user_data:
+        return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
+
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({"sucesso": False, "mensagem": "Erro de conexão com o DB"}), 500
+
+    try:
+        completed_today_set = get_completed_daily_missions(user_id, conn)
+        
+        lista_completa_missoes = []
+        total_xp_possivel = 0
+        total_xp_ganho = 0
+        missoes_concluidas_count = 0
+        total_missoes = len(MISSOES_DIARIAS)
+
+        for nome, dados in MISSOES_DIARIAS.items():
+            total_xp_possivel += dados.get('xp', 0)
+            is_complete = nome in completed_today_set
+            
+            progresso_atual = user_data.get(dados.get('metrica'), 0)
+            requisito = dados.get('requisito', 1)
+            
+            if is_complete:
+                missoes_concluidas_count += 1
+                total_xp_ganho += dados.get('xp', 0)
+                progresso_percentual = 100
+            else:
+                # Calcula a porcentagem de progresso
+                progresso_percentual = int((progresso_atual / requisito) * 100) if requisito > 0 else 0
+                progresso_percentual = min(progresso_percentual, 100) # Garante que não passe de 100%
+
+            lista_completa_missoes.append({
+                "nome": nome,
+                "descricao": dados.get("descricao"),
+                "xp": dados.get("xp", 0),
+                "jc_points": dados.get("jc_points", 0),
+                "raridade": dados.get("raridade", "comum"),
+                "icone": dados.get("icone", "fa-question-circle"),
+                "is_complete": is_complete,
+                "progresso_atual": progresso_atual,
+                "requisito": requisito,
+                "progresso_percentual": progresso_percentual
+            })
+        
+        # Ordena: Pendentes (is_complete=False) vêm primeiro
+        lista_completa_missoes.sort(key=lambda x: x['is_complete'])
+
+        # Prepara os dados do resumo (cards do topo)
+        resumo = {
+            "realizadas_texto": f"{missoes_concluidas_count}/{total_missoes}",
+            "xp_conquistado_texto": f"{total_xp_ganho}/{total_xp_possivel}",
+            "progresso_percentual": int((missoes_concluidas_count / total_missoes) * 100) if total_missoes > 0 else 0
+        }
+
+        return jsonify({
+            "sucesso": True, 
+            "resumo": resumo,
+            "missoes": lista_completa_missoes
+        })
+
+    except Exception as e:
+        print(f"Erro ao buscar missões: {e}")
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+    finally:
+        if conn:
+            conn.close()
+
+# ... (no final de modules/api_bp.py, depois da rota /missoes) ...
+
+@api_bp.route('/usuario/<string:user_id>/ler_noticia_destaque', methods=['POST'])
+def api_ler_noticia_destaque(user_id):
+    """
+    Registra a leitura de uma notícia DESTAQUE, atualiza XP,
+    e verifica medalhas E missões (incluindo "Destaque massa").
+    """
+    
+    # 1. Pega dados e garante o reset diário
+    user_antes = get_user_data(user_id)
+    if not user_antes: 
+        return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
+    
+    conn = get_db_connection()
+    if not conn: 
+        return jsonify({"sucesso": False, "mensagem": "Erro de conexão"}), 500
+
+    try:
+        agora = datetime.now()
+        hoje = agora.date()
+        
+        # Métricas de tempo (para medalhas como "Inimigo do sono")
+        acessou_madrugada = (3 <= agora.hour < 5)
+        
+        # Lógica de dias consecutivos
+        # Lógica de dias consecutivos (AGORA CORRIGIDA)
+        dias_consecutivos = user_antes.get('dias_consecutivos_acesso', 0)
+        ultimo_acesso = user_antes.get('ultimo_acesso')
+        if ultimo_acesso:
+            diferenca = (hoje - ultimo_acesso).days
+            if diferenca == 1:
+                dias_consecutivos += 1
+            elif diferenca > 1:
+                dias_consecutivos = 1 # Quebrou a sequência
+        else:
+            dias_consecutivos = 1 # Primeiro acesso
+        
+        # --- ATUALIZAÇÃO PRINCIPAL DO DB ---
+        cursor = conn.cursor()
+        xp_por_noticia = 25 # XP base por ler qualquer notícia
+        
+        # ADICIONA A MÉTRICA 'noticias_destaque_lidas_hoje' AO UPDATE
+        cursor.execute("""
+            UPDATE gamificacao SET
+                xps = xps + %s,
+                noticias_completas_total = noticias_completas_total + 1,
+                noticias_lidas_hoje = noticias_lidas_hoje + 1,
+                noticias_destaque_lidas_hoje = noticias_destaque_lidas_hoje + 1, -- <-- ADICIONADO AQUI
+                ultimo_acesso = %s,
+                dias_consecutivos_acesso = %s
+            WHERE usuario_id = %s
+        """, (xp_por_noticia, hoje, dias_consecutivos, user_id))
+        
+        conn.commit()
+        cursor.close()
+        # --- FIM DA ATUALIZAÇÃO ---
+
+        
+        # 2. VERIFICAÇÃO DE MEDALHAS E MISSÕES
+        
+        # Pega os dados ATUALIZADOS (com +1 em noticias_destaque_lidas_hoje)
+        user_depois = get_user_data(user_id) 
+        user_depois['acessou_madrugada'] = acessou_madrugada # Adiciona a métrica temporária
+
+        # 1. Verifica missões PRIMEIRO
+        missoes_completadas_agora = check_and_award_daily_missions(user_id, user_depois, conn)
+        # 2. Verifica Medalhas DEPOIS
+        novas_medalhas_conquistadas = check_and_award_medals(user_id, user_depois)
+        # 3. BUSCA DADOS FINAIS E RETORNA
+        user_final = get_user_data(user_id) # Pega dados com XP/JC atualizados
+        
+        return jsonify({
+            "sucesso": True,
+            "mensagem": f"+{xp_por_noticia} XP por ler a notícia de destaque!",
+            "xp_atual": user_final['xps'],
+            "jc_points_atual": user_final['jc_points'],
+            "novas_medalhas": novas_medalhas_conquistadas,
+            "novas_missoes_diarias": missoes_completadas_agora
+        })
+
+    except Exception as e:
+        if conn: conn.rollback()
+        print(f"Erro na rota ler_noticia_destaque: {e}")
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+    finally:
+        # Garante que o cursor e a conexão sejam fechados
+        if 'cursor' in locals() and cursor: 
+            cursor.close()
+        if conn: 
+            conn.close()
