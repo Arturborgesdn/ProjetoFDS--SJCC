@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     } else if (profileCard) { 
         carregarDadosDeFidelidade(); 
+        carregarMiniRanking();
         console.log("Módulo: Fidelidade. Carregamento de dados iniciado.");
     
     } else if (medalhasSection) {
