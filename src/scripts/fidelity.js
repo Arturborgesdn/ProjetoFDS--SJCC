@@ -61,7 +61,7 @@ async function carregarDadosDeFidelidade() {
     const headerEmblem = document.querySelector('.header-right .level-circle'); 
 
     const profileImages = document.querySelectorAll('.profile-img'); 
-    
+    const medalListElement = document.querySelector('.card .list');
     // 2. Obter ID e Verificar Sessão (Função de utils.js)
     const usuarioId = getUsuarioId(); 
     if (!usuarioId) {
@@ -78,21 +78,29 @@ async function carregarDadosDeFidelidade() {
             const dados = result.dados; 
             
             // --- 4. ATUALIZAÇÃO DOS ELEMENTOS ESTÁTICOS E EMBLEMAS ---
-            const categoria = dados.categoria;
-            const medalha = dados.medalha;
+            const categoria_atual = dados.categoria;
+            const medalha_atual = dados.medalha;
+            
+            // --- CORREÇÃO BUG EMBLEMA (Pente Fino) ---
+            const categoria_proxima = dados.categoria_proxima;
+            const medalha_proxima = dados.medalha_proxima;
+            // --- FIM DA CORREÇÃO ---
             
             if (profileName) profileName.textContent = dados.nome;
-            if (profileCategory) profileCategory.textContent = categoria;
+            if (profileCategory) profileCategory.textContent = categoria_atual; // <-- Atualizado
             if (jcPointsValue) jcPointsValue.textContent = dados.jc_points;
 
             // Emblemas (Imagens Dinâmicas - usando getEmblemPath de utils.js)
-            const emblemaPath = getEmblemPath(categoria, medalha);
-            const emblemaOuroPath = getEmblemPath(categoria, 'Ouro'); 
+            const emblemaPath = getEmblemPath(categoria_atual, medalha_atual);
+            
+            // --- CORREÇÃO BUG EMBLEMA (Pente Fino) ---
+            const emblemaProximoPath = getEmblemPath(categoria_proxima, medalha_proxima);
+            // --- FIM DA CORREÇÃO ---
             
             // Atualiza os emblemas no Card (Esquerdo e Direito)
             if (xpBarEmblems.length === 2) {
                 xpBarEmblems[0].src = emblemaPath;
-                xpBarEmblems[1].src = emblemaOuroPath;
+                xpBarEmblems[1].src = emblemaProximoPath; // <-- CORRIGIDO
             }
             
             // ATUALIZAÇÃO DO EMBLEMA DO HEADER (USANDO O SELETOR CORRIGIDO)
@@ -108,6 +116,47 @@ async function carregarDadosDeFidelidade() {
             // Inicia a animação da barra de XP
             animateProgress(targetPercent, targetText, xpBarFill, xpBarText); 
             
+            if (medalListElement) {
+                const medalhasConquistadas = dados.medalhas_conquistadas || [];
+                let htmlListaMedalhas = '';
+
+                if (medalhasConquistadas.length > 0) {
+                    // Pega apenas as 3 primeiras medalhas para o resumo
+                    const top3Medalhas = medalhasConquistadas.slice(0, 3);
+                    
+                    top3Medalhas.forEach(nomeMedalha => {
+                        // Define um ícone simples baseado no nome
+                        let icone = 'fa-medal'; // Padrão
+                        if (nomeMedalha.includes('folha')) icone = 'fa-book';
+                        if (nomeMedalha.includes('Pegou ar')) icone = 'fa-fire';
+                        if (nomeMedalha.includes('Mil Conto')) icone = 'fa-coins';
+                        if (nomeMedalha.includes('sono')) icone = 'fa-clock';
+                        if (nomeMedalha.includes('Bicho ta virado')) icone = 'fa-trophy';
+
+                        htmlListaMedalhas += `
+                            <li>
+                              <i class="fas ${icone}"></i>
+                              <p>${nomeMedalha}</p>
+                              <span class="badge green">Conquistada</span>
+                            </li>
+                        `;
+                    });
+
+                    // Se houver mais de 3 medalhas, adiciona um "ver mais"
+                    if (medalhasConquistadas.length > 3) {
+                        htmlListaMedalhas += `
+                            <li style="justify-content: center; font-weight: 600; color: #555; padding-top: 10px;">
+                              <p>+${medalhasConquistadas.length - 3} medalhas...</p>
+                            </li>
+                        `;
+                    }
+                } else {
+                    htmlListaMedalhas = '<p style="font-size: 14px; color: #777; text-align: left; padding: 10px 0;">Nenhuma medalha conquistada ainda.</p>';
+                }
+
+                // Insere o HTML na lista
+                medalListElement.innerHTML = htmlListaMedalhas;
+            }
 
         } else {
             throw new Error(result.mensagem || "Resposta da API inválida ao buscar dados do utilizador");
@@ -116,5 +165,46 @@ async function carregarDadosDeFidelidade() {
         console.error("Erro CRÍTICO ao carregar dados de fidelidade:", error);
         alert("Ocorreu um erro ao carregar os seus dados. Por favor, faça login novamente.");
         limparSessao();
+    }
+}
+async function carregarMiniRanking() {
+    const rankingListElement = document.querySelector('.card .ranking');
+    if (!rankingListElement) return; // Não faz nada se a lista não existir
+
+    const usuarioId = getUsuarioId();
+    if (!usuarioId) return; // Precisa estar logado
+
+    try {
+        // 1. Chama a API de ranking que já criamos
+        const response = await fetch(`/api/ranking/${usuarioId}`);
+        const result = await response.json();
+
+        if (result.sucesso && result.leaderboard) {
+            // 2. Pega apenas os 4 primeiros
+            const top4 = result.leaderboard.slice(0, 4);
+            
+            let htmlListaRanking = '';
+
+            if (top4.length > 0) {
+                top4.forEach((usuario, index) => {
+                    htmlListaRanking += `
+                        <li>
+                            <span>${index + 1}</span>
+                            ${usuario.nome}
+                            <span class="points">${usuario.xps}</span>
+                        </li>
+                    `;
+                });
+            } else {
+                htmlListaRanking = '<p style="font-size: 14px; color: #777;">Ainda não há ranking.</p>';
+            }
+
+            // 3. Insere o HTML na lista
+            rankingListElement.innerHTML = htmlListaRanking;
+        }
+
+    } catch (error) {
+        console.error("Erro ao carregar mini-ranking:", error);
+        rankingListElement.innerHTML = '<p style="font-size: 14px; color: red;">Erro ao carregar ranking.</p>';
     }
 }

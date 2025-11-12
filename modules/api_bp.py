@@ -18,6 +18,8 @@ from modules.gamification import (
     MEDALHAS,
     MISSOES_DIARIAS,
     get_completed_daily_missions,
+    get_leaderboard,
+    get_user_rank,
    
 )
 
@@ -159,6 +161,10 @@ def get_dados_usuario(usuario_id):
     # Calcula os dados dinâmicos usando as funções de serviço
     dados_nivel = calcular_nivel(user['xps'])
     categoria, medalha_emblema = calcular_categoria_e_medalha(user['xps'])
+    # Pega o XP limite do próximo nível (ex: 12000)
+    xp_proximo_limite = dados_nivel['xp_proximo_limite']
+    # Calcula a categoria/medalha desse próximo nível
+    categoria_proxima, medalha_proxima = calcular_categoria_e_medalha(xp_proximo_limite)
 
     resposta = {
         "id": user['usuario_id'],
@@ -166,10 +172,12 @@ def get_dados_usuario(usuario_id):
         "xps": user['xps'],
         "jc_points": user['jc_points'],
         "nivel": dados_nivel['nivel'],
-        "progresso_xp_texto": dados_nivel['progresso_xp_texto'],
+        "progresso_xp_texto": dados_nivel['progresso_xp_total_texto'],
         "progresso_percentual": dados_nivel['progresso_percentual'],
         "categoria": categoria,
         "medalha": medalha_emblema,
+        "categoria_proxima": categoria_proxima, 
+        "medalha_proxima": medalha_proxima,
         "medalhas_conquistadas": user.get('medalhas_conquistadas', [])
     }
     return jsonify({"sucesso": True, "dados": resposta})
@@ -542,3 +550,47 @@ def api_ler_noticia_destaque(user_id):
             cursor.close()
         if conn: 
             conn.close()
+
+
+@api_bp.route('/ranking/<string:user_id>', methods=['GET'])
+def get_ranking_data(user_id):
+    """
+    Retorna o leaderboard (Top 10 por XP) e a posição específica
+    do usuário logado.
+    """
+    try:
+        # 1. Busca o ranking geral (Top 10)
+        # A função get_leaderboard já calcula categoria e medalha
+        leaderboard = get_leaderboard(limit=10, order_by="xps")
+        
+        # 2. Busca a posição do usuário logado
+        # A função get_user_rank já calcula categoria e medalha
+        user_rank = get_user_rank(user_id, order_by="xps")
+
+        if not user_rank:
+            # Caso o usuário não tenha XP (ainda não está no ranking)
+            # Buscamos os dados básicos dele
+            user_data = get_user_data(user_id)
+            if not user_data:
+                return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
+            
+            categoria, medalha = calcular_categoria_e_medalha(user_data['xps'])
+            user_rank = {
+                "posicao": "-", # Sem posição
+                "usuario_id": user_id,
+                "nome": user_data['nome'],
+                "xps": user_data['xps'],
+                "jc_points": user_data['jc_points'],
+                "categoria": categoria,
+                "medalha": medalha
+            }
+
+        return jsonify({
+            "sucesso": True,
+            "leaderboard": leaderboard,
+            "user_rank": user_rank
+        })
+
+    except Exception as e:
+        print(f"Erro ao buscar ranking: {e}")
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
