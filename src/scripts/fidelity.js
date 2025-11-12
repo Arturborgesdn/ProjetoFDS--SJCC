@@ -78,21 +78,29 @@ async function carregarDadosDeFidelidade() {
             const dados = result.dados; 
             
             // --- 4. ATUALIZAÇÃO DOS ELEMENTOS ESTÁTICOS E EMBLEMAS ---
-            const categoria = dados.categoria;
-            const medalha = dados.medalha;
+            const categoria_atual = dados.categoria;
+            const medalha_atual = dados.medalha;
+            
+            // --- CORREÇÃO BUG EMBLEMA (Pente Fino) ---
+            const categoria_proxima = dados.categoria_proxima;
+            const medalha_proxima = dados.medalha_proxima;
+            // --- FIM DA CORREÇÃO ---
             
             if (profileName) profileName.textContent = dados.nome;
-            if (profileCategory) profileCategory.textContent = categoria;
+            if (profileCategory) profileCategory.textContent = categoria_atual; // <-- Atualizado
             if (jcPointsValue) jcPointsValue.textContent = dados.jc_points;
 
             // Emblemas (Imagens Dinâmicas - usando getEmblemPath de utils.js)
-            const emblemaPath = getEmblemPath(categoria, medalha);
-            const emblemaOuroPath = getEmblemPath(categoria, 'Ouro'); 
+            const emblemaPath = getEmblemPath(categoria_atual, medalha_atual);
+            
+            // --- CORREÇÃO BUG EMBLEMA (Pente Fino) ---
+            const emblemaProximoPath = getEmblemPath(categoria_proxima, medalha_proxima);
+            // --- FIM DA CORREÇÃO ---
             
             // Atualiza os emblemas no Card (Esquerdo e Direito)
             if (xpBarEmblems.length === 2) {
                 xpBarEmblems[0].src = emblemaPath;
-                xpBarEmblems[1].src = emblemaOuroPath;
+                xpBarEmblems[1].src = emblemaProximoPath; // <-- CORRIGIDO
             }
             
             // ATUALIZAÇÃO DO EMBLEMA DO HEADER (USANDO O SELETOR CORRIGIDO)

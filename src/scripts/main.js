@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const medalhasSection = document.querySelector('#titulo-pagina-medalhas');
     const missoesSection = document.querySelector('#titulo-pagina-missoes');
     const cardParabens = document.querySelector('.card-parabens'); 
-    
+    const rankingSection = document.querySelector('#titulo-pagina-ranking');
     
     // Elementos globais
     const lupaBtn = document.querySelector('.lupa-btn');
@@ -118,10 +118,13 @@ document.addEventListener('DOMContentLoaded', function() {
         carregarDadosDeMissoes();
         console.log("Módulo: Missões. Carregamento de dados iniciado.");
 
-    } else if (cardParabens) { // <-- ADICIONE ESTE BLOCO
-        // Estamos em uma página de notícia (comum ou destaque)
+    } else if (cardParabens) { 
         setupShareButton();
         console.log("Módulo: Notícia. Botão de compartilhar ativado.");
+        
+    } else if (rankingSection) { 
+        carregarDadosDeRanking();
+        console.log("Módulo: Ranking. Carregamento de dados iniciado.");
     }
     
     // --- LÓGICA GLOBAL (Eventos Comuns) ---

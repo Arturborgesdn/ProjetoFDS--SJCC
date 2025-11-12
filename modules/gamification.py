@@ -160,74 +160,79 @@ MISSOES_DIARIAS = {
 # --- Funções de Cálculo (Lógica Pura) ---
 
 def calcular_categoria_e_medalha(xp: int):
-    """Calcula Categoria e Medalha (Bronze, Prata, Ouro) com base no XP."""
+    """Calcula Categoria e Medalha com base no XP, usando Níveis Cíclicos."""
     
-    # 1. Leitor Leigo (0 a 1500 XP)
-    if xp <= 1500:
-        categoria = "Leitor Leigo"
-        if xp <= 500: medalha = "Bronze"       # 0 - 500
-        elif xp <= 1000: medalha = "Prata"      # 501 - 1000
-        else: medalha = "Ouro"                  # 1001 - 1500
-        
-    # 2. Leitor Massa (1501 a 3000 XP)
-    elif xp <= 3000:
-        categoria = "Leitor Massa"
-        if xp <= 2000: medalha = "Bronze"       # 1501 - 2000
-        elif xp <= 2500: medalha = "Prata"      # 2001 - 2500
-        else: medalha = "Ouro"                  # 2501 - 3000
-
-    # 3. Leitor Engajado (3001 a 4500 XP)
-    elif xp <= 4500:
-        categoria = "Leitor Engajado"
-        if xp <= 3500: medalha = "Bronze"       # 3001 - 3500
-        elif xp <= 4000: medalha = "Prata"      # 3501 - 4000
-        else: medalha = "Ouro"                  # 4001 - 4500
-
-    # 4. Leitor Arretado (4501 a 6000 XP)
-    elif xp <= 6000:
-        categoria = "Leitor Arretado"
-        if xp <= 5000: medalha = "Bronze"       # 4501 - 5000
-        elif xp <= 5500: medalha = "Prata"      # 5001 - 5500
-        else: medalha = "Ouro"                  # 5501 - 6000
-
-    # 5. Leitor Desenrolado (6001 a 7500 XP)
-    elif xp <= 7500:
-        categoria = "Leitor Desenrolado"
-        if xp <= 6500: medalha = "Bronze"       # 6001 - 6500
-        elif xp <= 7000: medalha = "Prata"      # 6501 - 7000
-        else: medalha = "Ouro"                  # 7001 - 7500
-        
-    # 6. Leitor Topado (7501+ XP)
+    # 1. Encontrar o Nível (baseado em ciclos de 1500 XP)
+    if xp == 0:
+        nivel = 1
+    elif xp % 1500 == 0:
+        # Se XP = 3000, Nível é 2 (3000/1500), está no *fim* do Nível 2
+        nivel = (xp // 1500)
     else:
-        categoria = "Leitor Topado"
-        if xp <= 8500: medalha = "Bronze"       # 7501 - 8500
-        elif xp <= 9500: medalha = "Prata"      # 8501 - 9500
-        else: medalha = "Ouro"                  # 9501+
-
+        nivel = (xp // 1500) + 1
+    
+    # 2. Mapear Nível para Categoria
+    if nivel == 1: categoria = "Leitor Leigo"
+    elif nivel == 2: categoria = "Leitor Massa"
+    elif nivel == 3: categoria = "Leitor Engajado"
+    elif nivel == 4: categoria = "Leitor Arretado"
+    elif nivel == 5: categoria = "Leitor Desenrolado"
+    else: categoria = "Leitor Topado" # Nível 6+
+        
+    # 3. Calcular a Medalha (Bronze, Prata, Ouro)
+    # (0-500 = Bronze, 501-1000 = Prata, 1001-1500 = Ouro)
+    
+    if xp == 0:
+        xp_no_ciclo = 0
+    elif xp % 1500 == 0:
+        xp_no_ciclo = 1500 # Se for 1500, 3000, etc. (é o Ouro)
+    else:
+        xp_no_ciclo = xp % 1500
+    
+    if xp_no_ciclo <= 500: medalha = "Bronze"
+    elif xp_no_ciclo <= 1000: medalha = "Prata"
+    else: medalha = "Ouro" # 1001-1500
+        
     return categoria, medalha
 
 
 def calcular_nivel(xp: int):
     """Calcula o Nível e o Progresso da Barra de XP (XP Total / Limite Categoria)."""
     
-    nivel, xp_limite_categoria, xp_base_nivel_atual = 1, 1500, 0
-    
-    while xp >= xp_limite_categoria:
-        nivel += 1
-        xp_base_nivel_atual = xp_limite_categoria
-        xp_limite_categoria += 1500 
+    if xp == 0:
+        nivel = 1
+        xp_base_nivel_atual = 0
+        xp_limite_categoria = 1500 # Limite do Nv 1
+    else:
+        # Calcula o nível atual
+        if xp % 1500 == 0:
+            nivel = (xp // 1500)
+        else:
+            nivel = (xp // 1500) + 1
         
+        # Calcula os limites do nível
+        xp_base_nivel_atual = (nivel - 1) * 1500
+        xp_limite_categoria = nivel * 1500
+    
+    # XP atual dentro do ciclo de 1500
     xp_no_ciclo_atual = xp - xp_base_nivel_atual
-    xp_total_do_ciclo = xp_limite_categoria - xp_base_nivel_atual
-
+    xp_total_do_ciclo = xp_limite_categoria - xp_base_nivel_atual # (Sempre 1500)
+    
+    # Se o usuário estiver exatamente no limite (ex: 3000 XP)
+    if xp == xp_limite_categoria:
+        xp_no_ciclo_atual = xp_total_do_ciclo
+    
     progresso_percentual = int((xp_no_ciclo_atual / xp_total_do_ciclo) * 100) if xp_total_do_ciclo > 0 else 0
     
     return {
         "nivel": nivel,
-        "progresso_xp_texto": f"{xp} / {xp_limite_categoria}",
-        "progresso_percentual": progresso_percentual
+        # Texto para a barra (ex: "1130 / 1500")
+        "progresso_xp_texto": f"{xp_no_ciclo_atual} / {xp_total_do_ciclo}", 
+        # Texto total (ex: "11630 / 12000")
+        "progresso_xp_total_texto": f"{xp} / {xp_limite_categoria}", 
+        "progresso_percentual": progresso_percentual,
+        "xp_proximo_limite": xp_limite_categoria # (Ex: 12000)
     }
-
 
 # ===============================================
 # FUNÇÕES DE SERVIÇO (Orquestração da Lógica)
