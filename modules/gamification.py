@@ -18,8 +18,6 @@ from modules.db_services import (
 )
 
 # DEFINIÇÕES E REGRAS (LÓGICA PURA)
-
-
 # --- Medalhas Definidas ---
 # --- Medalhas Definidas (COM DESCRIÇÃO, ÍCONE E RARIDADE) ---
 MEDALHAS = {

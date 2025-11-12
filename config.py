@@ -9,7 +9,7 @@ class Config:
     # Configuração do MySQL
     MYSQL_CONFIG = {
         'user': 'root', 
-        'password': 'root', 
+        'password': 'senhabanco123@', 
         'host': 'localhost',
         'database': 'dbjc',
         'charset': 'utf8mb4',
