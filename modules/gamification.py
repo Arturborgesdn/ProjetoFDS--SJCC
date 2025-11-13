@@ -374,3 +374,14 @@ def get_user_rank(user_id, order_by="xps"):
     dados["medalha"] = medalha
 
     return dados
+
+def registrar_dia_com_missao(usuario_id, conn):
+    """Registra o dia atual se o usuário completou pelo menos uma missão."""
+    cursor = conn.cursor()
+    hoje = date.today()
+    cursor.execute("""
+        INSERT IGNORE INTO ofensiva_usuario (usuario_id, data_registro)
+        VALUES (%s, %s)
+    """, (usuario_id, hoje))
+    conn.commit()
+    cursor.close()

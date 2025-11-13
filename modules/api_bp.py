@@ -594,3 +594,21 @@ def get_ranking_data(user_id):
     except Exception as e:
         print(f"Erro ao buscar ranking: {e}")
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+    
+@api_bp.route('/usuario/<string:user_id>/ofensiva', methods=['GET'])
+def get_ofensiva_usuario(user_id):
+    """Retorna quantos dias o usuário completou pelo menos uma missão."""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT COUNT(*) AS dias_com_missao
+        FROM ofensiva_usuario
+        WHERE usuario_id = %s
+    """, (user_id,))
+    resultado = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return jsonify({
+        "sucesso": True,
+        "dias_com_missao": resultado['dias_com_missao']
+    })
