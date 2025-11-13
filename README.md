@@ -81,4 +81,60 @@ O sucesso do reposicionamento digital do SJCC está na habilidade de transformar
 
 ## Definição da Equipe
 
-![Equipe](docs/equipe.png)
+<table>
+  <tr>
+    <th>Nome</th>
+    <th>Função</th>
+    <th>LinkedIn</th>
+    <th>Email</th>
+  </tr>
+  <tr>
+    <td>Artur Leite</td>
+    <td>Desenvolvedor Front-End</td>
+    <td><a href="https://www.linkedin.com/in/arthurlcpessoa" target="_blank">LinkedIn</a></td>
+    <td>alcp2@cesar.school</td>
+  </tr>
+  <tr>
+    <td>Artur Borges</td>
+    <td>Scrum Master</td>
+    <td><a href="https://www.linkedin.com/in/arturborgesdnogueira" target="_blank">LinkedIn</a></td>
+    <td>abdn@cesar.school</td>
+  </tr>
+  <tr>
+    <td>Eduardo Augusto</td>
+    <td>Desenvolvedor Back-End</td>
+    <td><a href="https://www.linkedin.com/in/eduardo-augusto-47ab78369?" target="_blank">LinkedIn</a></td>
+    <td>eapr@cesar.school</td>
+  </tr>
+  <tr>
+    <td>Eduardo Henrique</td>
+    <td>Desenvolvedor Front-End</td>
+    <td><a href="https://www.linkedin.com/in/eduardo-palhares-627158316/" target="_blank">LinkedIn</a></td>
+    <td>ehhp@cesar.school</td>
+  </tr>
+  <tr>
+    <td>Heitor Castilhos</td>
+    <td>Desenvolvedor Back-End</td>
+    <td><a href="https://www.linkedin.com/in/heitor-castilhos-34179237b/" target="_blank">LinkedIn</a></td>
+    <td>hcm2@cesar.school</td>
+  </tr>
+  <tr>
+    <td>Luiz Gustavo</td>
+    <td>Product Owner</td>
+    <td><a href="https://www.linkedin.com/in/luiz-gustavo-878620192" target="_blank">LinkedIn</a></td>
+    <td>lggs@cesar.school</td>
+  </tr>
+  <tr>
+    <td>Matheus Arantes</td>
+    <td>Cientista de Dados</td>
+    <td><a href="https://www.linkedin.com/in/matheus-arantes-almeida-2a5a99366" target="_blank">LinkedIn</a></td>
+    <td>maa2@cesar.school</td>
+  </tr>
+  <tr>
+    <td>Roberto Figueiroa</td>
+    <td>Desenvolvedor Back-End</td>
+    <td><a href="https://www.linkedin.com/in/roberto-xavier-887121367" target="_blank">LinkedIn</a></td>
+    <td>rfmxf@cesar.school</td>
+  </tr>
+</table>
+
