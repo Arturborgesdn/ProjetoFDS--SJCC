@@ -4,6 +4,10 @@
 
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
 
+<a href="https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds">
+  <img src="https://img.shields.io/badge/Trello-0079BF?style=for-the-badge&logo=trello&logoColor=white" alt="Trello - Projeto FDS"/>
+</a>
+
 <a href="https://www.figma.com/proto/TgAIH2eIymFhMhaVS1UxcE/Prot%C3%B3tipo-de-Alta-Fidelidade?node-id=253-2&t=ePZPFyadMbsHqr7E-1">
   <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" alt="Protótipo de Alta Fidelidade"/>
 </a>
@@ -16,9 +20,10 @@
     <img src="https://img.shields.io/badge/Screencast Entrega 3-b50404?style=for-the-badge&logo=youtube&logoColor=white" alt="Screencast Entrega 3"/>
 </a>
 
-<a href="https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds">
-  <img src="https://img.shields.io/badge/Trello-0079BF?style=for-the-badge&logo=trello&logoColor=white" alt="Trello - Projeto FDS"/>
+<a href="https://youtu.be/WwNnhDN9PCk">
+    <img src="https://img.shields.io/badge/Screencast Protótipos de Alta Fidelidade-b50404?style=for-the-badge&logo=youtube&logoColor=white" alt="Screencast Entrega 4"/>
 </a>
+
 
 </div>
 
