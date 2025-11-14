@@ -73,6 +73,22 @@ Nossa abordagem foi a seguinte:
 
 ![Programação em Par](docs/programacaoempar)
 
+
+Resultados e Benefícios:
+
+A aplicação da Programação em Par proporcionou uma melhoria significativa na qualidade do código e na produtividade da equipe. A revisão constante entre os pares reduziu a ocorrência de bugs e promoveu um entendimento mais profundo das funcionalidades desenvolvidas. Além disso, a troca frequente de papéis incentivou o aprendizado mútuo e o desenvolvimento de habilidades complementares, fortalecendo a coesão do time.
+
+ 
+Desafios e Aprendizados:
+
+Durante o processo, enfrentamos desafios relacionados à conciliação de agendas e à adaptação inicial à dinâmica da metodologia. No entanto, com o passar do tempo, o time desenvolveu uma comunicação mais fluida e assertiva, tornando as sessões mais produtivas. Essa experiência reforçou a importância da colaboração ativa e da revisão contínua como práticas essenciais no desenvolvimento ágil.
+ 
+Conclusão:
+
+A adoção da Programação em Par demonstrou ser uma estratégia eficaz não apenas para aprimorar o código, mas também para promover o crescimento coletivo da equipe. O método contribuiu para um ambiente de trabalho mais colaborativo, transparente e orientado à qualidade.
+
+![Programação em Par](docs/programacaoempar2.jpg)
+
 ## Impacto Esperado
 
 * Aumento do tempo médio de permanência no portal.
