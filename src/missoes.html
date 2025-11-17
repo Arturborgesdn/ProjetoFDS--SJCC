@@ -11,86 +11,79 @@
 </head>
 <body>
 
-    <header style="box-shadow: 0 2px 6px color;" class="header-main">
+    <header style="box-shadow: 0 2px 6px rgba(0,0,0,0.1);" class="header-main">
         <div class="container" style="background-color:#262626; justify-content: center; height: 44px; max-width: 100%;"> 
-        <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL" />
+            <img style="height: 150px; margin-left: 15px;" src="assets/novo-logo-uol-2021-fundo-preto.png" alt="UOL" />
         </div>
         <div style="max-width: 100%;" class="container">
-        <div class="header-left">
-            <button class="menu-btn"><i class="fas fa-bars"></i></button>
-            <button class="lupa-btn"><i class="fas fa-search"></i></button> 
-        </div>
-        <div class="logo-container">
-            <a href="home.html">
-                <img style="width: 100px;height: 70px;" src="assets/logo (2).svg" alt="Logo JC" class="logo-jc" />
-            </a>
-        </div>
-            <div class="header-right">
-                    <div>
-                        <a href="programa_Fidelidade.html">
-                            <i style="margin-top: 20px;font-size: 20px;color: #333;margin-left: 20px;" class="fas fa-trophy"></i>
-                            <span><img style="width: 20px; height: 20px;margin-top: 20px;margin-right: 50px;background-color: transparent;" class="level-circle-new" src="assets/New_decoracao-removebg-preview.png" alt="Novo"></span>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="login.html"><img style="height: 35px ; width: 35px; margin-top: 10px;" src="assets/unnamed.png" alt="Foto perfil" class="profile-img">
-                        <span><img class="level-circle" src="assets/Leitor_Massa_Prata-removebg-preview.png" alt="emblema"></span></a>
-                    </div>            
+            <div class="header-left">
+                <button class="menu-btn"><i class="fas fa-bars"></i></button>
+                <button class="lupa-btn"><i class="fas fa-search"></i></button> 
             </div>
-   </header>
+            <div class="logo-container">
+                <a href="home.html">
+                    <img style="width: 100px;height: 70px;" src="assets/logo (2).svg" alt="Logo JC" class="logo-jc" />
+                </a>
+            </div>
+            <div class="header-right">
+                <div>
+                    <a href="programa_Fidelidade.html">
+                        <i style="margin-top: 20px;font-size: 20px;color: #333;margin-left: 20px;" class="fas fa-trophy"></i>
+                        <span><img style="width: 20px; height: 20px;margin-top: 20px;margin-right: 50px;background-color: transparent;" class="level-circle-new" src="assets/New_decoracao-removebg-preview.png" alt="Novo"></span>
+                    </a>
+                </div>
+                <div>
+                    <a href="login.html"><img style="height: 35px ; width: 35px; margin-top: 10px;" src="assets/unnamed.png" alt="Foto perfil" class="profile-img">
+                    <span><img class="level-circle" src="assets/Leitor_Massa_Prata-removebg-preview.png" alt="emblema"></span></a>
+                </div> 
+            </div>
+        </div>
+    </header>
 
 <main class="container page-missoes">
     <h1 class="page-title" id="titulo-pagina-missoes">MISSÕES DIÁRIAS</h1>
     
     <section class="mission-summary-card">
         <div class="mission-header">
-            <div class="target-icon"><i class="fas fa-fire"></i></div>
-            <div class="header-text">
-                
+            <div class="target-icon"><i class="fas fa-trophy"></i></div> <div class="header-text">
                 <p>Complete suas missões e ganhe recompensas!</p>
             </div>
         </div>
 
-    
-
-        <div class="weekly-streak-container">
-            <h4>Sequência desta Semana</h4>
-            <p>Continue acessando diariamente!</p>
-            <div class="day-list">
-                <div class="day-item completed">S <i class="fas fa-check-circle"></i></div>
-                <div class="day-item completed">T <i class="fas fa-check-circle"></i></div>
-                <div class="day-item completed">Q <i class="fas fa-check-circle"></i></div>
-                <div class="day-item completed">Q <i class="fas fa-check-circle"></i></div>
-                <div class="day-item completed">S <i class="fas fa-check-circle"></i></div>
-                <div class="day-item completed">S <i class="fas fa-check-circle"></i></div>
-                <div class="day-item current">D</div>
+        <div class="streak-counter"> 
+            <div class="streak-icon">🔥</div> 
+            <div class="streak-details">
+                <h2 id="streak-numero-dias">--</h2> 
+                <p>Dias de ofensiva</p>
             </div>
         </div>
+        
     </section>
 
     <div style="color: white;" class="medalhas-top-cards">
-      <div style="background-color: #2473b5;" class="card-top blue">
-        <i class="fas fa-check-circle"></i>
-        <h2>0/8</h2>
-        <p>Realizadas</p>
-        <div class="progress">
-          <div class="progress-fill" style="width: 35%;"></div>
+        <div style="background-color: #2473b5;" class="card-top blue">
+            <i class="fas fa-check-circle"></i>
+            <h2>0/8</h2>
+            <p>Realizadas</p>
+            <div class="progress">
+                <div class="progress-fill" style="width: 0%;"></div>
+            </div>
         </div>
-      </div>
 
-      <div style="background-color: #00b783;" class="card-top green">
-        <div><i class="fas fa-star"></i></div>
-        <h2>0/1275</h2>
-        <span class="subtext">XP Conquistado</span>
-      </div>
+        <div style="background-color: #00b783;" class="card-top green">
+            <div><i class="fas fa-star"></i></div>
+            <h2>0/1275</h2>
+            <span class="subtext">XP Conquistado</span>
+        </div>
     </div>
 
     <div class="goals-title">
-        <i class="fas fa-trophy"></i> Suas Metas de Hoje
+        <i class="fas fa-tasks"></i> Suas Metas de Hoje
     </div>
 
     <section class="daily-goals-list">
         </section>
+    
     <section class="tip-of-the-day">
         <div class="tip-header">
             <i class="fas fa-star-half-alt"></i> Dica do Dia
@@ -103,15 +96,18 @@
             <span class="tag tag-purple">Tecnologia</span>
         </div>
     </section>
+
     <section class="publicidade">
-      <p>PUBLICIDADE</p>
-      <a href="#" target="_blank">
-        <img src="assets/publicidade.jpeg" alt="Publicidade Caravana" class="publicidade-img" />
-      </a>
+        <p>PUBLICIDADE</p>
+        <a href="#" target="_blank">
+            <img src="assets/publicidade.jpeg" alt="Publicidade Caravana" class="publicidade-img" />
+        </a>
     </section>
 </main>
+
+    <div class="toast-container"></div>
+
     <script src="scripts/utils.js"></script> 
-    <script src="scripts/main.js"></script>
     <script src="scripts/missoes.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /* ##################################################################
-   NOVOS ESTILOS - METAS E RECOMPENSAS DIÁRIAS (GAMIFICAÇÃO)
-   ################################################################## */
+    NOVOS ESTILOS - METAS E RECOMPENSAS DIÁRIAS (GAMIFICAÇÃO)
+    ################################################################## */
 
 /* Container Principal para a Página de Missões */
 .page-missoes {
@@ -9,8 +9,8 @@
 }
 
 /* -------------------
-   1. CARD DE RESUMO PRINCIPAL (MISSION SUMMARY)
-   ------------------- */
+    1. CARD DE RESUMO PRINCIPAL (MISSION SUMMARY)
+    ------------------- */
 .mission-summary-card {
     background: linear-gradient(145deg, #ffc107, var(--ranking-orange)); /* Gradiente Laranja/Amarelo */
     border-radius: 15px;
@@ -23,7 +23,8 @@
 .mission-header {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    /* ATUALIZADO: Removido margin-bottom para dar espaço ao novo contador */
+    margin-bottom: 15px; 
     position: relative;
 }
 
@@ -47,128 +48,47 @@
 .mission-header p {
     font-size: 0.9em;
     opacity: 0.9;
+    margin: 0;
 }
 
-.user-level-info {
-    position: absolute;
-    top: 5px;
-    right: 0;
-    text-align: right;
-    font-size: 0.7em;
-    font-weight: 600;
-}
-
-/* Stats (1/4, 7 dias, 100/285) */
-.summary-stats {
-    display: flex;
-    justify-content: space-evenly;
-    gap: 10px;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.stat-item {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 10px 21px;
-    flex-basis: 33%;
-    font-size: 30px;
-}
-
-.stat-item i {
-    font-size: 1.2em;
-    margin-bottom: 5px;
-}
-
-.stat-item p {
-    font-size: 0.75em;
-    margin-bottom: 3px;
-    opacity: 0.9;
-}
-
-.stat-item strong {
-    font-size: 1.1em;
-    font-weight: 700;
-}
+/* ... (Estilos .user-level-info, .summary-stats, .stat-item removidos pois não estão no HTML) ... */
 
 /* -------------------
-   2. SEQUÊNCIA DA SEMANA (WEEKLY STREAK)
-   ------------------- */
-.weekly-streak-container {
-    background: white;
+    2. CONTADOR DE OFENSIVA (STREAK COUNTER)
+    (Estilos ANTIGOS de .weekly-streak-container REMOVIDOS)
+    (Estilos NOVOS ADICIONADOS)
+    ------------------- */
+.streak-counter {
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     padding: 15px;
-    color: var(--color-text-dark);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    position: relative;
-}
-
-.streak-days-counter {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-weight: 700;
-    font-size: 0.9em;
-    color: var(--ranking-orange);
-}
-
-.weekly-streak-container h4 {
-    font-size: 1.1em;
-    font-weight: 700;
-    margin-bottom: 2px;
-}
-
-.weekly-streak-container p {
-    font-size: 0.8em;
-    color: var(--color-text-light);
-    margin-bottom: 15px;
-}
-
-.day-list {
     display: flex;
-    justify-content: space-around;
-}
-
-.day-item {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    font-size: 0.8em;
-    font-weight: 600;
-    color: var(--color-text-light);
-    border: 1px solid #ddd;
+    gap: 15px;
+}
+
+.streak-icon {
+    font-size: 2.5em; /* Tamanho do ícone de fogo */
     line-height: 1;
 }
 
-.day-item i {
-    font-size: 1em;
-    margin-top: 2px;
+.streak-details h2 {
+    font-size: 1.8em;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
 }
 
-.day-item.completed {
-    background-color: #e6f7e9;
-    border-color: var(--color-success-dark);
-    color: var(--color-success-dark);
-}
-
-.day-item.completed i {
-    color: var(--color-success-dark);
-}
-
-.day-item.current {
-    background: var(--ranking-orange);
-    color: white;
-    border: none;
-    padding: 5px;
+.streak-details p {
+    font-size: 0.9em;
+    opacity: 0.9;
+    margin: 0;
+    padding-top: 3px;
 }
 
 /* -------------------
-   3. LISTA DE METAS DIÁRIAS (DAILY GOALS)
-   ------------------- */
+    3. LISTA DE METAS DIÁRIAS (DAILY GOALS)
+    ------------------- */
 .goals-title {
     font-size: 1.1em;
     font-weight: 700;
@@ -225,10 +145,12 @@
     color: white;
 }
 
-.goal-icon-circle.star { background-color: #ffc107; }
-.goal-icon-circle.fire { background-color: var(--ranking-red-streak); }
-.goal-icon-circle.explore { background-color: #00bcd4; }
-.goal-icon-circle.time { background-color: var(--color-primary); }
+/* Cores de Raridade dos Ícones (Dinâmicas, do seu CSS) */
+.goal-icon-circle.comum { background-color: #00b783; }
+.goal-icon-circle.rara { background-color: #ff8200; }
+.goal-icon-circle.epica { background-color: #d4040c; }
+
+/* (Estilos .star, .fire, .explore, .time removidos por serem redundantes com as raridades) */
 
 .goal-details {
     flex-grow: 1;
@@ -246,71 +168,15 @@
     margin-bottom: 5px;
 }
 
-.goal-progress-text {
-    font-size: 0.8em;
-    font-weight: 600;
-    color: var(--color-text-dark);
-    margin-bottom: 5px;
-}
+/* (Estilos .goal-progress-text, .progress-bar, .progress-fill antigos removidos) */
 
-.progress-bar {
-    height: 4px;
-    background: #e0e0e0;
-    border-radius: 2px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: #4ade80; /* Cor de progresso */
-}
-
-.goal-xp {
-    font-size: 0.9em;
-    font-weight: 700;
-    color: #4ade80;
-    margin-left: 15px;
-    text-align: right;
-    line-height: 1.2;
-}
-
-.goal-xp i {
-    color: #4ade80;
-    font-size: 1.2em;
-    display: block; /* Garante que o ícone de check na direita vá para baixo */
-}
-
-.goal-item.completed .goal-details {
-    opacity: 0.7; /* Suaviza a cor das metas completas */
-}
-
-.check-box {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 1px solid #ccc;
-    margin-left: 15px;
-    flex-shrink: 0;
-}
-/* Se a meta está completa, escondemos o checkbox e mostramos o XP e o check (feito no HTML) */
-.goal-item.completed .check-box {
-    display: none; 
-}
-.goal-item.completed .goal-xp i {
-    display: inline; /* Corrige o display para alinhar o XP e o check no mesmo bloco */
-}
-.goal-item:not(.completed) .goal-xp {
-    color: var(--ranking-orange); /* XP em laranja para metas incompletas */
-    font-size: 1em;
-}
-.goal-item:not(.completed) .goal-xp i {
-    display: none; /* Esconde o check para metas incompletas */
-}
+/* (Estilos .goal-xp antigos removidos e simplificados pelo CSS dinâmico) */
 
 
 /* -------------------
-   4. RECOMPENSAS DISPONÍVEIS (REWARDS)
-   ------------------- */
+    4. RECOMPENSAS DISPONÍVEIS (REWARDS)
+    (Seção mantida, mas não está no HTML atual)
+    ------------------- */
 .rewards-section {
     background: white;
     border-radius: 15px;
@@ -318,13 +184,12 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     margin-bottom: 25px;
 }
-
+/* ... (todo o resto da seção 4 mantido) ... */
 .rewards-header {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
-
 .rewards-icon-box {
     background-color: #ffc107;
     color: white;
@@ -337,119 +202,30 @@
     font-size: 1.2em;
     margin-right: 15px;
 }
+.rewards-header h3 { font-size: 1.2em; font-weight: 700; }
+.rewards-header p { font-size: 0.85em; color: var(--color-text-light); }
+.reward-cards-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.reward-card { background: #fcfcfc; border-radius: 10px; padding: 15px; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
+.reward-icon { width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2em; color: white; margin-right: 15px; }
+.reward-card:nth-child(1) .reward-icon { background-color: var(--ranking-orange); }
+.reward-card:nth-child(2) .reward-icon { background-color: #ff9800; }
+.reward-card:nth-child(3) .reward-icon { background-color: #f44336; }
+.reward-title { font-weight: 700; font-size: 1em; line-height: 1.3; }
+.reward-detail { font-size: 0.85em; color: var(--color-text-light); flex-grow: 1; }
+.btn-resgatar { background-color: var(--ranking-orange); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 700; cursor: pointer; transition: background-color 0.2s; flex-shrink: 0; }
+.btn-resgatar:hover { background-color: #e54b17; }
+.unlock-progress { padding-top: 10px; border-top: 1px solid #eee; }
+.progress-info { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 0.85em; font-weight: 600; color: var(--color-text-light); }
+.progress-bar-unlock { width: 100%; height: 6px; background: #e0e0e0; border-radius: 3px; margin: 5px 0 10px 0; }
+.progress-fill-unlock { height: 100%; background: var(--color-primary); border-radius: 3px; }
+.progress-label { color: var(--color-text-dark); }
+.progress-count { color: var(--ranking-red-down); }
 
-.rewards-header h3 {
-    font-size: 1.2em;
-    font-weight: 700;
-}
-
-.rewards-header p {
-    font-size: 0.85em;
-    color: var(--color-text-light);
-}
-
-.reward-cards-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.reward-card {
-    background: #fcfcfc;
-    border-radius: 10px;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.reward-icon {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2em;
-    color: white;
-    margin-right: 15px;
-}
-/* Cores dos ícones de recompensa (ajustadas para semelhança) */
-.reward-card:nth-child(1) .reward-icon { background-color: var(--ranking-orange); } /* Raio */
-.reward-card:nth-child(2) .reward-icon { background-color: #ff9800; } /* Dobro de pontos */
-.reward-card:nth-child(3) .reward-icon { background-color: #f44336; } /* Selo Especial */
-
-.reward-title {
-    font-weight: 700;
-    font-size: 1em;
-    line-height: 1.3;
-}
-
-.reward-detail {
-    font-size: 0.85em;
-    color: var(--color-text-light);
-    flex-grow: 1;
-}
-
-.btn-resgatar {
-    background-color: var(--ranking-orange);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 0.9em;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    flex-shrink: 0;
-}
-
-.btn-resgatar:hover {
-    background-color: #e54b17;
-}
-
-/* Barra de Progresso de Desbloqueio */
-.unlock-progress {
-    padding-top: 10px;
-    border-top: 1px solid #eee;
-}
-
-.progress-info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85em;
-    font-weight: 600;
-    color: var(--color-text-light);
-}
-
-.progress-bar-unlock {
-    width: 100%;
-    height: 6px;
-    background: #e0e0e0;
-    border-radius: 3px;
-    margin: 5px 0 10px 0;
-}
-
-.progress-fill-unlock {
-    height: 100%;
-    background: var(--color-primary);
-    border-radius: 3px;
-}
-
-.progress-label {
-    color: var(--color-text-dark);
-}
-
-.progress-count {
-    color: var(--ranking-red-down);
-}
 
 /* -------------------
-   5. DICA DO DIA (TIP OF THE DAY)
-   ------------------- */
+    5. DICA DO DIA (TIP OF THE DAY)
+    ------------------- */
+/* ... (Seção 5 mantida) ... */
 .tip-of-the-day {
     background: #fff8e1; /* Amarelo claro/creme */
     border-radius: 15px;
@@ -457,44 +233,19 @@
     margin-bottom: 40px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
-
-.tip-header {
-    font-size: 1.1em;
-    font-weight: 700;
-    color: #ffc107;
-    margin-bottom: 10px;
-}
-
-.tip-header i {
-    margin-right: 8px;
-}
-
-.tip-of-the-day p {
-    font-size: 0.9em;
-    color: var(--color-text-dark);
-    margin-bottom: 15px;
-    line-height: 1.5;
-}
-
-.tip-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.tag {
-    font-size: 0.8em;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-weight: 600;
-    border: 1px solid;
-}
-
+.tip-header { font-size: 1.1em; font-weight: 700; color: #ffc107; margin-bottom: 10px; }
+.tip-header i { margin-right: 8px; }
+.tip-of-the-day p { font-size: 0.9em; color: var(--color-text-dark); margin-bottom: 15px; line-height: 1.5; }
+.tip-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { font-size: 0.8em; padding: 5px 10px; border-radius: 15px; font-weight: 600; border: 1px solid; }
 .tag-blue { background-color: #e0f2ff; color: var(--color-primary); border-color: var(--color-primary); }
 .tag-green { background-color: #e6f7e9; color: #4ade80; border-color: #4ade80; }
 .tag-orange { background-color: #fff8e1; color: var(--ranking-orange); border-color: var(--ranking-orange); }
 .tag-purple { background-color: #f3e8ff; color: #a855f7; border-color: #a855f7; }
 
+/* -------------------
+    6. CARDS DE RESUMO (Realizadas / XP)
+    ------------------- */
 .medalhas-top-cards{
     display: flex;
     flex-direction: row;
@@ -510,85 +261,47 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0 3px 10px;
+    /* ATUALIZADO: Corrigido box-shadow inválido (faltava cor) */
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1); 
 }
 
-/* === ALERTA DE CONQUISTA === */
-
+/* -------------------
+    7. ALERTA DE CONQUISTA (TOAST)
+    ------------------- */
+/* ... (Seção 7 mantida) ... */
 .toast-container {
-  position: fixed;
-  bottom: 20px;   /* muda de top para bottom */
-  right: 20px;    /* continua no canto direito */
-  display: flex;
-  flex-direction: column-reverse; /* faz o alerta mais novo subir para cima */
-  gap: 10px;
-  z-index: 9999;
+    position: fixed;
+    bottom: 20px; 
+    right: 20px; 
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+    z-index: 9999;
 }
-
-
 .toast {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #fff;
-  border-left: 6px solid #00c68a;
-  padding: 12px 16px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  animation: slideIn 0.4s ease forwards;
-  min-width: 250px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border-left: 6px solid #00c68a;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    animation: slideIn 0.4s ease forwards;
+    min-width: 250px;
 }
+.toast.hide { animation: fadeOut 0.4s ease forwards; }
+.toast i { font-size: 22px; color: #00c68a; }
+.toast-content { display: flex; flex-direction: column; }
+.toast-content strong { font-size: 14px; color: #222; }
+.toast-content span { font-size: 12px; color: #555; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(80px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeOut { to { opacity: 0; transform: translateX(80px); } }
 
-.toast.hide {
-  animation: fadeOut 0.4s ease forwards;
-}
-
-.toast i {
-  font-size: 22px;
-  color: #00c68a;
-}
-
-.toast-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.toast-content strong {
-  font-size: 14px;
-  color: #222;
-}
-
-.toast-content span {
-  font-size: 12px;
-  color: #555;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(80px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    transform: translateX(80px);
-  }
-}
-
-/* ... (no final de missoes.css) ... */
-
-/* --- NOVOS ESTILOS DINÂMICOS --- */
-
-/* Cores de Raridade dos Ícones */
-.goal-icon-circle.comum { background-color: #00b783; }
-.goal-icon-circle.rara { background-color: #ff8200; }
-.goal-icon-circle.epica { background-color: #d4040c; }
+/* -------------------
+    8. ESTILOS DINÂMICOS DAS MISSÕES
+    ------------------- */
+/* ... (Seção 8 mantida, está correta) ... */
 
 /* Estilo para Missão PENDENTE */
 .goal-item.pendente .check-box {
@@ -613,14 +326,11 @@
     background-color: #00b783;
     margin-left: 15px;
     flex-shrink: 0;
-    
-    /* Centraliza o checkmark */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Adiciona o "check" usando pseudo-elemento */
 .goal-item.concluida .check-box::after {
     content: '✔';
     color: white;
@@ -655,10 +365,8 @@
     margin-top: 3px;
     font-weight: 600;
 }
-/* ... (final do arquivo missoes.css) ... */
 
-/* --- AJUSTE: Esconde a barra de progresso e o texto se a missão estiver concluída --- */
-
+/* Esconde a barra de progresso e o texto se a missão estiver concluída */
 .goal-item.concluida .progress-bar-container {
     display: none;
 }

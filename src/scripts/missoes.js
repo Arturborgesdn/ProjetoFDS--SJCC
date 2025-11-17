@@ -83,55 +83,36 @@ async function carregarDadosDeMissoes() {
 /**
  * Função para carregar e exibir a ofensiva (sequência de dias com missão concluída)
  */
+// Versão NOVA e CORRETA (para missoes.js)
 async function carregarOfensiva() {
     const usuarioId = getUsuarioId();
     if (!usuarioId) return;
 
+    // 1. Ela procura o NOVO elemento (o <h2>)
+    const streakElement = document.getElementById('streak-numero-dias');
+
+    if (!streakElement) {
+        // 2. O aviso (warning) aqui é diferente e correto
+        console.warn("Elemento da ofensiva (streak-numero-dias) não encontrado.");
+        return;
+    }
+
     try {
-        const response = await fetch(`${API_USUARIO}/${usuarioId}/ofensiva`);
+        // 3. Ela busca o endpoint /ofensiva e preenche o número
+        const response = await fetch(`${API_USUARIO}/${usuarioId}/ofensiva`); 
         const result = await response.json();
 
         if (result.sucesso) {
-            const dias = result.dias_com_missao || 0;
-            const container = document.querySelector('.weekly-streak-container .day-list');
-            
-            if (container) {
-                // Atualiza visualmente o "weekly streak"
-                atualizarWeeklyStreak(container, dias);
-            } else {
-                console.warn("Container do Weekly Streak não encontrado na página.");
-            }
+            const dias_completos = result.dias_consecutivos || 0;
+            streakElement.textContent = dias_completos;
+        } else {
+            streakElement.textContent = '0';
         }
     } catch (error) {
         console.error("Erro ao carregar ofensiva:", error);
+        streakElement.textContent = '0';
     }
 }
-
-/**
- * Atualiza o componente visual de sequência semanal (weekly streak)
- * @param {HTMLElement} container - Contêiner da lista de dias
- * @param {number} diasCompletos - Quantos dias o usuário completou
- */
-function atualizarWeeklyStreak(container, diasCompletos) {
-    const diasSemana = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
-    container.innerHTML = '';
-
-    diasSemana.forEach((letra, index) => {
-        let classe = '';
-        if (index < diasCompletos) {
-            classe = 'completed';
-        } else if (index === diasCompletos) {
-            classe = 'current';
-        }
-
-        container.innerHTML += `
-            <div class="day-item ${classe}">
-                ${letra} ${classe === 'completed' ? '<i class="fas fa-check-circle"></i>' : ''}
-            </div>
-        `;
-    });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     carregarDadosDeMissoes();
     carregarOfensiva(); // Conectado ao Weekly Streak
