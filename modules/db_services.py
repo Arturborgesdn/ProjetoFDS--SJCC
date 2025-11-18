@@ -340,3 +340,28 @@ def get_user_streak_from_db(user_id):
     finally:
         cursor.close()
         conn.close()
+        
+def get_user_inventory_from_db(user_id):
+    """
+    Busca todos os itens ativos que o usuário já resgatou.
+    """
+    conn = get_db_connection()
+    if not conn: return []
+    
+    cursor = conn.cursor(dictionary=True)
+    try:
+        # Busca itens que ainda não expiraram ou que são permanentes
+        query = """
+            SELECT nome_beneficio, data_resgate, data_expiracao, ativo
+            FROM beneficios_resgatados
+            WHERE usuario_id = %s 
+            ORDER BY data_resgate DESC
+        """
+        cursor.execute(query, (user_id,))
+        return cursor.fetchall()
+    except Exception as e:
+        print(f"Erro ao buscar inventário: {e}")
+        return []
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()

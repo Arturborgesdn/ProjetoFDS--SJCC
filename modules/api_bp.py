@@ -22,7 +22,26 @@ from modules.gamification import (
     get_completed_daily_missions,
     get_leaderboard,
     get_user_rank,
-    get_user_streak # <-- 🚀 ATUALIZAÇÃO: IMPORTAÇÃO ADICIONADA
+    get_user_streak 
+)
+from modules.benefits import (
+    BENEFITS, 
+    XP_MULTIPLIERS, 
+    JC_MULTIPLIERS, 
+    redeem_benefit, 
+    activate_multiplier
+)
+from modules.db_services import (
+    get_db_connection, 
+    get_user_data_from_db, 
+    update_xp_jc_in_db, 
+    insert_medal_in_db, 
+    get_completed_missions_from_db, 
+    insert_daily_mission_in_db,
+    get_leaderboard_from_db,
+    get_user_rank_from_db,
+    get_user_streak_from_db,
+    get_user_inventory_from_db 
 )
 
 # Cria o Blueprint com o prefixo '/api'
@@ -555,3 +574,118 @@ def get_ofensiva_usuario(user_id):
     except Exception as e:
         print(f"Erro ao buscar ofensiva na ROTA: {e}")
         return jsonify({"sucesso": False, "dias_consecutivos": 0, "erro": str(e)}), 500
+    
+@api_bp.route('/recompensas/<string:user_id>', methods=['GET'])
+def get_recompensas_loja(user_id):
+    """
+    Retorna a lista de todos os itens da loja e os JC Points atuais do usuário.
+    """
+    try:
+        user_data = get_user_data(user_id)
+        if not user_data:
+            return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
+
+        pontos = user_data.get('jc_points', 0)
+        
+        # Combina todos os dicionários de benefícios em uma única lista
+        itens_loja = []
+        
+        for nome, dados in BENEFITS.items():
+            itens_loja.append({
+                "id": nome,
+                "nome": nome,
+                "descricao": dados.get("duracao", "Benefício"),
+                "custo": dados["custo"],
+                "tipo": "beneficio",
+                "raridade": "raro" # (Definindo raridade para o front)
+            })
+            
+        for nome, dados in XP_MULTIPLIERS.items():
+            itens_loja.append({
+                "id": f"xp_{nome}",
+                "nome": f"XP Boost ({nome})",
+                "descricao": f"+{int((dados['bonus']-1)*100)}% XP por {dados['duracao_horas']}h",
+                "custo": dados["custo"],
+                "tipo": "xp",
+                "nivel": nome,
+                "raridade": "epico" if nome in ["Grande", "Épico"] else "raro"
+            })
+
+        for nome, dados in JC_MULTIPLIERS.items():
+            itens_loja.append({
+                "id": f"jc_{nome}",
+                "nome": f"JC Points Boost ({nome})",
+                "descricao": f"+{int((dados['bonus']-1)*100)}% JC Points por {dados['duracao_horas']}h",
+                "custo": dados["custo"],
+                "tipo": "jc",
+                "nivel": nome,
+                "raridade": "lendario"
+            })
+
+        return jsonify({
+            "sucesso": True, 
+            "jc_points": pontos,
+            "itens": itens_loja
+        })
+
+    except Exception as e:
+        print(f"Erro ao buscar recompensas: {e}")
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+
+
+@api_bp.route('/recompensas/comprar', methods=['POST'])
+def comprar_recompensa():
+    """
+    Processa a compra de um item da loja.
+    """
+    try:
+        data = request.get_json()
+        user_id = data.get('user_id')
+        item_id = data.get('item_id') # O nome/ID do item
+        tipo = data.get('tipo')       # 'beneficio', 'xp', ou 'jc'
+        nivel = data.get('nivel')     # 'Pequeno', 'Médio', etc. (só para multiplicadores)
+
+        if not all([user_id, item_id, tipo]):
+            return jsonify({"sucesso": False, "mensagem": "Dados incompletos."}), 400
+
+        resultado = None
+        if tipo == 'beneficio':
+            resultado = redeem_benefit(user_id, item_id)
+        elif tipo in ['xp', 'jc']:
+            resultado = activate_multiplier(user_id, tipo, nivel)
+        else:
+            return jsonify({"sucesso": False, "mensagem": "Tipo de item inválido."}), 400
+
+        # Verifica se a função de benefício retornou um erro
+        if 'erro' in resultado:
+            return jsonify({"sucesso": False, "mensagem": resultado['erro']}), 400
+        
+        # Sucesso
+        return jsonify({"sucesso": True, "mensagem": resultado['mensagem'], "saldo_atual": resultado['saldo_atual']}), 200
+
+    except Exception as e:
+        print(f"Erro ao comprar recompensa: {e}")
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+    
+@api_bp.route('/recompensas/inventario/<string:user_id>', methods=['GET'])
+def get_inventario_usuario(user_id):
+    """
+    Retorna a lista de itens comprados pelo usuário.
+    """
+    try:
+        items = get_user_inventory_from_db(user_id)
+        
+        # Formata as datas para string
+        for item in items:
+            if item['data_resgate']:
+                item['data_resgate'] = item['data_resgate'].strftime('%d/%m/%Y')
+            if item['data_expiracao']:
+                item['data_expiracao'] = item['data_expiracao'].strftime('%d/%m/%Y')
+            else:
+                item['data_expiracao'] = "Permanente"
+
+        return jsonify({"sucesso": True, "inventario": items})
+
+    except Exception as e:
+        print(f"Erro na rota inventario: {e}")
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500

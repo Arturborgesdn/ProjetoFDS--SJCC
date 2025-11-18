@@ -37,7 +37,7 @@
 
 
     <main class="container">
-    <h1 class="page-title">LOJA DE RECOMPENSAS</h1>
+    <h1 class="page-title" id="titulo-pagina-recompensas" >LOJA DE RECOMPENSAS</h1>
         <section class="secao-loja-recompensas fundo-gradiente-laranja">
             <div class="cabecalho-loja">
                 <i class="fas fa-box-open icone-loja"></i>
@@ -49,23 +49,22 @@
                 <div class="valor-pontos">
                     <img style=" width: 100px; height: 100px;"  src="assets/JC_Points_Novo.png" alt="JC_Points">
                     <div>
-                        <p style="margin-top: 30px;">40</p>
+                        <p style="margin-top: 30px;" id="user-jc-points-saldo" >--</p>
                     </div>    
                 </div>
             </div>
 
             <div class="informacoes-loja">
-                <div class="info-item">
+                 <div class="info-item">
                     <i class="fas fa-gift"></i>
                     <p>Itens Possuídos</p>
-                    <strong>0/12</strong>
+                    <strong id="contador-itens-possuidos">0/12</strong>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-star-of-life"></i>
                     <p>Ofertas Ativas</p>
-                    <strong>3</strong>
+                    <strong id="contador-ofertas-ativas">3</strong>
                 </div>
-            </div>
         </section>
 
         <section class="secao-ganhar-pontos fundo-gradiente-verde">
@@ -98,44 +97,20 @@
             </div>
         </section>
 
-        <section class="secao-itens-loja">
-            <h2>Molduras Disponíveis</h2>
-            
-            <div class="item-card card-epico">
-                <div class="icone-raridade fundo-epico"><i class="fas fa-user"></i></div>
-                <span class="tag tag-epico">Personalização e Status</span>
-                <h3>Moldura de perfil</h3>
-                <p>Moldura premium para seu avatar</p>
-                <div class="compra-info">
-                    <div class="custo"><i class="fas fa-coins"></i>1.500</div>
-                    <button class="btn-comprar fundo-btn-laranja">Comprar</button>
-                </div>
-            </div>
+        <section id="secao-inventario" class="secao-itens-loja" style="display: none; margin-bottom: 30px;">
+            <h2 style="border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 20px;">
+                <i class="fas fa-briefcase" style="color: #555;"></i> Meus Itens
+            </h2>
+            <div id="lista-inventario"></div>
+        </section>
 
-            <div class="item-card card-lendario">
-                <div class="icone-raridade fundo-lendario"><i class="fas fa-star"></i></div>
-                <span class="tag tag-lendario">Multiplicador</span>
-                <h3>Aumento percentual no XP</h3>
-                <p>+ 25% no ganho de XP</p>
-                <div class="compra-info">
-                    <div class="custo"><i class="fas fa-coins"></i>2.200</div>
-                    <button class="btn-comprar fundo-btn-laranja">Comprar</button>
-                </div>
-            </div>
-
-            <div class="item-card card-raro">
-                <div class="icone-raridade fundo-raro"><i class="fas fa-coins"></i></div>
-                <span class="tag tag-raro">Eventos e Parcerias</span>
-                <h3>Descontos culturais</h3>
-                <p>Cupons de descontos para livros, cinema, teatros ou cafés</p>
-                <div class="compra-info">
-                    <div class="custo"><i class="fas fa-coins"></i>3.500</div>
-                    <button class="btn-comprar fundo-btn-laranja">Comprar</button>
-                </div>
-            </div>
+        
+        <section class="secao-itens-loja" id="lista-loja-container">
+            <h2>Itens Disponíveis</h2>
         </section>
     </main> 
     <script src="scripts/utils.js"></script> 
+    <script src="scripts/recompensas.js"></script>
     <script src="scripts/main.js"></script>
 </body>
 </html>

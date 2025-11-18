@@ -374,3 +374,24 @@ body {
 .btn-comprar:hover {
     background-color: #e06d0a;
 }
+
+.fundo-raro { 
+    background-color: #e6f7e9; /* Verde claro */
+    color: var(--color-green-dark);
+}
+
+.fundo-epico { 
+    background-color: #f3e8ff; /* Roxo claro */
+    color: var(--color-purple-dark);
+}
+
+.fundo-lendario { 
+    background-color: #fff8e1; /* Amarelo/Laranja claro */
+    color: var(--ranking-orange);
+}
+
+/* Estilo do botão desabilitado */
+.fundo-btn-cinza {
+    background-color: #ccc;
+    color: #666;
+}

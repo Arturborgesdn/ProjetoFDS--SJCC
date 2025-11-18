@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const missoesSection = document.querySelector('#titulo-pagina-missoes');
     const cardParabens = document.querySelector('.card-parabens'); 
     const rankingSection = document.querySelector('#titulo-pagina-ranking');
+    const recompensasSection = document.querySelector('#titulo-pagina-recompensas');
     
     // Elementos globais
     const lupaBtn = document.querySelector('.lupa-btn');
@@ -117,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     } else if (missoesSection) { 
         carregarDadosDeMissoes();
+        carregarOfensiva();
         console.log("Módulo: Missões. Carregamento de dados iniciado.");
 
     } else if (cardParabens) { 
@@ -126,6 +128,9 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (rankingSection) { 
         carregarDadosDeRanking();
         console.log("Módulo: Ranking. Carregamento de dados iniciado.");
+    } else if (recompensasSection) { 
+        carregarLojaDeRecompensas();
+        console.log("Módulo: Recompensas. Carregamento da loja iniciado.");
     }
     
     // --- LÓGICA GLOBAL (Eventos Comuns) ---

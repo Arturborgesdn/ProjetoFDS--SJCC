@@ -113,7 +113,4 @@ async function carregarOfensiva() {
         streakElement.textContent = '0';
     }
 }
-document.addEventListener('DOMContentLoaded', () => {
-    carregarDadosDeMissoes();
-    carregarOfensiva(); // Conectado ao Weekly Streak
-});
+
