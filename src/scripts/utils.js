@@ -53,9 +53,13 @@ function limparSessao() {
 
 // --- Mapeamento e Path de Emblemas (Novo) ---
 
+// --- Mapeamento e Path de Emblemas (CORRIGIDO) ---
+
 const EMBLEM_MAP = {
-    // CATEGORIA_MEDALHA: Nome do arquivo (sem a extensão .png/.webp, mas com -removebg-preview se existir)
-    'Leitor Leigo_Bronze': 'Leito_Leigo_Bronze-removebg-preview',
+    // CATEGORIA_MEDALHA: Nome do arquivo exato na pasta assets
+    
+    // 🔴 CORRIGIDO AQUI (Estava 'Leito_Leigo')
+    'Leitor Leigo_Bronze': 'Leitor_Leigo_Bronze-removebg-preview', 
     'Leitor Leigo_Prata': 'Leitor_Leigo_Prata-removebg-preview',
     'Leitor Leigo_Ouro': 'Leitor_Leigo_Ouro-removebg-preview',
     
@@ -75,7 +79,8 @@ const EMBLEM_MAP = {
     'Leitor Desenrolado_Prata': 'Leitor_Desenrolado_Prata',
     'Leitor Desenrolado_Ouro': 'Leitor_Desenrolado_Ouro',
     
-    'Leitor Topado_Bronze': 'Leitor_topado_Bronze',
+    // 🔴 Padronizei 'topado' para 'Topado' (verifique se seu arquivo é maiúsculo ou minúsculo)
+    'Leitor Topado_Bronze': 'Leitor_Topado_Bronze', 
     'Leitor Topado_Prata': 'Leitor_Topado_Prata',
     'Leitor Topado_Ouro': 'Leitor_Topado_Ouro',
 };

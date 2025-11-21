@@ -2,7 +2,7 @@
 
 # Camada de Lógica de Negócios (Business Logic Layer)
 # Responsável PELAS REGRAS, cálculos e orquestração da gamificação.
-# NÃO executa SQL, chama o db_services.py para isso.
+# NÃO executa SQL diretamente, chama o db_services.py para isso.
 
 from datetime import date
 from modules.db_services import (
@@ -14,11 +14,13 @@ from modules.db_services import (
     insert_daily_mission_in_db,
     get_leaderboard_from_db,
     get_user_rank_from_db,
-    get_user_streak_from_db  # <-- 🚀 IMPORTAÇÃO ADICIONADA
+    get_user_streak_from_db
 )
 
-# DEFINIÇÕES E REGRAS (LÓGICA PURA)
-# (Seu código original, mantido)
+# ===============================================
+# DEFINIÇÕES E REGRAS GLOBAIS
+# ===============================================
+
 MEDALHAS = {
     "Novinho em folha": {
         "jc_points": 10, 
@@ -71,7 +73,6 @@ MEDALHAS = {
     }
 }
 
-# (Seu código original, mantido)
 MISSOES_DIARIAS = {
     "Leitura Massa": {
         "descricao": "Leia 2 matérias completas",
@@ -155,40 +156,93 @@ MISSOES_DIARIAS = {
     }
 }
 
-# --- Funções de Cálculo (Lógica Pura) ---
+# 🚀 MOVIDO PARA O ESCOPO GLOBAL (Para correção do bug)
+CATEGORIAS_RANKING = [
+    {
+        "nome": "Leitor Leigo",
+        "inicio": 0,
+        "fim": 1500,
+        "bronze": (0, 500),
+        "prata": (501, 1000),
+        "ouro": (1001, 1500),
+    },
+    {
+        "nome": "Leitor Massa",
+        "inicio": 1501,
+        "fim": 3000,
+        "bronze": (1501, 2000),
+        "prata": (2001, 2500),
+        "ouro": (2501, 3000),
+    },
+    {
+        "nome": "Leitor Engajado",
+        "inicio": 3001,
+        "fim": 4500,
+        "bronze": (3001, 3500),
+        "prata": (3501, 4000),
+        "ouro": (4001, 4500),
+    },
+    {
+        "nome": "Leitor Arretado",
+        "inicio": 4501,
+        "fim": 6000,
+        "bronze": (4501, 5000),
+        "prata": (5001, 5500),
+        "ouro": (5501, 6000),
+    },
+    {
+        "nome": "Leitor Desenrolado",
+        "inicio": 6001,
+        "fim": 7500,
+        "bronze": (6001, 6500),
+        "prata": (6501, 7000),
+        "ouro": (7001, 7500),
+    },
+    {
+        "nome": "Leitor Topado",
+        "inicio": 7501,
+        "fim": 999999999,
+        "bronze": (7501, 8500),
+        "prata": (8501, 9500),
+        "ouro": (9501, 999999999),
+    },
+]
 
-def calcular_categoria_e_medalha(xp: int):
-    # (Seu código original, mantido)
-    if xp == 0:
-        nivel = 1
-    elif xp % 1500 == 0:
-        nivel = (xp // 1500)
-    else:
-        nivel = (xp // 1500) + 1
-    
-    if nivel == 1: categoria = "Leitor Leigo"
-    elif nivel == 2: categoria = "Leitor Massa"
-    elif nivel == 3: categoria = "Leitor Engajado"
-    elif nivel == 4: categoria = "Leitor Arretado"
-    elif nivel == 5: categoria = "Leitor Desenrolado"
-    else: categoria = "Leitor Topado"
-        
-    if xp == 0:
-        xp_no_ciclo = 0
-    elif xp % 1500 == 0:
-        xp_no_ciclo = 1500
-    else:
-        xp_no_ciclo = xp % 1500
-    
-    if xp_no_ciclo <= 500: medalha = "Bronze"
-    elif xp_no_ciclo <= 1000: medalha = "Prata"
-    else: medalha = "Ouro"
-        
-    return categoria, medalha
+# ===============================================
+# FUNÇÕES DE CÁLCULO (LÓGICA PURA)
+# ===============================================
+
+def calcular_categoria_e_medalha(score_total):
+    """
+    Calcula categoria e medalha com base em faixas fixas de XP (CATEGORIAS_RANKING global).
+    """
+    categoria_atual = None
+    medalha = None
+
+    # Descobrir categoria baseada no XP total
+    for c in CATEGORIAS_RANKING:
+        if c["inicio"] <= score_total <= c["fim"]:
+            categoria_atual = c["nome"]
+
+            if c["bronze"][0] <= score_total <= c["bronze"][1]:
+                medalha = "Bronze"
+            elif c["prata"][0] <= score_total <= c["prata"][1]:
+                medalha = "Prata"
+            elif c["ouro"][0] <= score_total <= c["ouro"][1]:
+                medalha = "Ouro"
+            else:
+                medalha = "Bronze"  # fallback de segurança
+            break
+            
+    # Caso de borda: Se não encontrou (ex: XP negativo ou erro), retorna padrão
+    if not categoria_atual:
+         categoria_atual = "Leitor Leigo"
+         medalha = "Bronze"
+
+    return categoria_atual, medalha
 
 
 def calcular_nivel(xp: int):
-    # (Seu código original, mantido)
     if xp == 0:
         nivel = 1
         xp_base_nivel_atual = 0
@@ -219,7 +273,7 @@ def calcular_nivel(xp: int):
     }
 
 # ===============================================
-# FUNÇÕES DE SERVIÇO (Orquestração da Lógica)
+# FUNÇÕES DE SERVIÇO (ORQUESTRAÇÃO DA LÓGICA)
 # ===============================================
 
 def get_user_data(user_id):
@@ -232,7 +286,6 @@ def adicionar_xp_jc(user_id, xp_ganho=0, jc_ganho=0):
 
 
 def check_and_award_medals(user_id, user_data): 
-    # (Seu código original, mantido)
     if not user_data:
         print(f"Erro: check_and_award_medals recebeu user_data vazio para {user_id}.")
         return []
@@ -268,13 +321,10 @@ def mark_daily_mission_complete(user_id, missao_nome, conn):
     """Marca uma missão diária como completa para o usuário HOJE."""
     return insert_daily_mission_in_db(user_id, missao_nome, conn)
 
-# ---
-# 🚀 FUNÇÃO ATUALIZADA (MAIS IMPORTANTE)
-# ---
 def check_and_award_daily_missions(user_id, user_data, conn):
     """
     Verifica TODAS as missões diárias e concede recompensas (Lógica de Negócio).
-    ATUALIZADO: Aciona o registro de OFENSIVA (streak) na primeira missão do dia.
+    Inclui registro de OFENSIVA (streak) na primeira missão do dia.
     """
     if not conn:
         print("Erro Crítico: Conexão com DB é necessária para check_and_award_daily_missions")
@@ -283,7 +333,7 @@ def check_and_award_daily_missions(user_id, user_data, conn):
     completed_today = get_completed_daily_missions(user_id, conn)
     newly_completed_missions = [] 
     
-    # 🚀 1. Flag para registrar a ofensiva
+    # Flag para registrar a ofensiva
     missoes_concluidas_agora = False 
 
     try:
@@ -293,15 +343,12 @@ def check_and_award_daily_missions(user_id, user_data, conn):
                 
                 print(f"Tentando completar missão '{nome_missao}' para {user_id}...")
                 
-                # 🚀 2. Tenta marcar no DB (SEM COMMIT)
-                # A função 'insert_daily_mission_in_db' agora retorna True
-                # apenas se for uma *nova* inserção bem-sucedida.
+                # Tenta marcar no DB (SEM COMMIT)
                 if mark_daily_mission_complete(user_id, nome_missao, conn):
                     
-                    # 🚀 3. ATIVA A FLAG! Pelo menos uma missão foi concluída AGORA.
                     missoes_concluidas_agora = True 
                     
-                    # Adiciona recompensas (esta função abre e fecha sua própria conexão)
+                    # Adiciona recompensas (função interna abre/fecha própria conexão, seguro aqui)
                     adicionar_xp_jc(user_id, xp_ganho=dados_missao['xp'], jc_ganho=dados_missao['jc_points'])
                     
                     print(f"✅ Missão Diária '{nome_missao}' completada E recompensada para {user_id}!")
@@ -317,18 +364,15 @@ def check_and_award_daily_missions(user_id, user_data, conn):
                     print(f"⚠️ Alerta: Falha ao MARCAR missão '{nome_missao}' (provavelmente já existia) para {user_id}.")
 
         # --- LÓGICA DA OFENSIVA ---
-        # 🚀 4. Se a flag foi ativada, registra o dia (SEM COMMIT)
         if missoes_concluidas_agora:
             print(f"🔥 Registrando dia de ofensiva para o usuário {user_id}...")
             registrar_dia_com_missao(user_id, conn)
         
-        # 🚀 5. COMMIT CENTRALIZADO
-        # Faz o commit de todas as operações (missões E ofensiva)
+        # COMMIT CENTRALIZADO
         conn.commit()
         print("Transação de missões e ofensiva comitada com sucesso.")
 
     except Exception as e:
-        # 🚀 6. ROLLBACK CENTRALIZADO
         print(f"❌ Erro Crítico na transação de missões: {e}. Fazendo rollback...")
         if conn:
             conn.rollback()
@@ -337,7 +381,6 @@ def check_and_award_daily_missions(user_id, user_data, conn):
     return newly_completed_missions
 
 def get_leaderboard(limit=10, order_by="xps"):
-    # (Seu código original, mantido)
     ranking = get_leaderboard_from_db(limit=limit, order_by=order_by)
     if not ranking:
         print("⚠️ Nenhum dado de ranking encontrado.")
@@ -349,46 +392,58 @@ def get_leaderboard(limit=10, order_by="xps"):
         r["medalha"] = medalha
     return ranking
 
-
+# 🚀 ATUALIZADO: CORREÇÃO DE BUG (TARGET VISUAL)
 def get_user_rank(user_id, order_by="xps"):
-    # (Seu código original, mantido)
     dados = get_user_rank_from_db(user_id, order_by=order_by)
     if not dados:
         print(f"⚠️ Usuário {user_id} não encontrado no ranking.")
         return None
     
-    categoria, medalha = calcular_categoria_e_medalha(dados["xps"])
+    xp_atual = dados["xps"]
+
+    # 1. Calcula o Status Atual
+    categoria, medalha = calcular_categoria_e_medalha(xp_atual)
     dados["categoria"] = categoria
     dados["medalha"] = medalha
+
+    # 2. Lógica para descobrir a "Próxima Medalha" (Target Visual)
+    limite_da_categoria_atual = 1500 # fallback padrão
+    
+    for c in CATEGORIAS_RANKING:
+        if c["inicio"] <= xp_atual <= c["fim"]:
+            limite_da_categoria_atual = c["fim"]
+            break
+    
+    # Simula o usuário tendo 1 XP a mais que o limite atual
+    # Isso força o cálculo a pegar a medalha "Bronze" da próxima categoria
+    prox_cat, prox_med = calcular_categoria_e_medalha(limite_da_categoria_atual + 1)
+    
+    dados["proxima_categoria_nome"] = prox_cat
+    dados["proxima_medalha_tipo"] = prox_med 
+
     return dados
 
-# ---
-# 🚀 FUNÇÃO DE OFENSIVA (ADICIONADA)
-# ---
 def get_user_streak(user_id):
     """
     Busca o número de dias consecutivos de ofensiva (streak).
-    Esta é a função que a API deve chamar.
     """
     print(f"Buscando streak para usuário {user_id}...")
     try:
-        # Chama a nova função do db_services
         dias = get_user_streak_from_db(user_id)
         print(f"Usuário {user_id} tem {dias} dias de ofensiva.")
         return {
             "sucesso": True,
-            "dias_consecutivos": dias  # O frontend vai ler esta chave
+            "dias_consecutivos": dias
         }
     except Exception as e:
         print(f"Erro ao buscar ofensiva (camada de lógica) para {user_id}: {e}")
         return {"sucesso": False, "dias_consecutivos": 0}
 
-
 def registrar_dia_com_missao(usuario_id, conn):
     """
     Registra o dia atual na tabela 'ofensiva_usuario'.
     Usa 'INSERT IGNORE' para garantir que só há um registro por dia.
-    (Esta função não faz commit)
+    (Esta função não faz commit, é parte da transação maior)
     """
     cursor = conn.cursor()
     hoje = date.today()
@@ -397,8 +452,6 @@ def registrar_dia_com_missao(usuario_id, conn):
             INSERT IGNORE INTO ofensiva_usuario (usuario_id, data_registro)
             VALUES (%s, %s)
         """, (usuario_id, hoje))
-        # 🚀 ATUALIZAÇÃO CRÍTICA: COMMIT REMOVIDO DAQUI
-        # conn.commit() <-- REMOVIDO
         print(f"Registro de ofensiva para {usuario_id} em {hoje} preparado (pendente de commit).")
     except Exception as e:
         print(f"Erro ao registrar dia de missão (antes do commit): {e}")

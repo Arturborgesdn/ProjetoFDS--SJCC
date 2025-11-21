@@ -51,7 +51,6 @@ api_bp = Blueprint('api', __name__, url_prefix='/api')
 # ROTAS DE AUTENTICAÇÃO
 # ===============================================
 
-# (Seu código original, mantido)
 @api_bp.route('/usuario/<string:user_id>/ping_tempo', methods=['POST'])
 def api_ping_tempo(user_id):
     """Incrementa o tempo online e verifica missões."""
@@ -96,7 +95,6 @@ def api_ping_tempo(user_id):
         if 'cursor' in locals() and cursor: cursor.close()
         if conn: conn.close() 
 
-# (Seu código original, mantido)
 @api_bp.route('/registrar', methods=['POST'])
 def registrar():
     """Registra um novo utilizador, cria sua conta de gamificação e retorna seu ID."""
@@ -126,7 +124,6 @@ def registrar():
         if cursor: cursor.close()
         if conn: conn.close()
 
-# (Seu código original, mantido)
 @api_bp.route('/login', methods=['POST'])
 def login():
     conn = get_db_connection()
@@ -158,7 +155,6 @@ def login():
 # ROTAS DE GAMIFICAÇÃO
 # ===============================================
 
-# (Seu código original, mantido)
 @api_bp.route("/usuario/<string:usuario_id>", methods=['GET'])
 def get_dados_usuario(usuario_id):
     """Retorna os dados completos do perfil do utilizador, incluindo medalhas."""
@@ -167,10 +163,18 @@ def get_dados_usuario(usuario_id):
     if not user:
         return jsonify({"sucesso": False, "mensagem": "Utilizador não encontrado"}), 404
 
+    # 1. Calcula Nível e XP
     dados_nivel = calcular_nivel(user['xps'])
+    
+    # 2. Calcula Categoria e Medalha ATUAL
     categoria, medalha_emblema = calcular_categoria_e_medalha(user['xps'])
+    
+    # 3. Calcula Categoria e Medalha PRÓXIMA (Correção do Hal)
     xp_proximo_limite = dados_nivel['xp_proximo_limite']
-    categoria_proxima, medalha_proxima = calcular_categoria_e_medalha(xp_proximo_limite)
+    
+    # 🚀 O PULO DO GATO: Somamos +1 ao limite para cair na faixa da próxima categoria!
+    # Ex: Se o limite é 1500, calculamos para 1501 -> Retorna 'Bronze' do próximo nível.
+    categoria_proxima, medalha_proxima = calcular_categoria_e_medalha(xp_proximo_limite + 1)
 
     resposta = {
         "id": user['usuario_id'],
@@ -180,15 +184,18 @@ def get_dados_usuario(usuario_id):
         "nivel": dados_nivel['nivel'],
         "progresso_xp_texto": dados_nivel['progresso_xp_total_texto'],
         "progresso_percentual": dados_nivel['progresso_percentual'],
+        
         "categoria": categoria,
         "medalha": medalha_emblema,
-        "categoria_proxima": categoria_proxima, 
-        "medalha_proxima": medalha_proxima,
+        
+        # 🚀 CORREÇÃO DOS NOMES DAS VARIÁVEIS (Para bater com o JS)
+        "proxima_categoria_nome": categoria_proxima, 
+        "proxima_medalha_tipo": medalha_proxima,
+        
         "medalhas_conquistadas": user.get('medalhas_conquistadas', [])
     }
     return jsonify({"sucesso": True, "dados": resposta})
 
-# (Seu código original, mantido)
 @api_bp.route('/usuario/<string:user_id>/ler_noticia', methods=['POST'])
 def api_ler_noticia(user_id):
     """Regista a leitura, atualiza XP e verifica medalhas E missões."""
@@ -260,7 +267,6 @@ def api_ler_noticia(user_id):
         if conn: 
             conn.close()
 
-# (Seu código original, mantido)
 @api_bp.route('/usuario/<string:user_id>/share', methods=['POST'])
 def api_compartilhar(user_id):
     """
@@ -314,7 +320,6 @@ def api_compartilhar(user_id):
         if 'cursor' in locals() and cursor: cursor.close() # Correção de 'cursor'
         if conn: conn.close()
 
-# (Seu código original, mantido)
 @api_bp.route('/usuario/<string:user_id>/medalhas', methods=['GET'])
 def get_medalhas_usuario(user_id):
     """
@@ -367,7 +372,6 @@ def get_medalhas_usuario(user_id):
         print(f"Erro ao buscar medalhas: {e}")
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
 
-# (Seu código original, mantido)
 @api_bp.route('/usuario/<string:user_id>/missoes', methods=['GET'])
 def get_missoes_usuario(user_id):
     """
@@ -440,7 +444,6 @@ def get_missoes_usuario(user_id):
         if conn:
             conn.close()
 
-# (Seu código original, mantido)
 @api_bp.route('/usuario/<string:user_id>/ler_noticia_destaque', methods=['POST'])
 def api_ler_noticia_destaque(user_id):
     """
@@ -516,7 +519,6 @@ def api_ler_noticia_destaque(user_id):
         if conn: 
             conn.close()
 
-# (Seu código original, mantido)
 @api_bp.route('/ranking/<string:user_id>', methods=['GET'])
 def get_ranking_data(user_id):
     """
@@ -553,9 +555,6 @@ def get_ranking_data(user_id):
         print(f"Erro ao buscar ranking: {e}")
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
     
-# ---
-# 🚀 ATUALIZAÇÃO DA ROTA DE OFENSIVA
-# ---
 @api_bp.route('/usuario/<string:user_id>/ofensiva', methods=['GET'])
 def get_ofensiva_usuario(user_id):
     """
