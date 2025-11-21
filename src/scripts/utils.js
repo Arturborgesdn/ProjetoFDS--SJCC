@@ -13,7 +13,7 @@ const API_LOGIN = '/api/login';
 const API_USUARIO = '/api/usuario'; // Rota para /api/usuario/<id>
 
 
-// --- Gerenciamento de Sessão (Extraído do antigo script.js) ---
+// --- Gerenciamento de Sessão ---
 
 /**
  * Salva o ID e nome do utilizador no Local Storage após o login.
@@ -51,36 +51,40 @@ function limparSessao() {
 }
 
 
-// --- Mapeamento e Path de Emblemas (Novo) ---
-
-// --- Mapeamento e Path de Emblemas (CORRIGIDO) ---
+// --- Mapeamento e Path de Emblemas ---
 
 const EMBLEM_MAP = {
-    // CATEGORIA_MEDALHA: Nome do arquivo exato na pasta assets
+    // CATEGORIA_MEDALHA: Nome do arquivo exato na pasta assets (sem extensão se for .png)
     
-    // 🔴 CORRIGIDO AQUI (Estava 'Leito_Leigo')
-    'Leitor Leigo_Bronze': 'Leitor_Leigo_Bronze-removebg-preview', 
+    // 1. LEITOR LEIGO
+    // ⚠️ Atenção: O arquivo 'Bronze' está escrito 'Leito' (sem R) na pasta.
+    'Leitor Leigo_Bronze': 'Leito_Leigo_Bronze-removebg-preview', 
     'Leitor Leigo_Prata': 'Leitor_Leigo_Prata-removebg-preview',
     'Leitor Leigo_Ouro': 'Leitor_Leigo_Ouro-removebg-preview',
     
+    // 2. LEITOR MASSA
     'Leitor Massa_Bronze': 'Leitor_Massa_Bronze-removebg-preview',
     'Leitor Massa_Prata': 'Leitor_Massa_Prata-removebg-preview',
     'Leitor Massa_Ouro': 'Leitor_Massa_Ouro-removebg-preview',
     
+    // 3. LEITOR ENGAJADO
     'Leitor Engajado_Bronze': 'Leitor_Engajado_Bronze-removebg-preview',
     'Leitor Engajado_Prata': 'Leitor_Engajado_Prata-removebg-preview',
     'Leitor Engajado_Ouro': 'Leitor_Engajado_Ouro-removebg-preview',
     
+    // 4. LEITOR ARRETADO
     'Leitor Arretado_Bronze': 'Leitor_Arretado_Bronze-removebg-preview',
     'Leitor Arretado_Prata': 'Leitor_Arretado_Prata-removebg-preview',
     'Leitor Arretado_Ouro': 'Leitor_Arretado_Ouro-removebg-preview',
     
+    // 5. LEITOR DESENROLADO (Sem o sufixo -removebg-preview na pasta)
     'Leitor Desenrolado_Bronze': 'Leitor_Desenrolado_Bronze',
     'Leitor Desenrolado_Prata': 'Leitor_Desenrolado_Prata',
     'Leitor Desenrolado_Ouro': 'Leitor_Desenrolado_Ouro',
     
-    // 🔴 Padronizei 'topado' para 'Topado' (verifique se seu arquivo é maiúsculo ou minúsculo)
-    'Leitor Topado_Bronze': 'Leitor_Topado_Bronze', 
+    // 6. LEITOR TOPADO
+    // ⚠️ Atenção: O arquivo 'Bronze' está com 'topado' minúsculo na pasta, os outros maiúsculos.
+    'Leitor Topado_Bronze': 'Leitor_topado_Bronze', 
     'Leitor Topado_Prata': 'Leitor_Topado_Prata',
     'Leitor Topado_Ouro': 'Leitor_Topado_Ouro',
 };
@@ -94,26 +98,26 @@ const EMBLEM_MAP = {
 function getEmblemPath(categoria, medalha) {
     const key = `${categoria}_${medalha}`;
     const fileName = EMBLEM_MAP[key];
+    
     if (fileName) {
         // Assume .png como extensão padrão se não estiver no nome do arquivo
         const extension = fileName.endsWith('.png') || fileName.endsWith('.webp') ? '' : '.png';
         return `/assets/${fileName}${extension}`;
     }
-    return '/assets/unnamed.png'; // Fallback genérico
+    
+    // Fallback: Retorna uma imagem padrão se não encontrar o emblema
+    return '/assets/unnamed.png'; 
 }
 
 
-// aqui tem a função para o header dinâmico em todas as páginas, de acordo com o usuario id.
+// --- Função para Header Dinâmico ---
 async function updateHeader() {
     const usuarioId = getUsuarioId();
-    // Seleção dos elementos do Header (IDs ou classes universais)
+    // Seleção dos elementos do Header
     const headerProfileImg = document.querySelector('.header-right .profile-img');
     const headerEmblem = document.querySelector('.header-right .level-circle'); 
 
-    if (!usuarioId) {
-        // Se não estiver logado, não faz nada (mantém os ícones de login)
-        return;
-    }
+    if (!usuarioId) return;
 
     try {
         const response = await fetch(`${API_USUARIO}/${usuarioId}`);
@@ -124,12 +128,12 @@ async function updateHeader() {
             
             const categoria = dados.categoria;
             const medalha = dados.medalha;
-            const emblemaPath = getEmblemPath(categoria, medalha); // Usa o mapeamento já definido
+            const emblemaPath = getEmblemPath(categoria, medalha);
             
-            // 1. Atualiza a foto do Perfil (assumindo que o src é 'unnamed.png' se não houver um dado real)
+            // 1. Atualiza a foto do Perfil
             if (headerProfileImg) headerProfileImg.src = dados.foto_url || '/assets/unnamed.png'; 
 
-            // 2. Atualiza o Emblema (Status/Categoria) no Header
+            // 2. Atualiza o Emblema no Header
             if (headerEmblem) headerEmblem.src = emblemaPath;
         }
     } catch (error) {
@@ -137,16 +141,15 @@ async function updateHeader() {
     }
 }
 
-// ... (final do arquivo utils.js, depois de updateHeader)
+// --- Sistema de Feedback Visual (Toasts) ---
 
 /**
  * MOSTRA UM ALERTA (TOAST) E ATUALIZA A UI EM TEMPO REAL.
- * Esta função agora é global.
- * @param {object} item - O objeto da missão ou medalha (deve ter .nome, .xp, .jc_points)
- * @param {string} tipo - 'missao' ou 'medalha'
+ * @param {object} item - O objeto da missão ou medalha.
+ * @param {string} tipo - 'missao' ou 'medalha'.
  */
 function mostrarAlertaFeedback(item, tipo) {
-    // 1. Cria o container de toasts (se ainda não existir)
+    // 1. Cria o container de toasts
     let container = document.getElementById('toast-container');
     if (!container) {
         container = document.createElement('div');
@@ -155,26 +158,23 @@ function mostrarAlertaFeedback(item, tipo) {
         document.body.appendChild(container);
     }
 
-    // 2. Define o conteúdo do toast
+    // 2. Define o conteúdo
     const eMedalha = (tipo === 'medalha');
     const icone = eMedalha ? 'fa-medal' : 'fa-check-circle';
-    const corClasse = eMedalha ? 'medalha' : 'missao';
     const titulo = eMedalha ? 'Medalha Conquistada!' : 'Missão Cumprida!';
     const recompensa = eMedalha ? `+${item.jc_points} JC Points` : `+${item.xp} XP, +${item.jc_points} JC Points`;
 
-    // 3. Cria o elemento do toast
+    // 3. Cria o elemento
     const toast = document.createElement('div');
-    toast.classList.add('toast'); // Adiciona a classe base
+    toast.classList.add('toast'); 
 
     if (eMedalha) {
         toast.classList.add('medalha');
     } else {
-        // É uma missão
         toast.classList.add('missao');
-        if (item.raridade) {
-            toast.classList.add(item.raridade); // Adiciona 'comum', 'rara', ou 'epica'
-        }
+        if (item.raridade) toast.classList.add(item.raridade);
     }
+    
     toast.innerHTML = `
         <i class="fas ${icone}"></i>
         <div class="toast-content">
@@ -183,16 +183,14 @@ function mostrarAlertaFeedback(item, tipo) {
         </div>
     `;
 
-    // 4. Adiciona o toast ao container
+    // 4. Adiciona e remove após tempo
     container.appendChild(toast);
-
-    // 5. Remove o toast após 5 segundos
     setTimeout(() => {
         toast.classList.add('hide');
         setTimeout(() => toast.remove(), 400);
     }, 5000);
 
-    // 6. ATUALIZAÇÃO DA UI EM TEMPO REAL (Sua solicitação)
+    // 6. Atualiza a UI da página atual
     atualizarUIemRealTime(item, tipo);
 }
 
@@ -200,34 +198,25 @@ function mostrarAlertaFeedback(item, tipo) {
  * Função auxiliar para encontrar e atualizar o item na página ATUAL.
  */
 function atualizarUIemRealTime(item, tipo) {
-    // Escopo de segurança: só faz algo se o item tiver um nome
     if (!item || !item.nome) return;
 
-    // Tenta "adivinhar" o seletor baseado no nome (escapando caracteres)
     const nomeFormatado = item.nome.replace(/"/g, '\\"');
     
     if (tipo === 'missao') {
-        // Procura pela missão na página de missões
         const elementoMissao = document.querySelector(`.goal-item[data-nome="${nomeFormatado}"]`);
         if (elementoMissao) {
-            console.log(`Atualizando UI para missão: ${item.nome}`);
             elementoMissao.classList.remove('pendente');
             elementoMissao.classList.add('concluida');
-            // A regra de CSS que adicionamos (passo 1) vai esconder a barra automaticamente
         }
     } 
     else if (tipo === 'medalha') {
-        // Procura pela medalha na página de medalhas
         const elementoMedalha = document.querySelector(`.medalha[data-nome="${nomeFormatado}"]`);
         if (elementoMedalha) {
-            console.log(`Atualizando UI para medalha: ${item.nome}`);
             elementoMedalha.classList.remove('pendente');
             elementoMedalha.classList.add('concluida');
         }
     }
     
-    // ATUALIZAR O HEADER (XP/JC Points)
-    // A função updateHeader() busca o total. Vamos chamá-la após um pequeno delay
-    // para dar tempo do DB processar a recompensa antes da nova busca.
+    // Atualiza o header após breve delay para sincronizar com DB
     setTimeout(updateHeader, 1000); 
 }
