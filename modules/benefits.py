@@ -9,15 +9,12 @@ BENEFITS = {
     "Acesso antecipado a notícias": {"custo": 250, "duracao": "por matéria"},
     "Enviar perguntas a jornalistas": {"custo": 400, "duracao": "por envio aprovado"},
     "Resumo Inteligente": {"custo": 150, "duracao": "por notícia"},
-    "Notas extras de colunistas": {"custo": 300, "duracao": "acesso individual"},
     "Citação na newsletter 'Leitores em Destaque'": {"custo": 800, "duracao": "mensal"},
     "Teste Beta de novos recursos": {"custo": 1000, "duracao": "por ciclo de teste"},
     "Avatar customizado": {"custo": 100, "duracao": "permanente"},
     "Moldura de perfil": {"custo": 150, "duracao": "permanente"},
     "Selo de reconhecimento (Check azul)": {"custo": 500, "duracao": "permanente"},
     "Moldura temática": {"custo": 200, "duracao": "por temporada"},
-    "Descontos culturais": {"custo": 700, "duracao": "por cupom"},
-    "Participação em eventos": {"custo": 1200, "duracao": "por evento"},
 }
 
 # ======================================================
