@@ -19,24 +19,32 @@ def create_app(config_class=Config):
     CORS(app)
 
     # Registra os Blueprints (eles trazem todas as rotas)
-    app.register_blueprint(api_bp) # Rotas de API (ex: /api/login)
-    app.register_blueprint(core_bp) # Rotas Core (ex: /, /ranking.html)
+    app.register_blueprint(api_bp) 
+    app.register_blueprint(core_bp) 
 
     return app
 
-# Bloco de Execução Principal
+# ==========================================================
+# 🔴 A CORREÇÃO ESTÁ AQUI EMBAIXO 🔴
+# ==========================================================
+
+# Criamos a variável 'app' no escopo GLOBAL. 
+# Agora o Gunicorn consegue vê-la!
+app = create_app()
+
+# Bloco de Execução Principal (Apenas para rodar localmente)
 if __name__ == '__main__':
-    # Cria as pastas do frontend (apenas para garantir a existência)
+    # Cria as pastas do frontend
     os.makedirs('src', exist_ok=True)
     os.makedirs('src/styles', exist_ok=True)
     os.makedirs('src/scripts', exist_ok=True)
     os.makedirs('src/assets', exist_ok=True)
     
-    # Cria a instância do aplicativo e executa
-    app = create_app()
-    app.run(host='localhost', port=5000, debug=True)
+    # Não precisamos criar 'app' aqui de novo, pois já criamos acima.
+    # Apenas rodamos.
+    app.run(host='0.0.0.0', port=5000, debug=True)
 
-import os
+    import os
 import mysql.connector
 
 def get_db_connection():
@@ -59,7 +67,7 @@ def get_db_connection():
         connection = mysql.connector.connect(
             host="localhost",
             user="root",          # Seu usuário local
-            password="senhabanco123@", # Sua senha local
+            password="senhabanco123@",
             database="dbjc"
         )
     return connection
