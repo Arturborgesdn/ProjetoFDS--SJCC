@@ -33,25 +33,27 @@
 
 ## Contexto
 
-O Sistema Jornal do Commercio de Comunicação (SJCC), um dos principais ecossistemas de mídia regional do Brasil, enfrenta desafios digitais relacionados à baixa taxa de segundo clique e permanência dos usuários na plataforma. Mudanças recentes nos algoritmos do Google, junto a novas formas rápidas e fragmentadas de consumo de conteúdo em múltiplas plataformas, impactaram negativamente a visibilidade e o tráfego orgânico do portal. Diante desses desafios, o SJCC buscou apoio da CESAR School para encontrar soluções eficazes.
+O Sistema Jornal do Commercio de Comunicação (SJCC), um dos principais ecossistemas de mídia regional do Brasil, enfrenta desafios digitais relacionados à baixa taxa de segundo clique e à reduzida permanência dos usuários na plataforma. Mudanças recentes nos algoritmos do Google, somadas a novos hábitos de consumo de conteúdo em múltiplas plataformas, impactaram negativamente a visibilidade e o tráfego orgânico do portal. Diante desse cenário, o SJCC buscou apoio da CESAR School para identificar caminhos estratégicos e propor soluções viáveis.
 
 ## Problemas Identificados
 
-- 📉 Baixa estrutura e interatividade das notícias.
-- 🔍 Queda de tráfego orgânico e visibilidade em mecanismos de busca.
-- 🚪 Dificuldade em gerar fidelização e estimular o “segundo clique”.
-- ⚔️ Concorrência com veículos digitais mais ágeis.
+-  Baixa estruturação e pouca interatividade das notícias.
+-  Queda de tráfego orgânico e menor visibilidade em mecanismos de busca.
+-  Dificuldade em gerar fidelização e estimular o “segundo clique”.
+-  Concorrência com veículos digitais mais ágeis.
 
 ## Objetivos
 
-- 🔎 **Otimizar** conteúdos para mecanismos de busca (SEO).
-- 🧭 **Incentivar** o segundo clique e aumentar a permanência do usuário.
-- 🔗 **Unificar** os canais (jornal, rádio, TV e digital) em um só ecossistema.
-- ❤️ **Fidelizar** a audiência com experiências contínuas e relevantes.
+-  **Otimizar** conteúdos para mecanismos de busca (SEO).
+-  **Incentivar** o segundo clique e aumentar a permanência do usuário.
+-  **Unificar** os canais (jornal, rádio, TV e digital) em um só ecossistema.
+-  **Fidelizar** a audiência com experiências contínuas e relevantes.
 
 ## Solução Proposta
 
-Desenvolver uma plataforma digital integrada, centrada na experiência do usuário, que vai além de um simples repositório de notícias. O novo portal proporcionará jornadas contínuas e personalizadas, facilitando o consumo dinâmico e interativo das informações.
+Desenvolver uma plataforma digital integrada, centrada na experiência do usuário, que vá além de um simples repositório de notícias. O novo portal proporcionará jornadas contínuas e personalizadas, facilitando o consumo dinâmico e interativo de conteúdos.
+
+O diferencial da plataforma será a implementação de um programa de gamificação, em que os usuários poderão realizar missões diárias, interagir com notícias e conteúdos multimídia, e receber benefícios como recompensas e reconhecimento. Essa abordagem visa aumentar o engajamento, estimular o segundo clique e fortalecer a fidelização entre o jornal e seus leitores, criando uma relação mais próxima e duradoura.
 
 ## Protótipo de Alta Fidelidade
 
@@ -59,14 +61,46 @@ Desenvolver uma plataforma digital integrada, centrada na experiência do usuár
 
 ## Tecnologias Utilizadas
 
-* **Frontend:** HTML, CSS, JavaScript
-* **Backend:** Python
-* **Framework API:** Flask
-* **Banco de Dados:** MySQL
+<div align="center">
+
+  <table>
+        <tr>
+            <th>Frontend</th>
+            <th>Backend</th>
+            <th>Framework API</th>
+            <th>Banco de Dados</th>
+        </tr>
+
+  <tr>
+            <td align="center">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="50" alt="HTML5"/>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="50" alt="CSS3"/>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="50" alt="JavaScript"/><br>HTML5, CSS3 e JavaScript
+            </td>
+
+  <td align="center">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="50" alt="Python"/><br>Python
+            </td>
+
+  <td align="center">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" width="50" alt="Flask"/><br>Flask
+            </td>
+
+  <td align="center">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="50" alt="MySQL"/><br>MySQL
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+
 
 ## Programação em Par
 
 Neste projeto, aplicamos a metodologia de Programação em Par (Pair Programming) para otimizar o desenvolvimento e garantir a qualidade do código.
+
+![Programação em Par](docs/programacaoempar)
 
 Nossa abordagem foi a seguinte:
 
@@ -75,23 +109,15 @@ Nossa abordagem foi a seguinte:
 * *Aplicação:* Priorizamos o pareamento para implementar as histórias com um design alinhado, bem como uma integração do Front-End e o Back-End.
 * *Rotatividade:* Os papéis eram trocados a cada 30 minutos para manter a dupla engajada e compartilhar o conhecimento tático e estratégico. 
 
-![Programação em Par](docs/programacaoempar)
-
+![Programação em Par](docs/programacaoempar2.jpg)
 
 Resultados e Benefícios:
 
 A aplicação da Programação em Par proporcionou uma melhoria significativa na qualidade do código e na produtividade da equipe. A revisão constante entre os pares reduziu a ocorrência de bugs e promoveu um entendimento mais profundo das funcionalidades desenvolvidas. Além disso, a troca frequente de papéis incentivou o aprendizado mútuo e o desenvolvimento de habilidades complementares, fortalecendo a coesão do time.
 
- 
 Desafios e Aprendizados:
 
-Durante o processo, enfrentamos desafios relacionados à conciliação de agendas e à adaptação inicial à dinâmica da metodologia. No entanto, com o passar do tempo, o time desenvolveu uma comunicação mais fluida e assertiva, tornando as sessões mais produtivas. Essa experiência reforçou a importância da colaboração ativa e da revisão contínua como práticas essenciais no desenvolvimento ágil.
- 
-Conclusão:
-
-A adoção da Programação em Par demonstrou ser uma estratégia eficaz não apenas para aprimorar o código, mas também para promover o crescimento coletivo da equipe. O método contribuiu para um ambiente de trabalho mais colaborativo, transparente e orientado à qualidade.
-
-![Programação em Par](docs/programacaoempar2.jpg)
+Durante o processo, enfrentamos desafios relacionados à conciliação de agendas e à adaptação inicial à dinâmica da metodologia. No entanto, com o passar do tempo, o time desenvolveu uma comunicação mais fluida e assertiva, tornando as sessões mais produtivas. Essa experiência reforçou a importância da colaboração ativa e da revisão contínua como práticas essenciais no desenvolvimento ágil. Dessa forma, a adoção da Programação em Par demonstrou ser uma estratégia eficaz não apenas para aprimorar o código, mas também para promover o crescimento coletivo da equipe. O método contribuiu para um ambiente de trabalho mais colaborativo, transparente e orientado à qualidade.
 
 ## Impacto Esperado
 
@@ -105,6 +131,8 @@ A adoção da Programação em Par demonstrou ser uma estratégia eficaz não ap
 O sucesso do reposicionamento digital do SJCC está na habilidade de transformar cada visita em uma experiência contínua, que incentiva a descoberta constante de novos conteúdos e fortalece o hábito de consumo no portal. Ao integrar jornalismo de qualidade, tecnologia avançada e uma experiência do usuário envolvente, o SJCC se reposiciona de forma estratégica e competitiva no ambiente digital, recuperando sua relevância e conquistando a fidelidade da audiência.
 
 ## Definição da Equipe
+
+<div align="center">
 
 <table>
   <tr>
@@ -162,4 +190,5 @@ O sucesso do reposicionamento digital do SJCC está na habilidade de transformar
     <td>rfmxf@cesar.school</td>
   </tr>
 </table>
+</div>
 
