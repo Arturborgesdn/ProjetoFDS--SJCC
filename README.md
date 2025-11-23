@@ -24,6 +24,10 @@
     <img src="https://img.shields.io/badge/Screencast Protótipos de Alta Fidelidade-b50404?style=for-the-badge&logo=youtube&logoColor=white" alt="Screencast Entrega 4"/>
 </a>
 
+<a href="https://youtu.be/wEs97iyaPB8">
+    <img src="https://img.shields.io/badge/Screencast Final Deploy e Testes-b50404?style=for-the-badge&logo=youtube&logoColor=white" alt="Screencast Entrega 4"/>
+</a>
+
 
 </div>
 
