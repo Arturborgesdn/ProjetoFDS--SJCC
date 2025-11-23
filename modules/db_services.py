@@ -1,48 +1,59 @@
-# modules/db_services.py
-# Camada de Acesso a Dados (Data Access Layer)
-# Responsável EXCLUSIVAMENTE por executar SQL e interagir com o banco.
-
 import mysql.connector
+import os
 from datetime import date, datetime
-from config import Config
 
-# --- Conexão ---
-
+# ==========================================================
+# 🔌 CONEXÃO INTELIGENTE (Centralizada)
+# ==========================================================
 def get_db_connection():
-    """Tenta conectar ao banco de dados MySQL."""
-    try:
-        return mysql.connector.connect(**Config.MYSQL_CONFIG)
-    except mysql.connector.Error as err:
-        print(f"Erro ao conectar ao DB: {err}")
-        return None
+    """
+    Estabelece conexão com o banco de dados.
+    Prioriza variáveis de ambiente (Nuvem/Railway), 
+    senão usa fallback local (Windows).
+    """
+    db_url = os.getenv("DATABASE_URL")
+    
+    # Se existirem variáveis de ambiente, usa a Nuvem
+    if db_url or os.getenv("MYSQLHOST"):
+        return mysql.connector.connect(
+            host=os.getenv("MYSQLHOST"),
+            user=os.getenv("MYSQLUSER"),
+            password=os.getenv("MYSQLPASSWORD"),
+            database=os.getenv("MYSQLDATABASE"),
+            port=os.getenv("MYSQLPORT")
+        )
+    else:
+        # Fallback: Seu banco local
+        return mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="senhabanco123@", 
+            database="dbjc"
+        )
 
-# --- Funções de Leitura (SELECT) ---
+# ==========================================================
+# FUNÇÕES DE LEITURA (SELECT)
+# ==========================================================
 
 def get_user_data_from_db(user_id):
     """
     Busca dados brutos do utilizador.
-    Usa LEFT JOIN e agora INCLUI 'compartilhamentos_hoje'.
+    Inclui lógica de RESET DIÁRIO dos contadores.
     """
     conn = get_db_connection()
     if not conn: return None
     cursor = conn.cursor(dictionary=True)
-    user_data = None
     
     try:
-        # Lógica de RESET DIÁRIO (Otimizada para usar a mesma conexão)
+        # --- Lógica de RESET DIÁRIO ---
         today = date.today()
-        cursor.execute(
-            "SELECT ultima_atualizacao_diaria FROM gamificacao WHERE usuario_id = %s",
-            (user_id,)
-        )
+        cursor.execute("SELECT ultima_atualizacao_diaria FROM gamificacao WHERE usuario_id = %s", (user_id,))
         result = cursor.fetchone()
         
-        last_update = None
-        if result:
-            last_update = result['ultima_atualizacao_diaria']
+        last_update = result['ultima_atualizacao_diaria'] if result else None
             
         if not last_update or last_update < today:
-            print(f"NOVO DIA: Zerando contadores diários para o usuário {user_id} (via get_user_data).")
+            # print(f"NOVO DIA: Zerando contadores diários para {user_id}.")
             cursor.execute(
                 """
                 UPDATE gamificacao
@@ -56,14 +67,13 @@ def get_user_data_from_db(user_id):
                 """,
                 (today, user_id)
             )
-            conn.commit() # Commit do reset é seguro aqui
-            print(f"Contadores para {user_id} zerados com sucesso para o dia {today}.")
+            conn.commit()
         # --- FIM DO RESET ---
 
-        # Busca principal dos dados do usuário
-        cursor.execute(
-            """
-            SELECT u.id AS usuario_id, u.nome, g.xps, g.jc_points, 
+        # Busca principal
+        query = """
+            SELECT u.id AS usuario_id, u.nome, u.email,
+                   g.xps, g.jc_points, 
                    g.dias_consecutivos_acesso, g.noticias_completas_total, 
                    g.ultimo_acesso, g.tempo_online_hoje_minutos, 
                    g.compartilhamentos_hoje,  
@@ -72,37 +82,41 @@ def get_user_data_from_db(user_id):
             FROM usuarios u
             LEFT JOIN gamificacao g ON u.id = g.usuario_id
             WHERE u.id = %s
-            """,
-             (user_id,)
-        )
+        """
+        cursor.execute(query, (user_id,))
         user_data = cursor.fetchone()
         
         if user_data:
-            # Define valores padrão (0) para evitar erros
-            user_data['xps'] = user_data['xps'] or 0
-            user_data['jc_points'] = user_data['jc_points'] or 0
-            user_data['dias_consecutivos_acesso'] = user_data['dias_consecutivos_acesso'] or 0
-            user_data['noticias_completas_total'] = user_data['noticias_completas_total'] or 0
-            user_data['tempo_online_hoje_minutos'] = user_data['tempo_online_hoje_minutos'] or 0
-            user_data['compartilhamentos_hoje'] = user_data['compartilhamentos_hoje'] or 0
-            user_data['noticias_lidas_hoje'] = user_data['noticias_lidas_hoje'] or 0
-            user_data['noticias_destaque_lidas_hoje'] = user_data['noticias_destaque_lidas_hoje'] or 0
+            # Define valores padrão para evitar None
+            keys_to_check = ['xps', 'jc_points', 'dias_consecutivos_acesso', 'noticias_completas_total', 
+                             'tempo_online_hoje_minutos', 'compartilhamentos_hoje', 
+                             'noticias_lidas_hoje', 'noticias_destaque_lidas_hoje']
+            for key in keys_to_check:
+                user_data[key] = user_data[key] or 0
 
             # Busca medalhas
             cursor.execute("SELECT medalha_nome FROM medalhas_usuario WHERE usuario_id = %s", (user_id,))
             medalhas = [row['medalha_nome'] for row in cursor.fetchall()]
             user_data['medalhas_conquistadas'] = medalhas
             
+        return user_data
+
     except Exception as e:
-        print(f"Erro ao buscar dados do utilizador {user_id} no DB: {e}")
-        if conn: conn.rollback() # Rollback em caso de erro no Try
+        print(f"Erro ao buscar dados do utilizador {user_id}: {e}")
+        if conn: conn.rollback()
+        return None
     finally:
         if cursor: cursor.close()
         if conn: conn.close()
-    return user_data
 
-def get_completed_missions_from_db(user_id, conn):
+def get_completed_missions_from_db(user_id, conn=None):
     """Busca os nomes das missões diárias já completadas HOJE."""
+    # Se a conexão não for passada, cria uma nova
+    close_conn = False
+    if conn is None:
+        conn = get_db_connection()
+        close_conn = True
+        
     if not conn: return set() 
     
     cursor = conn.cursor()
@@ -116,151 +130,45 @@ def get_completed_missions_from_db(user_id, conn):
         for row in cursor.fetchall():
             completed_missions.add(row[0])
     except Exception as e:
-        print(f"Erro ao buscar missões completas do DB para {user_id}: {e}")
+        print(f"Erro ao buscar missões completas: {e}")
     finally:
         if cursor: cursor.close()
+        if close_conn: conn.close()
     return completed_missions
 
-# --- Funções de Escrita (INSERT/UPDATE) ---
-
-def update_xp_jc_in_db(user_id, xp_ganho=0, jc_ganho=0):
-    """Atualiza XP e/ou JC Points no DB."""
-    if xp_ganho == 0 and jc_ganho == 0: return True
-    conn = get_db_connection()
-    if not conn: return False
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            "UPDATE gamificacao SET xps = xps + %s, jc_points = jc_points + %s WHERE usuario_id = %s",
-            (xp_ganho, jc_ganho, user_id)
-        )
-        conn.commit()
-        print(f"DB Update: Utilizador {user_id}: +{xp_ganho} XP, +{jc_ganho} JC Points")
-        return True
-    except Exception as e:
-        conn.rollback()
-        print(f"Erro ao atualizar XP/JC no DB para {user_id}: {e}")
-        return False
-    finally:
-        if cursor: cursor.close()
-        if conn: conn.close()
-
-def insert_medal_in_db(user_id, medalha_nome):
-    """Insere o registro de uma nova medalha no DB."""
-    conn = get_db_connection()
-    if not conn: return False
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            "INSERT INTO medalhas_usuario (usuario_id, medalha_nome) VALUES (%s, %s)",
-            (user_id, medalha_nome)
-        )
-        conn.commit()
-        print(f"DB Insert: Medalha '{medalha_nome}' concedida a {user_id}.")
-        return True
-    except mysql.connector.IntegrityError:
-        print(f"DB Info: Utilizador {user_id} já possui a medalha '{medalha_nome}'.")
-        return False
-    except Exception as e:
-        conn.rollback()
-        print(f"Erro ao inserir medalha no DB para {user_id}: {e}")
-        return False
-    finally:
-        if cursor: cursor.close()
-        if conn: conn.close()
-
-def insert_daily_mission_in_db(user_id, missao_nome, conn):
-    """Insere o registro de uma missão diária completa no DB HOJE."""
-    if not conn: return False
-    
-    cursor = conn.cursor()
-    today_str = date.today().isoformat()
-    try:
-        cursor.execute(
-            "INSERT INTO missoes_diarias_usuario (usuario_id, missao_nome, data_conclusao) VALUES (%s, %s, %s)",
-            (user_id, missao_nome, today_str)
-        )
-        
-        # 🚀 ATUALIZAÇÃO CRÍTICA: COMMIT REMOVIDO DAQUI
-        # A função 'check_and_award_daily_missions' fará o commit.
-        # conn.commit() <-- REMOVIDO
-        
-        print(f"DB Insert: Missão '{missao_nome}' marcada (pendente de commit) para {user_id} hoje.")
-        return True # Retorna True se a INSERÇÃO ocorreu
-    
-    except mysql.connector.IntegrityError: # Se já completou hoje
-        print(f"DB Info: Missão '{missao_nome}' já estava completa para {user_id} hoje.")
-        return False # Retorna False pois não foi uma *nova* inserção
-    
-    except Exception as e:
-        # 🚀 ATUALIZAÇÃO CRÍTICA: ROLLBACK REMOVIDO DAQUI
-        # A função 'check_and_award_daily_missions' fará o rollback.
-        # if conn: conn.rollback() <-- REMOVIDO
-        print(f"Erro ao inserir missão diária no DB para {user_id}: {e}")
-        return False
-    finally:
-        if cursor: cursor.close()
-
-def reset_daily_metrics_if_needed(user_id, conn):
-    """
-    Verifica se a última atualização foi em um dia anterior ao de hoje.
-    Se sim, zera todos os contadores diários ('_hoje').
-    (Esta função é chamada por get_user_data_from_db, que usa sua própria conexão)
-    """
-    pass # A lógica já foi movida para dentro de get_user_data_from_db
-
 def get_leaderboard_from_db(limit=10, order_by="xps"):
-    """
-    Retorna o ranking geral dos usuários com base em XP ou JC Points.
-    """
     conn = get_db_connection()
-    if not conn:
-        print("❌ Falha na conexão ao banco.")
-        return []
+    if not conn: return []
     
     cursor = conn.cursor(dictionary=True)
     try:
-        if order_by not in ("xps", "jc_points"):
-            order_by = "xps"
-
+        if order_by not in ("xps", "jc_points"): order_by = "xps"
+        
         query = f"""
-            SELECT 
-                u.id AS usuario_id,
-                u.nome,
-                g.xps,
-                g.jc_points,
-                g.dias_consecutivos_acesso,
-                g.noticias_completas_total
+            SELECT u.nome, g.xps, g.jc_points 
             FROM gamificacao g
             JOIN usuarios u ON g.usuario_id = u.id
             ORDER BY g.{order_by} DESC, g.xps DESC
-            LIMIT %s;
+            LIMIT %s
         """
         cursor.execute(query, (limit,))
         return cursor.fetchall()
-    
     except Exception as e:
-        print(f"❌ Erro ao buscar ranking: {e}")
+        print(f"Erro no leaderboard: {e}")
         return []
-    
     finally:
-        cursor.close()
-        conn.close()
-
+        if cursor: cursor.close()
+        if conn: conn.close()
 
 def get_user_rank_from_db(user_id, order_by="xps"):
-    """
-    Retorna a posição do usuário no ranking geral (por XP ou JC Points).
-    """
     conn = get_db_connection()
-    if not conn:
-        return None
+    if not conn: return None
     
     cursor = conn.cursor(dictionary=True)
     try:
-        if order_by not in ("xps", "jc_points"):
-            order_by = "xps"
+        if order_by not in ("xps", "jc_points"): order_by = "xps"
 
+        # Usa Window Functions (MySQL 8.0+ suportado pela Railway)
         query = f"""
             SELECT posicao, usuario_id, nome, xps, jc_points FROM (
                 SELECT 
@@ -276,92 +184,125 @@ def get_user_rank_from_db(user_id, order_by="xps"):
         """
         cursor.execute(query, (user_id,))
         return cursor.fetchone()
-    
     except Exception as e:
-        print(f"❌ Erro ao buscar posição do usuário: {e}")
+        print(f"Erro no user rank: {e}")
         return None
-    
-    finally:
-        cursor.close()
-        conn.close()
-
-# ---
-# 🚀 FUNÇÃO DE OFENSIVA (ADICIONADA)
-# ---
-def get_user_streak_from_db(user_id):
-    """
-    Calcula a sequência ATUAL de dias consecutivos com missões completas.
-    A sequência é "atual" se o último dia foi HOJE ou ONTEM.
-    """
-    conn = get_db_connection()
-    if not conn:
-        print("❌ Falha na conexão ao banco (get_user_streak_from_db).")
-        return 0
-    
-    cursor = conn.cursor(dictionary=True)
-    
-    query = """
-        WITH Sequencias AS (
-            SELECT 
-                data_registro,
-                DATE_SUB(data_registro, INTERVAL ROW_NUMBER() OVER (ORDER BY data_registro) DAY) as grupo_seq
-            FROM ofensiva_usuario
-            WHERE usuario_id = %s
-        ),
-        ContagemSeq AS (
-            SELECT 
-                COUNT(*) as dias_consecutivos,
-                MAX(data_registro) as ultimo_dia_seq
-            FROM Sequencias
-            GROUP BY grupo_seq
-        )
-        SELECT 
-            CASE
-                WHEN ultimo_dia_seq >= CURDATE() - INTERVAL 1 DAY THEN dias_consecutivos
-                ELSE 0
-            END as dias_consecutivos
-        FROM ContagemSeq
-        ORDER BY ultimo_dia_seq DESC
-        LIMIT 1;
-    """
-    
-    try:
-        cursor.execute(query, (user_id,))
-        result = cursor.fetchone()
-        
-        if result:
-            return int(result['dias_consecutivos'])
-        else:
-            return 0
-            
-    except Exception as e:
-        print(f"❌ Erro ao buscar sequência (streak) do DB: {e}")
-        return 0
-    finally:
-        cursor.close()
-        conn.close()
-        
-def get_user_inventory_from_db(user_id):
-    """
-    Busca todos os itens ativos que o usuário já resgatou.
-    """
-    conn = get_db_connection()
-    if not conn: return []
-    
-    cursor = conn.cursor(dictionary=True)
-    try:
-        # Busca itens que ainda não expiraram ou que são permanentes
-        query = """
-            SELECT nome_beneficio, data_resgate, data_expiracao, ativo
-            FROM beneficios_resgatados
-            WHERE usuario_id = %s 
-            ORDER BY data_resgate DESC
-        """
-        cursor.execute(query, (user_id,))
-        return cursor.fetchall()
-    except Exception as e:
-        print(f"Erro ao buscar inventário: {e}")
-        return []
     finally:
         if cursor: cursor.close()
         if conn: conn.close()
+
+def get_user_streak_from_db(user_id):
+    """Calcula a sequência (streak) de dias consecutivos."""
+    conn = get_db_connection()
+    if not conn: return 0
+    
+    cursor = conn.cursor(dictionary=True)
+    try:
+        query = """
+            WITH Sequencias AS (
+                SELECT 
+                    data_registro,
+                    DATE_SUB(data_registro, INTERVAL ROW_NUMBER() OVER (ORDER BY data_registro) DAY) as grupo_seq
+                FROM ofensiva_usuario
+                WHERE usuario_id = %s
+            ),
+            ContagemSeq AS (
+                SELECT 
+                    COUNT(*) as dias_consecutivos,
+                    MAX(data_registro) as ultimo_dia_seq
+                FROM Sequencias
+                GROUP BY grupo_seq
+            )
+            SELECT 
+                CASE
+                    WHEN ultimo_dia_seq >= CURDATE() - INTERVAL 1 DAY THEN dias_consecutivos
+                    ELSE 0
+                END as dias_consecutivos
+            FROM ContagemSeq
+            ORDER BY ultimo_dia_seq DESC
+            LIMIT 1;
+        """
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return int(result['dias_consecutivos']) if result else 0
+    except Exception as e:
+        print(f"Erro streak: {e}")
+        return 0
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
+
+def get_user_inventory_from_db(user_id):
+    conn = get_db_connection()
+    if not conn: return []
+    cursor = conn.cursor(dictionary=True)
+    try:
+        cursor.execute("SELECT * FROM beneficios_resgatados WHERE usuario_id = %s ORDER BY data_resgate DESC", (user_id,))
+        return cursor.fetchall()
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
+
+# ==========================================================
+# FUNÇÕES DE ESCRITA (INSERT/UPDATE)
+# ==========================================================
+
+def update_xp_jc_in_db(user_id, xp_ganho, jc_ganho):
+    conn = get_db_connection()
+    if not conn: return False
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "UPDATE gamificacao SET xps = xps + %s, jc_points = jc_points + %s WHERE usuario_id = %s",
+            (xp_ganho, jc_ganho, user_id)
+        )
+        conn.commit()
+        return True
+    except Exception as e:
+        print(f"Erro update XP/JC: {e}")
+        return False
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
+
+def insert_medal_in_db(user_id, medalha_nome):
+    conn = get_db_connection()
+    if not conn: return False
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "INSERT INTO medalhas_usuario (usuario_id, medalha_nome) VALUES (%s, %s)",
+            (user_id, medalha_nome)
+        )
+        conn.commit()
+        return True
+    except mysql.connector.IntegrityError:
+        return False 
+    except Exception as e:
+        print(f"Erro insert medalha: {e}")
+        return False
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
+
+def insert_daily_mission_in_db(user_id, missao_nome, conn):
+    """
+    Insere missão diária.
+    NOTA: Não faz commit nem fecha a conexão, pois é parte de uma transação maior.
+    """
+    if not conn: return False
+    cursor = conn.cursor()
+    today_str = date.today().isoformat()
+    try:
+        cursor.execute(
+            "INSERT INTO missoes_diarias_usuario (usuario_id, missao_nome, data_conclusao) VALUES (%s, %s, %s)",
+            (user_id, missao_nome, today_str)
+        )
+        return True
+    except mysql.connector.IntegrityError:
+        return False
+    except Exception as e:
+        print(f"Erro insert missao: {e}")
+        return False
+    finally:
+        if cursor: cursor.close()
