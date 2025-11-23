@@ -1,8 +1,6 @@
 // ============================================
 // Módulo: Fidelidade (Lógica para programa_Fidelidade.html)
-//
-// Depende de: utils.js (para getEmblemPath, getUsuarioId, API_USUARIO, etc.)
-// Nota: Este arquivo deve ser carregado DEPOIS de utils.js.
+// Depende de: utils.js
 // ============================================
 
 // --- FUNÇÃO PARA ANIMAÇÃO DA BARRA DE PROGRESSO ---
@@ -37,6 +35,7 @@ async function carregarDadosDeFidelidade() {
     const xpBarFill = document.querySelector('.card.profile .xp-bar .fill');
     const xpBarText = document.querySelector('.card.profile .container-xp-logo p');
     const jcPointsValue = document.querySelector('.cardjc .container-jc h2');
+    // Seleciona as duas imagens da barra (Esquerda e Direita)
     const xpBarEmblems = document.querySelectorAll('.card.profile .xp-bar .emblema_Barra img'); 
     const headerEmblem = document.querySelector('.header-right .level-circle'); 
     const profileImages = document.querySelectorAll('.profile-img'); 
@@ -57,20 +56,19 @@ async function carregarDadosDeFidelidade() {
         if (result.sucesso && result.dados) {
             const dados = result.dados; 
             
-            // --- 🚨 ÁREA DE DEBUG DO HAL (Veja no Console F12) ---
-            console.log("--- DEBUG FIDELIDADE ---");
-            console.log("Nível Atual:", dados.categoria, dados.medalha);
-            console.log("Próximo Nível (Python):", dados.proxima_categoria_nome, dados.proxima_medalha_tipo);
-            // -----------------------------------------------------
-
-            // --- 4. DEFINIÇÃO DE VARIÁVEIS ---
+            // --- 4. DEFINIÇÃO DE VARIÁVEIS (Lógica Corrigida) ---
             const categoria_atual = dados.categoria;
             const medalha_atual = dados.medalha;
             
-            // Lógica de Fallback: Se o Python não mandar o "próximo" (ex: nível máximo), usa o atual
-            const categoria_proxima = dados.proxima_categoria_nome ? dados.proxima_categoria_nome : categoria_atual;
-            const medalha_proxima = dados.proxima_medalha_tipo ? dados.proxima_medalha_tipo : medalha_atual;
-            
+            // 🛠️ CORREÇÃO: Usamos a função do utils.js para descobrir a próxima
+            // Se a função não existir (erro de carga), usa a atual como fallback
+            const medalha_proxima = (typeof getProximaMedalha === 'function') 
+                                    ? getProximaMedalha(medalha_atual) 
+                                    : medalha_atual;
+                                    
+            // Para simplificar, assumimos a mesma categoria visualmente na barra
+            const categoria_proxima = categoria_atual; 
+
             // Atualiza textos
             if (profileName) profileName.textContent = dados.nome;
             if (profileCategory) profileCategory.textContent = categoria_atual;
@@ -84,20 +82,17 @@ async function carregarDadosDeFidelidade() {
             // Emblema da Direita (Para onde vou)
             const emblemaProximoPath = getEmblemPath(categoria_proxima, medalha_proxima);
             
-            // Debug das URLs das imagens
-            console.log("URL Imagem Atual:", emblemaPath);
-            console.log("URL Imagem Próxima:", emblemaProximoPath);
+            // Debug Hal
+            console.log(`[Hal] Barra de XP: ${medalha_atual} (Esq) -> ${medalha_proxima} (Dir)`);
 
             // Aplica as imagens no HTML
-            if (xpBarEmblems.length === 2) {
-                xpBarEmblems[0].src = emblemaPath;
-                xpBarEmblems[1].src = emblemaProximoPath; // <--- AQUI MUDA O ÍCONE DA DIREITA
+            if (xpBarEmblems.length >= 2) {
+                xpBarEmblems[0].src = emblemaPath;       // Esquerda
+                xpBarEmblems[1].src = emblemaProximoPath; // Direita (Futuro)
             }
             
-            // Header sempre mostra o atual
+            // Header e Foto de Perfil
             if (headerEmblem) headerEmblem.src = emblemaPath;
-            
-            // Foto de perfil
             profileImages.forEach(img => img.src = dados.foto_url || '/assets/unnamed.png');
             
             // --- 6. ANIMAÇÃO DA BARRA ---
@@ -111,16 +106,18 @@ async function carregarDadosDeFidelidade() {
                 let htmlListaMedalhas = '';
 
                 if (medalhasConquistadas.length > 0) {
+                    // Pega as 3 últimas (ou primeiras, dependendo da ordem da API)
                     const top3Medalhas = medalhasConquistadas.slice(0, 3);
                     
                     top3Medalhas.forEach(nomeMedalha => {
                         let icone = 'fa-medal';
-                        // Mapeamento simples de ícones
-                        if (nomeMedalha.toLowerCase().includes('folha')) icone = 'fa-book';
-                        if (nomeMedalha.toLowerCase().includes('pegou ar')) icone = 'fa-fire';
-                        if (nomeMedalha.toLowerCase().includes('mil conto')) icone = 'fa-coins';
-                        if (nomeMedalha.toLowerCase().includes('sono')) icone = 'fa-clock';
-                        if (nomeMedalha.toLowerCase().includes('virado')) icone = 'fa-trophy';
+                        const lowerNome = nomeMedalha.toLowerCase();
+                        
+                        if (lowerNome.includes('folha')) icone = 'fa-book';
+                        else if (lowerNome.includes('pegou ar')) icone = 'fa-fire';
+                        else if (lowerNome.includes('mil conto')) icone = 'fa-coins';
+                        else if (lowerNome.includes('sono')) icone = 'fa-clock';
+                        else if (lowerNome.includes('virado')) icone = 'fa-trophy';
 
                         htmlListaMedalhas += `
                             <li>
@@ -145,7 +142,7 @@ async function carregarDadosDeFidelidade() {
             }
 
         } else {
-            throw new Error(result.mensagem || "Erro na resposta da API");
+            console.warn("API retornou sucesso: false", result);
         }
     } catch (error) {
         console.error("Erro CRÍTICO no Fidelidade:", error);
@@ -188,3 +185,9 @@ async function carregarMiniRanking() {
         rankingListElement.innerHTML = '<p style="font-size: 14px; color: red;">Erro ao carregar ranking.</p>';
     }
 }
+
+// --- INICIALIZAÇÃO ---
+document.addEventListener('DOMContentLoaded', () => {
+    carregarDadosDeFidelidade();
+    carregarMiniRanking();
+});

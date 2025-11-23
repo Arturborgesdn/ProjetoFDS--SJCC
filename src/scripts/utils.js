@@ -1,10 +1,6 @@
 // ============================================
 // Módulo: Utils (Funções e Constantes Globais)
-//
-// Responsabilidades:
-// 1. Gerenciamento de Sessão (Login/Logout)
-// 2. Definição de URLs da API
-// 3. Mapeamento de Categorias/Medalhas para caminhos de imagem
+// Arquivo: src/scripts/utils.js
 // ============================================
 
 // --- URLs da API (Constantes) ---
@@ -54,10 +50,9 @@ function limparSessao() {
 // --- Mapeamento e Path de Emblemas ---
 
 const EMBLEM_MAP = {
-    // CATEGORIA_MEDALHA: Nome do arquivo exato na pasta assets (sem extensão se for .png)
+    // CATEGORIA_MEDALHA: Nome do arquivo exato na pasta assets
     
     // 1. LEITOR LEIGO
-    // ⚠️ Atenção: O arquivo 'Bronze' está escrito 'Leito' (sem R) na pasta.
     'Leitor Leigo_Bronze': 'Leito_Leigo_Bronze-removebg-preview', 
     'Leitor Leigo_Prata': 'Leitor_Leigo_Prata-removebg-preview',
     'Leitor Leigo_Ouro': 'Leitor_Leigo_Ouro-removebg-preview',
@@ -77,13 +72,12 @@ const EMBLEM_MAP = {
     'Leitor Arretado_Prata': 'Leitor_Arretado_Prata-removebg-preview',
     'Leitor Arretado_Ouro': 'Leitor_Arretado_Ouro-removebg-preview',
     
-    // 5. LEITOR DESENROLADO (Sem o sufixo -removebg-preview na pasta)
+    // 5. LEITOR DESENROLADO
     'Leitor Desenrolado_Bronze': 'Leitor_Desenrolado_Bronze',
     'Leitor Desenrolado_Prata': 'Leitor_Desenrolado_Prata',
     'Leitor Desenrolado_Ouro': 'Leitor_Desenrolado_Ouro',
     
     // 6. LEITOR TOPADO
-    // ⚠️ Atenção: O arquivo 'Bronze' está com 'topado' minúsculo na pasta, os outros maiúsculos.
     'Leitor Topado_Bronze': 'Leitor_topado_Bronze', 
     'Leitor Topado_Prata': 'Leitor_Topado_Prata',
     'Leitor Topado_Ouro': 'Leitor_Topado_Ouro',
@@ -91,22 +85,33 @@ const EMBLEM_MAP = {
 
 /**
  * Retorna o caminho completo para o arquivo de imagem do emblema.
- * @param {string} categoria - Categoria do utilizador (ex: 'Leitor Massa').
- * @param {string} medalha - Nível da medalha (Bronze, Prata, Ouro).
- * @returns {string} Caminho completo (ex: /assets/Leitor_Massa_Prata-removebg-preview.png).
+ * @param {string} categoria - Categoria do utilizador.
+ * @param {string} medalha - Nível da medalha.
  */
 function getEmblemPath(categoria, medalha) {
     const key = `${categoria}_${medalha}`;
     const fileName = EMBLEM_MAP[key];
     
     if (fileName) {
-        // Assume .png como extensão padrão se não estiver no nome do arquivo
         const extension = fileName.endsWith('.png') || fileName.endsWith('.webp') ? '' : '.png';
         return `/assets/${fileName}${extension}`;
     }
-    
-    // Fallback: Retorna uma imagem padrão se não encontrar o emblema
     return '/assets/unnamed.png'; 
+}
+
+/**
+ * Retorna o nome da PRÓXIMA medalha baseada na atual.
+ * Útil para a barra de progresso (Ícone da Direita).
+ * Ordem: Bronze -> Prata -> Ouro
+ */
+function getProximaMedalha(medalhaAtual) {
+    const atual = medalhaAtual ? medalhaAtual.trim() : '';
+
+    if (atual === 'Bronze') return 'Prata';
+    if (atual === 'Prata') return 'Ouro';
+    
+    // Se for Ouro, o próximo continua sendo Ouro (nível máximo)
+    return 'Ouro'; 
 }
 
 
@@ -141,6 +146,35 @@ async function updateHeader() {
     }
 }
 
+
+// --- LINK INTELIGENTE (Redirecionamento Condicional) ---
+
+/**
+ * Verifica se o usuário está logado e altera o destino de TODOS os links de fidelidade.
+ * - Logado: Vai para "programa_Fidelidade.html" (Painel)
+ * - Não Logado: Vai para "pagina_explicativa.html"
+ * * Requer que os links no HTML tenham a classe: .link-fidelidade-dinamico
+ */
+function atualizarLinksFidelidade() {
+    const usuarioId = getUsuarioId();
+    
+    // Seleciona TODOS os elementos com a classe definida no HTML
+    const links = document.querySelectorAll('.link-fidelidade-dinamico');
+
+    links.forEach(link => {
+        if (usuarioId) {
+            // Usuário Logado -> Acesso ao Painel/Programa
+            link.href = "programa_Fidelidade.html";
+            link.title = "Acessar meu Painel de Pontos";
+        } else {
+            // Usuário Não Logado -> Página Explicativa
+            link.href = "pagina_explicativa.html";
+            link.title = "Conheça nosso programa e cadastre-se!";
+        }
+    });
+}
+
+
 // --- Sistema de Feedback Visual (Toasts) ---
 
 /**
@@ -149,7 +183,6 @@ async function updateHeader() {
  * @param {string} tipo - 'missao' ou 'medalha'.
  */
 function mostrarAlertaFeedback(item, tipo) {
-    // 1. Cria o container de toasts
     let container = document.getElementById('toast-container');
     if (!container) {
         container = document.createElement('div');
@@ -158,13 +191,11 @@ function mostrarAlertaFeedback(item, tipo) {
         document.body.appendChild(container);
     }
 
-    // 2. Define o conteúdo
     const eMedalha = (tipo === 'medalha');
     const icone = eMedalha ? 'fa-medal' : 'fa-check-circle';
     const titulo = eMedalha ? 'Medalha Conquistada!' : 'Missão Cumprida!';
     const recompensa = eMedalha ? `+${item.jc_points} JC Points` : `+${item.xp} XP, +${item.jc_points} JC Points`;
 
-    // 3. Cria o elemento
     const toast = document.createElement('div');
     toast.classList.add('toast'); 
 
@@ -183,20 +214,15 @@ function mostrarAlertaFeedback(item, tipo) {
         </div>
     `;
 
-    // 4. Adiciona e remove após tempo
     container.appendChild(toast);
     setTimeout(() => {
         toast.classList.add('hide');
         setTimeout(() => toast.remove(), 400);
     }, 5000);
 
-    // 6. Atualiza a UI da página atual
     atualizarUIemRealTime(item, tipo);
 }
 
-/**
- * Função auxiliar para encontrar e atualizar o item na página ATUAL.
- */
 function atualizarUIemRealTime(item, tipo) {
     if (!item || !item.nome) return;
 
@@ -217,6 +243,12 @@ function atualizarUIemRealTime(item, tipo) {
         }
     }
     
-    // Atualiza o header após breve delay para sincronizar com DB
     setTimeout(updateHeader, 1000); 
 }
+
+// --- Inicialização ---
+// Executa assim que o HTML for carregado
+document.addEventListener('DOMContentLoaded', () => {
+    updateHeader();             // Atualiza avatar/emblema no topo se logado
+    atualizarLinksFidelidade(); // Configura o destino dos links do troféu/banner
+});
