@@ -1,16 +1,15 @@
-# modules/api_bp.py
-
 from flask import Blueprint, jsonify, request
 import uuid
 import bcrypt
 import mysql.connector
+import os  # Adicionado para ler variáveis de ambiente
 from datetime import datetime, date
 # Importa a classe de configuração
 from config import Config
 
-# Importa TODAS as funções e dados necessários do módulo de Gamificação
+# Importa as funções de Gamificação
+# Nota: Removemos get_db_connection daqui para usar a versão local inteligente
 from modules.gamification import (
-    get_db_connection, 
     get_user_data, 
     check_and_award_daily_missions,
     adicionar_xp_jc, 
@@ -32,7 +31,6 @@ from modules.benefits import (
     activate_multiplier
 )
 from modules.db_services import (
-    get_db_connection, 
     get_user_data_from_db, 
     update_xp_jc_in_db, 
     insert_medal_in_db, 
@@ -46,6 +44,37 @@ from modules.db_services import (
 
 # Cria o Blueprint com o prefixo '/api'
 api_bp = Blueprint('api', __name__, url_prefix='/api')
+
+# ==========================================================
+# 🔌 CONEXÃO INTELIGENTE (ADICIONADA PELO HAL)
+# ==========================================================
+def get_db_connection():
+    """
+    Estabelece conexão com o banco de dados.
+    Prioriza variáveis de ambiente (Nuvem/Railway), 
+    senão usa fallback local (Windows).
+    """
+    db_url = os.getenv("DATABASE_URL")
+    
+    # Se existirem variáveis de ambiente, usa a Nuvem
+    if db_url or os.getenv("MYSQLHOST"):
+        # print("ApiBP: Conectando na Nuvem...")
+        return mysql.connector.connect(
+            host=os.getenv("MYSQLHOST"),
+            user=os.getenv("MYSQLUSER"),
+            password=os.getenv("MYSQLPASSWORD"),
+            database=os.getenv("MYSQLDATABASE"),
+            port=os.getenv("MYSQLPORT")
+        )
+    else:
+        # print("ApiBP: Conectando Local...")
+        # Fallback: Seu banco local
+        return mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="senhabanco123@", 
+            database="dbjc"
+        )
 
 # ===============================================
 # ROTAS DE AUTENTICAÇÃO
@@ -173,7 +202,6 @@ def get_dados_usuario(usuario_id):
     xp_proximo_limite = dados_nivel['xp_proximo_limite']
     
     # 🚀 O PULO DO GATO: Somamos +1 ao limite para cair na faixa da próxima categoria!
-    # Ex: Se o limite é 1500, calculamos para 1501 -> Retorna 'Bronze' do próximo nível.
     categoria_proxima, medalha_proxima = calcular_categoria_e_medalha(xp_proximo_limite + 1)
 
     resposta = {
@@ -188,7 +216,6 @@ def get_dados_usuario(usuario_id):
         "categoria": categoria,
         "medalha": medalha_emblema,
         
-        # 🚀 CORREÇÃO DOS NOMES DAS VARIÁVEIS (Para bater com o JS)
         "proxima_categoria_nome": categoria_proxima, 
         "proxima_medalha_tipo": medalha_proxima,
         
@@ -468,10 +495,10 @@ def api_ler_noticia_destaque(user_id):
         dias_consecutivos = user_antes.get('dias_consecutivos_acesso', 0)
         ultimo_acesso = user_antes.get('ultimo_acesso')
         if ultimo_acesso:
-            diferenca = (hoje - ultimo_acesso).days
-            if diferenca == 1:
+            difference = (hoje - ultimo_acesso).days
+            if difference == 1:
                 dias_consecutivos += 1
-            elif diferenca > 1:
+            elif difference > 1:
                 dias_consecutivos = 1
         else:
             dias_consecutivos = 1 
@@ -561,11 +588,9 @@ def get_ofensiva_usuario(user_id):
     Retorna a SEQUÊNCIA ATUAL de dias consecutivos
     que o usuário completou pelo menos uma missão.
     """
-    print(f"ROTA /ofensiva chamada para user: {user_id}") # Log para debug
+    # print(f"ROTA /ofensiva chamada para user: {user_id}") # Log para debug
     try:
         # 1. Chama a função NOVA (get_user_streak) do gamification.py
-        # Ela já retorna o JSON no formato correto:
-        # {"sucesso": True, "dias_consecutivos": X}
         resultado_streak = get_user_streak(user_id)
         
         return jsonify(resultado_streak), 200
