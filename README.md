@@ -4,6 +4,14 @@
 
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
 
+<a href="https://web-production-14503.up.railway.app/" target="_blank">
+  <img src="https://img.shields.io/badge/%F0%9F%8C%90%20Projeto%20Final-1E88E5?style=for-the-badge" alt="Projeto Final Online"/>
+</a>
+
+<a href="https://sites.google.com/cesar.school/sjcc/home">
+  <img src="https://img.shields.io/badge/Google%20Sites-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google Sites"/>
+</a>
+
 <a href="https://trello.com/invite/b/68bf0f08684f7764f89bfaae/ATTI7ff939ead285d76b1657a6ff738d1c5475CF7DA1/projeto-fds">
   <img src="https://img.shields.io/badge/Trello-0079BF?style=for-the-badge&logo=trello&logoColor=white" alt="Trello - Projeto FDS"/>
 </a>
