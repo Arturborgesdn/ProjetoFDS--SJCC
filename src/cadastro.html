@@ -125,5 +125,30 @@
  <script src="scripts/utils.js"></script> 
  <script src="scripts/auth.js"></script> 
  <script src="scripts/main.js"></script>
+ <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputData = document.getElementById('data');
+
+            if(inputData) {
+                inputData.addEventListener('input', function(e) {
+                    // 1. Remove letras
+                    let value = e.target.value.replace(/\D/g, '');
+                    
+                    // 2. Limita tamanho
+                    if (value.length > 8) value = value.slice(0, 8);
+
+                    // 3. Adiciona as barras
+                    if (value.length > 4) {
+                        value = value.replace(/^(\d{2})(\d{2})(\d{0,4})/, '$1/$2/$3');
+                    } else if (value.length > 2) {
+                        value = value.replace(/^(\d{2})(\d{0,2})/, '$1/$2');
+                    }
+
+                    // 4. Atualiza o campo
+                    e.target.value = value;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
